@@ -70,7 +70,7 @@ body.lang-en .card, body.lang-de .card{border-right:none; border-left:4px solid 
 
 .charts-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
 @media(max-width:720px){.charts-grid{grid-template-columns:1fr;}}
-canvas.chart-canvas{width:100%; height:220px; display:block;}
+canvas.chart-canvas{width:100%; height:250px; display:block;}
 
 .table-wrap{overflow-x:auto;}
 table{width:100%; border-collapse:collapse; text-align:right; font-size:.86rem; min-width:640px;}
@@ -98,6 +98,7 @@ tfoot td{padding:10px; font-weight:800; background:var(--surface-2); border-top:
 .toolbar{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
 .toolbar .group{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
 .select, select, input[type=text], input[type=date], input[type=number], input[type=password], input[type=email], textarea{padding:8px 10px; border:1px solid #C9D2C2; border-radius:7px; font-size:.86rem; background:#fff; color:var(--ink);}
+input[type=date]{direction:ltr; text-align:start;}
 select{font-weight:700; color:var(--green-900);}
 
 .filter-bar{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:14px;}
@@ -136,9 +137,9 @@ footer strong{color:var(--gold);}
 /* القائمة الجانبية */
 #side-drawer-overlay{position:fixed; inset:0; background:rgba(18,53,39,.5); z-index:300; display:none;}
 #side-drawer-overlay.open{display:block;}
-#side-drawer{position:fixed; top:0; bottom:0; inset-inline-start:0; width:78%; max-width:300px; background:#fff; z-index:301; transform:translateX(-105%); transition:transform .2s ease; box-shadow:4px 0 20px rgba(0,0,0,.25); display:flex; flex-direction:column;}
-body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; inset-inline-end:0; transform:translateX(105%);}
-#side-drawer.open{transform:translateX(0);}
+#side-drawer{position:fixed; top:0; bottom:0; inset-inline-start:0; width:78%; max-width:300px; background:#fff; z-index:301; transform:translateX(105%); transition:transform .2s ease; box-shadow:4px 0 20px rgba(0,0,0,.25); display:flex; flex-direction:column; pointer-events:none;}
+body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%);}
+#side-drawer.open{transform:translateX(0); pointer-events:auto;}
 #side-drawer .sd-head{background:var(--green-800); color:#fff; padding:16px; display:flex; justify-content:space-between; align-items:center;}
 #side-drawer .sd-head button{background:transparent; border:none; color:#fff; font-size:1.2rem;}
 #side-drawer .sd-body{padding:10px; flex:1; overflow-y:auto;}
@@ -149,15 +150,12 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
 .backup-row .meta{font-size:.8rem; color:var(--green-900); font-weight:700;}
 
 @media print{
-  body *{visibility:hidden;}
-  #app-header, #app-header *, footer, footer *, #print-report, #print-report *{visibility:visible;}
-  #header-tools{display:none !important;}
-  nav, main > section, .no-print, #lock-screen, #side-drawer, #side-drawer-overlay{display:none !important;}
-  #print-report{display:block !important; position:relative; padding:14px;}
-  #print-report table{width:100%; border-collapse:collapse; font-size:.8rem;}
+  nav, #header-tools, .no-print, #lock-screen, #side-drawer, #side-drawer-overlay, main, .furrow-bar{display:none !important;}
+  #print-report{display:block !important; padding:14px;}
+  #print-report table{width:100%; border-collapse:collapse; font-size:.8rem; margin-bottom:16px;}
   #print-report th,#print-report td{border:1px solid #999; padding:6px;}
   #print-report h3{margin:14px 0 6px; color:#123527;}
-  footer{position:fixed; bottom:0; width:100%;}
+  footer{position:static; margin-top:20px;}
 }
 ::placeholder{color:#9AA593;}
 </style>
@@ -169,7 +167,7 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
     <img class="brandmark" src="data:image/png;base64,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" alt="شعار داود الاطرقجي للاستشارات الهندسية">
     <h1>برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية</h1>
   </div>
-  <div class="sub" data-i18n="header_sub">إدارة مصروفات المحاصيل والخزينة</div>
+  <div class="sub" data-i18n="header_sub">إدارة مصروفات الأعمال والخزينة</div>
   <div id="header-tools" class="no-print">
     <button onclick="openDrawer()" title="القائمة">☰</button>
     <select id="lang-select" onchange="setLanguage(this.value)" title="اللغة">
@@ -177,17 +175,14 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
       <option value="en">English</option>
       <option value="de">Deutsch</option>
     </select>
-    <button onclick="printReport()" data-i18n="btn_print">🖨️ طباعة</button>
-    <button onclick="openBackupsModal()" data-i18n="btn_restore">↺ استرجاع</button>
     <button onclick="saveAndClose()" data-i18n="btn_save_close">💾 حفظ وإغلاق</button>
-    <button onclick="lockApp()" data-i18n="btn_lock">🔒 قفل</button>
   </div>
 </header>
 <div class="furrow-bar"></div>
 
 <nav class="no-print">
   <button id="btn-dash" class="active" onclick="showTab('dash')" data-i18n="nav_dash">لوحة النتيجة</button>
-  <button id="btn-crops" onclick="showTab('crops')" data-i18n="nav_crops">المحاصيل</button>
+  <button id="btn-crops" onclick="showTab('crops')" data-i18n="nav_crops">الأعمال</button>
   <button id="btn-cash" onclick="showTab('cash')" data-i18n="nav_cash">الخزينة والتعزيز</button>
   <button id="btn-search" onclick="showTab('search')" data-i18n="nav_search">البحث والتصفية</button>
   <button id="btn-settings" onclick="showTab('settings')" data-i18n="nav_settings">الإعدادات</button>
@@ -203,7 +198,7 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
       <div class="card clay"><p class="title" data-i18n="k_home">المتوفر بالبيت</p><p id="k-home" class="value">0</p></div>
     </div>
     <div class="panel">
-      <h3 data-i18n="dash_table_title">مجموع الصرفيات لكل محصول</h3>
+      <h3 data-i18n="dash_table_title">مجموع الصرفيات لكل عمل</h3>
       <div class="table-wrap"><table>
         <thead id="dash-thead"></thead>
         <tbody id="dash-table-body"></tbody>
@@ -213,19 +208,19 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
     <div class="panel">
       <h3 data-i18n="dash_chart_title">الرسم البياني للمصروفات</h3>
       <div class="charts-grid">
-        <div><p style="text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:6px; font-weight:700;" data-i18n="by_crop">حسب المحصول</p><canvas id="chart-crop" class="chart-canvas"></canvas></div>
+        <div><p style="text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:6px; font-weight:700;" data-i18n="by_crop">حسب العمل</p><canvas id="chart-crop" class="chart-canvas"></canvas></div>
         <div><p style="text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:6px; font-weight:700;" data-i18n="by_item">حسب البند</p><canvas id="chart-item" class="chart-canvas"></canvas></div>
       </div>
     </div>
   </section>
 
   <section id="tab-crops" class="hidden">
-    <h2 class="page-title" data-i18n="crops_title">إدارة المحاصيل</h2>
+    <h2 class="page-title" data-i18n="crops_title">إدارة الأعمال</h2>
     <div class="toolbar no-print">
       <div class="group">
         <select id="crop-select" onchange="renderCropsTable()"></select>
-        <button class="btn btn-ghost btn-sm" onclick="addCrop()" data-i18n="btn_add_crop">＋ محصول جديد</button>
-        <button class="btn-danger btn btn-sm" onclick="deleteCrop()" data-i18n="btn_delete_crop">حذف المحصول</button>
+        <button class="btn btn-ghost btn-sm" onclick="addCrop()" data-i18n="btn_add_crop">＋ عمل جديد</button>
+        <button class="btn-danger btn btn-sm" onclick="deleteCrop()" data-i18n="btn_delete_crop">حذف عمل</button>
       </div>
       <div class="group">
         <button class="btn btn-ghost btn-sm" onclick="addItemDef()" data-i18n="btn_add_item">＋ بند جديد</button>
@@ -238,7 +233,7 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
         <thead id="crops-thead"></thead>
         <tbody id="crops-table-body"></tbody>
       </table></div>
-      <p id="crops-empty" class="help-text hidden" style="margin-top:10px;" data-i18n="crops_empty">لا توجد سجلات مصروفات لهذا المحصول بعد.</p>
+      <p id="crops-empty" class="help-text hidden" style="margin-top:10px;" data-i18n="crops_empty">لا توجد سجلات مصروفات لهذا العمل بعد.</p>
     </div>
   </section>
 
@@ -278,7 +273,7 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
     <div class="panel no-print">
       <div class="filter-bar">
         <div><label data-i18n="s_text_label">بحث نصي (بالملاحظات)</label><input type="text" id="s-query" data-i18n-ph="s_text_ph" placeholder="اكتب كلمة..." oninput="runSearch()"></div>
-        <div><label data-i18n="s_crop_label">المحصول</label><select id="s-crop" onchange="runSearch()"></select></div>
+        <div><label data-i18n="s_crop_label">العمل</label><select id="s-crop" onchange="runSearch()"></select></div>
         <div><label data-i18n="s_item_label">بند المصروف</label><select id="s-item" onchange="runSearch()"></select></div>
         <div><label data-i18n="s_from">من تاريخ</label><input type="date" id="s-from" onchange="runSearch()"></div>
         <div><label data-i18n="s_to">إلى تاريخ</label><input type="date" id="s-to" onchange="runSearch()"></div>
@@ -316,6 +311,8 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
 <div id="side-drawer" class="no-print">
   <div class="sd-head"><strong data-i18n="menu_title">القائمة</strong><button onclick="closeDrawer()">✕</button></div>
   <div class="sd-body">
+    <button class="sd-item" onclick="printReport(); closeDrawer();" data-i18n="btn_print">🖨️ طباعة</button>
+    <button class="sd-item" onclick="closeDrawer(); openBackupsModal();" data-i18n="btn_restore">↺ استرجاع نسخة محفوظة</button>
     <a href="mailto:atrakchi.com@gmail.com?subject=برنامج%20الفلاح" data-i18n="contact_us">📧 اتصل بنا</a>
     <button class="sd-item" onclick="exportCSV()" data-i18n="export_csv">📊 تصدير Excel / CSV</button>
     <button class="sd-item" onclick="exportJSONManual()" data-i18n="export_json_manual">⬇️ تصدير نسخة JSON يدوياً</button>
@@ -330,7 +327,7 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
     <div class="modal-head"><h3 id="expense-modal-title" data-i18n="new_expense_title">تسجيل مصروف جديد</h3><button onclick="closeExpenseModal()">✕</button></div>
     <div class="modal-body">
       <input type="hidden" id="m-id">
-      <div class="form-group"><label data-i18n="crop_label">المحصول</label><select id="m-crop"></select></div>
+      <div class="form-group"><label data-i18n="crop_label">العمل</label><select id="m-crop"></select></div>
       <div class="form-group"><label data-i18n="date_label">التأريخ</label><input type="date" id="m-date"></div>
       <div class="grid-2" id="m-items-container"></div>
       <div class="total-preview"><span data-i18n="total_label">المجموع</span>: <span id="m-total-preview">0</span></div>
@@ -436,25 +433,25 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; in
 /* ===================== الترجمة ===================== */
 const I18N = {
 ar: {
-  header_sub:"إدارة مصروفات المحاصيل والخزينة", btn_print:"🖨️ طباعة", btn_restore:"↺ استرجاع", btn_save_close:"💾 حفظ وإغلاق", btn_lock:"🔒 قفل",
-  nav_dash:"لوحة النتيجة", nav_crops:"المحاصيل", nav_cash:"الخزينة والتعزيز", nav_search:"البحث والتصفية", nav_settings:"الإعدادات",
+  header_sub:"إدارة مصروفات الأعمال والخزينة", btn_print:"🖨️ طباعة", btn_restore:"↺ استرجاع", btn_save_close:"💾 حفظ وإغلاق", btn_lock:"🔒 قفل",
+  nav_dash:"لوحة النتيجة", nav_crops:"الأعمال", nav_cash:"الخزينة والتعزيز", nav_search:"البحث والتصفية", nav_settings:"الإعدادات",
   dash_title:"لوحة النتيجة الرئيسية", k_total:"إجمالي المصروفات الكلي", k_treasury:"نقد الخزينة", k_pocket:"النقد بالجيب", k_home:"المتوفر بالبيت",
-  dash_table_title:"مجموع الصرفيات لكل محصول", dash_chart_title:"الرسم البياني للمصروفات", by_crop:"حسب المحصول", by_item:"حسب البند",
-  total_col:"المجموع", crop_col:"المحصول", no_data:"لا توجد بيانات بعد",
-  crops_title:"إدارة المحاصيل", btn_add_crop:"＋ محصول جديد", btn_delete_crop:"حذف المحصول", btn_add_item:"＋ بند جديد", btn_delete_item:"حذف بند",
-  btn_add_expense:"＋ إضافة مصروف جديد", crops_empty:"لا توجد سجلات مصروفات لهذا المحصول بعد.",
+  dash_table_title:"مجموع الصرفيات لكل عمل", dash_chart_title:"الرسم البياني للمصروفات", by_crop:"حسب العمل", by_item:"حسب البند",
+  total_col:"المجموع", crop_col:"العمل", no_data:"لا توجد بيانات بعد",
+  crops_title:"إدارة الأعمال", btn_add_crop:"＋ عمل جديد", btn_delete_crop:"حذف عمل", btn_add_item:"＋ بند جديد", btn_delete_item:"حذف بند",
+  btn_add_expense:"＋ إضافة مصروف جديد", crops_empty:"لا توجد سجلات مصروفات لهذا العمل بعد.",
   th_date:"التأريخ", th_notes:"ملاحظات", th_action:"إجراء", th_delete:"حذف", th_movement_type:"نوع الحركة", th_amount:"المبلغ",
   cash_title:"تفاصيل التعزيز — حركة الخزينة والجيب", cash_treasury:"المتوفر بالخزينة", cash_home_edit:'تعديل رصيد "المتوفر بالبيت" مباشرة',
   value_ph:"القيمة", btn_update_balance:"تحديث الرصيد", cash_log:"سجل حركات النقد", btn_new_movement:"＋ حركة نقدية جديدة",
   cash_empty:"لا توجد حركات نقدية مسجلة بعد.",
-  search_title:"البحث والتصفية المتقدمة", s_text_label:"بحث نصي (بالملاحظات)", s_text_ph:"اكتب كلمة...", s_crop_label:"المحصول",
-  s_item_label:"بند المصروف", s_all_items:"كل البنود", s_all_crops:"كل المحاصيل", s_from:"من تاريخ", s_to:"إلى تاريخ",
+  search_title:"البحث والتصفية المتقدمة", s_text_label:"بحث نصي (بالملاحظات)", s_text_ph:"اكتب كلمة...", s_crop_label:"العمل",
+  s_item_label:"بند المصروف", s_all_items:"كل البنود", s_all_crops:"كل الأعمال", s_from:"من تاريخ", s_to:"إلى تاريخ",
   btn_reset_filters:"إعادة تعيين الفلاتر", results_label:"النتائج", total_label:"الإجمالي", no_results:"لا توجد نتائج مطابقة",
   settings_title:"الإعدادات", pin_change_title:"تغيير رمز الدخول السري (PIN)", pin_current:"الرمز الحالي", pin_new:"الرمز الجديد",
   pin_confirm:"تأكيد الرمز الجديد", btn_update_pin:"تحديث رمز الدخول", danger_zone:"منطقة الحذف", btn_reset_all:"حذف جميع البيانات (بدء من جديد)",
   menu_title:"القائمة", contact_us:"📧 اتصل بنا", export_csv:"📊 تصدير Excel / CSV", export_json_manual:"⬇️ تصدير نسخة JSON يدوياً",
   import_json_manual:"⬆️ استرجاع من ملف JSON",
-  new_expense_title:"تسجيل مصروف جديد", edit_expense_title:"تعديل سجل المصروف", crop_label:"المحصول", date_label:"التأريخ",
+  new_expense_title:"تسجيل مصروف جديد", edit_expense_title:"تعديل سجل المصروف", crop_label:"العمل", date_label:"التأريخ",
   notes_label:"ملاحظات", btn_delete:"حذف", btn_cancel:"إلغاء", btn_save_record:"حفظ السجل", btn_ok:"موافق",
   movement_type_label:"نوع الحركة", deposit_opt:"تعزيز رصيد (إضافة للخزينة)", withdraw_opt:"سحب نقدي (من الخزينة إلى الجيب)",
   amount_label:"المبلغ", cash_treasury_now:"المتوفر بالخزينة حالياً", btn_save_movement:"حفظ الحركة",
@@ -462,28 +459,28 @@ ar: {
   backups_empty:"لا توجد نسخ محفوظة تلقائياً بعد.", restore_from_file:"استرجاع من ملف بدلاً من ذلك", restore_btn:"استرجاع",
   app_short_title:"برنامج الفلاح لحساب المصروفات", lock_hint:"داود الاطرقجي للاستشارات الهندسية — أدخل رمز الدخول",
   btn_enter:"دخول", all_rights:"جميع الحقوق محفوظة",
-  new_item_prompt:"اسم البند الجديد", new_crop_prompt:"اسم المحصول الجديد"
+  new_item_prompt:"اسم البند الجديد", new_crop_prompt:"اسم العمل الجديد"
 },
 en: {
   header_sub:"Manage crop expenses and cash", btn_print:"🖨️ Print", btn_restore:"↺ Restore", btn_save_close:"💾 Save & Close", btn_lock:"🔒 Lock",
-  nav_dash:"Dashboard", nav_crops:"Crops", nav_cash:"Cash & Treasury", nav_search:"Search & Filter", nav_settings:"Settings",
+  nav_dash:"Dashboard", nav_crops:"Jobs", nav_cash:"Cash & Treasury", nav_search:"Search & Filter", nav_settings:"Settings",
   dash_title:"Main Dashboard", k_total:"Total Expenses", k_treasury:"Treasury Cash", k_pocket:"Pocket Cash", k_home:"Cash at Home",
-  dash_table_title:"Total Expenses per Crop", dash_chart_title:"Expense Charts", by_crop:"By Crop", by_item:"By Item",
-  total_col:"Total", crop_col:"Crop", no_data:"No data yet",
-  crops_title:"Manage Crops", btn_add_crop:"＋ New Crop", btn_delete_crop:"Delete Crop", btn_add_item:"＋ New Item", btn_delete_item:"Delete Item",
-  btn_add_expense:"＋ Add New Expense", crops_empty:"No expense records for this crop yet.",
+  dash_table_title:"Total Expenses per Job", dash_chart_title:"Expense Charts", by_crop:"By Job", by_item:"By Item",
+  total_col:"Total", crop_col:"Job", no_data:"No data yet",
+  crops_title:"Manage Jobs", btn_add_crop:"＋ New Job", btn_delete_crop:"Delete Job", btn_add_item:"＋ New Item", btn_delete_item:"Delete Item",
+  btn_add_expense:"＋ Add New Expense", crops_empty:"No expense records for this job yet.",
   th_date:"Date", th_notes:"Notes", th_action:"Action", th_delete:"Delete", th_movement_type:"Type", th_amount:"Amount",
   cash_title:"Treasury Details — Cash Movement", cash_treasury:"Treasury Balance", cash_home_edit:'Edit "Cash at Home" balance directly',
   value_ph:"Value", btn_update_balance:"Update Balance", cash_log:"Cash Movements Log", btn_new_movement:"＋ New Movement",
   cash_empty:"No cash movements recorded yet.",
-  search_title:"Advanced Search & Filter", s_text_label:"Text Search (Notes)", s_text_ph:"Type a word...", s_crop_label:"Crop",
-  s_item_label:"Item", s_all_items:"All Items", s_all_crops:"All Crops", s_from:"From Date", s_to:"To Date",
+  search_title:"Advanced Search & Filter", s_text_label:"Text Search (Notes)", s_text_ph:"Type a word...", s_crop_label:"Job",
+  s_item_label:"Item", s_all_items:"All Items", s_all_crops:"All Jobs", s_from:"From Date", s_to:"To Date",
   btn_reset_filters:"Reset Filters", results_label:"Results", total_label:"Total", no_results:"No matching results",
   settings_title:"Settings", pin_change_title:"Change PIN", pin_current:"Current PIN", pin_new:"New PIN",
   pin_confirm:"Confirm New PIN", btn_update_pin:"Update PIN", danger_zone:"Danger Zone", btn_reset_all:"Delete All Data (start fresh)",
   menu_title:"Menu", contact_us:"📧 Contact Us", export_csv:"📊 Export Excel / CSV", export_json_manual:"⬇️ Export JSON Backup",
   import_json_manual:"⬆️ Restore from JSON File",
-  new_expense_title:"New Expense Record", edit_expense_title:"Edit Expense Record", crop_label:"Crop", date_label:"Date",
+  new_expense_title:"New Expense Record", edit_expense_title:"Edit Expense Record", crop_label:"Job", date_label:"Date",
   notes_label:"Notes", btn_delete:"Delete", btn_cancel:"Cancel", btn_save_record:"Save Record", btn_ok:"OK",
   movement_type_label:"Movement Type", deposit_opt:"Deposit (add to treasury)", withdraw_opt:"Withdraw (treasury → pocket)",
   amount_label:"Amount", cash_treasury_now:"Current Treasury Balance", btn_save_movement:"Save Movement",
@@ -491,28 +488,28 @@ en: {
   backups_empty:"No auto-saved backups yet.", restore_from_file:"Restore from file instead", restore_btn:"Restore",
   app_short_title:"Farmer's Expense App", lock_hint:"Dawood Al-Atrakchi Engineering Consulting — Enter PIN",
   btn_enter:"Enter", all_rights:"All Rights Reserved",
-  new_item_prompt:"New item name", new_crop_prompt:"New crop name"
+  new_item_prompt:"New item name", new_crop_prompt:"New job name"
 },
 de: {
   header_sub:"Verwaltung der Ernteausgaben und Kasse", btn_print:"🖨️ Drucken", btn_restore:"↺ Wiederherstellen", btn_save_close:"💾 Speichern & Schließen", btn_lock:"🔒 Sperren",
-  nav_dash:"Übersicht", nav_crops:"Ernten", nav_cash:"Kasse & Rücklage", nav_search:"Suche & Filter", nav_settings:"Einstellungen",
+  nav_dash:"Übersicht", nav_crops:"Arbeiten", nav_cash:"Kasse & Rücklage", nav_search:"Suche & Filter", nav_settings:"Einstellungen",
   dash_title:"Hauptübersicht", k_total:"Gesamtausgaben", k_treasury:"Kassenbestand", k_pocket:"Bargeld", k_home:"Zuhause verfügbar",
-  dash_table_title:"Ausgaben je Ernte", dash_chart_title:"Ausgabendiagramme", by_crop:"Nach Ernte", by_item:"Nach Posten",
-  total_col:"Summe", crop_col:"Ernte", no_data:"Noch keine Daten",
-  crops_title:"Ernten verwalten", btn_add_crop:"＋ Neue Ernte", btn_delete_crop:"Ernte löschen", btn_add_item:"＋ Neuer Posten", btn_delete_item:"Posten löschen",
-  btn_add_expense:"＋ Neue Ausgabe hinzufügen", crops_empty:"Noch keine Ausgaben für diese Ernte.",
+  dash_table_title:"Ausgaben je Arbeit", dash_chart_title:"Ausgabendiagramme", by_crop:"Nach Arbeit", by_item:"Nach Posten",
+  total_col:"Summe", crop_col:"Arbeit", no_data:"Noch keine Daten",
+  crops_title:"Arbeiten verwalten", btn_add_crop:"＋ Neue Arbeit", btn_delete_crop:"Arbeit löschen", btn_add_item:"＋ Neuer Posten", btn_delete_item:"Posten löschen",
+  btn_add_expense:"＋ Neue Ausgabe hinzufügen", crops_empty:"Noch keine Ausgaben für diese Arbeit.",
   th_date:"Datum", th_notes:"Notizen", th_action:"Aktion", th_delete:"Löschen", th_movement_type:"Art", th_amount:"Betrag",
   cash_title:"Kassendetails — Bargeldbewegung", cash_treasury:"Kassenbestand", cash_home_edit:'"Zuhause verfügbar" direkt bearbeiten',
   value_ph:"Wert", btn_update_balance:"Saldo aktualisieren", cash_log:"Bargeldbewegungen", btn_new_movement:"＋ Neue Bewegung",
   cash_empty:"Noch keine Bargeldbewegungen erfasst.",
-  search_title:"Erweiterte Suche & Filter", s_text_label:"Textsuche (Notizen)", s_text_ph:"Wort eingeben...", s_crop_label:"Ernte",
-  s_item_label:"Posten", s_all_items:"Alle Posten", s_all_crops:"Alle Ernten", s_from:"Von Datum", s_to:"Bis Datum",
+  search_title:"Erweiterte Suche & Filter", s_text_label:"Textsuche (Notizen)", s_text_ph:"Wort eingeben...", s_crop_label:"Arbeit",
+  s_item_label:"Posten", s_all_items:"Alle Posten", s_all_crops:"Alle Arbeiten", s_from:"Von Datum", s_to:"Bis Datum",
   btn_reset_filters:"Filter zurücksetzen", results_label:"Ergebnisse", total_label:"Summe", no_results:"Keine passenden Ergebnisse",
   settings_title:"Einstellungen", pin_change_title:"PIN ändern", pin_current:"Aktuelle PIN", pin_new:"Neue PIN",
   pin_confirm:"Neue PIN bestätigen", btn_update_pin:"PIN aktualisieren", danger_zone:"Gefahrenzone", btn_reset_all:"Alle Daten löschen (neu beginnen)",
   menu_title:"Menü", contact_us:"📧 Kontakt", export_csv:"📊 Excel / CSV exportieren", export_json_manual:"⬇️ JSON-Backup exportieren",
   import_json_manual:"⬆️ Aus JSON-Datei wiederherstellen",
-  new_expense_title:"Neue Ausgabe erfassen", edit_expense_title:"Ausgabe bearbeiten", crop_label:"Ernte", date_label:"Datum",
+  new_expense_title:"Neue Ausgabe erfassen", edit_expense_title:"Ausgabe bearbeiten", crop_label:"Arbeit", date_label:"Datum",
   notes_label:"Notizen", btn_delete:"Löschen", btn_cancel:"Abbrechen", btn_save_record:"Eintrag speichern", btn_ok:"OK",
   movement_type_label:"Art der Bewegung", deposit_opt:"Einzahlung (in Kasse)", withdraw_opt:"Abhebung (Kasse → Bargeld)",
   amount_label:"Betrag", cash_treasury_now:"Aktueller Kassenbestand", btn_save_movement:"Bewegung speichern",
@@ -520,7 +517,7 @@ de: {
   backups_empty:"Noch keine automatischen Backups.", restore_from_file:"Stattdessen aus Datei wiederherstellen", restore_btn:"Wiederherstellen",
   app_short_title:"Bauern-Ausgaben-App", lock_hint:"Dawood Al-Atrakchi Ingenieurberatung — PIN eingeben",
   btn_enter:"Eintreten", all_rights:"Alle Rechte vorbehalten",
-  new_item_prompt:"Name des neuen Postens", new_crop_prompt:"Name der neuen Ernte"
+  new_item_prompt:"Name des neuen Postens", new_crop_prompt:"Name der neuen Arbeit"
 }
 };
 let currentLang = 'ar';
@@ -560,7 +557,7 @@ let textInputCallback = null;
 
 function defaultDB(){
   return {
-    crops: ["البنجر", "الباذنجان"],
+    crops: ["بناء", "صحيات", "البنجر", "الباذنجان"],
     itemDefs: [
       {id:'irr', name:'السقي'}, {id:'fert', name:'الأسمدة'},
       {id:'net', name:'شبكات الري'}, {id:'lab', name:'العمالة'}
@@ -890,28 +887,61 @@ function renderDashboard(){
   tfootHtml += `<td class="num">${fmt(total)}</td></tr>`;
   document.getElementById('dash-tfoot').innerHTML = tfootHtml;
 
-  drawBarChart('chart-crop', db.crops, db.crops.map(c => (summary[c]?summary[c].sum:0)), ['#1E4B3B','#2F7A5F','#C88A2E','#7C5A3A','#2563A6','#8E1E17']);
-  drawBarChart('chart-item', db.itemDefs.map(it=>it.name), db.itemDefs.map(it=>itemTotals[it.id]||0), ['#2563A6','#C88A2E','#2F7A5F','#7C5A3A','#8E1E17','#123527']);
+  drawBarChart('chart-crop', db.crops, db.crops.map(c => (summary[c]?summary[c].sum:0)), '#2F7A5F');
+  drawBarChart('chart-item', db.itemDefs.map(it=>it.name), db.itemDefs.map(it=>itemTotals[it.id]||0), '#C88A2E');
 }
 
 function roundRectPath(ctx,x,y,w,h,r){ h=Math.max(h,0); r=Math.min(r,w/2,h/2||r); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
-function drawBarChart(canvasId, labels, values, colors){
+function wrapChartLabel(ctx, label, maxWidth){
+  // يقسّم الاسم إلى سطرين عند الحاجة بدل قصّه بعلامة "…"
+  if (ctx.measureText(label).width <= maxWidth) return [label];
+  const words = label.split(' ');
+  if (words.length > 1) {
+    let line1 = '', line2 = '';
+    for (const w of words) {
+      const test = line1 ? line1 + ' ' + w : w;
+      if (ctx.measureText(test).width <= maxWidth || !line1) line1 = test;
+      else line2 = line2 ? line2 + ' ' + w : w;
+    }
+    if (line2) return [line1, line2];
+    return [line1];
+  }
+  // كلمة واحدة طويلة: قصّها بحرف حد أقصى مع علامة القص
+  let cut = label;
+  while (cut.length > 2 && ctx.measureText(cut + '…').width > maxWidth) cut = cut.slice(0, -1);
+  return [cut + '…'];
+}
+function drawBarChart(canvasId, labels, values, barColor){
   const canvas = document.getElementById(canvasId); if (!canvas) return;
-  const dpr = window.devicePixelRatio || 1; const cssW = canvas.clientWidth||300, cssH = canvas.clientHeight||220;
+  const dpr = window.devicePixelRatio || 1; const cssW = canvas.clientWidth||300, cssH = canvas.clientHeight||240;
   canvas.width = cssW*dpr; canvas.height = cssH*dpr;
   const ctx = canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,cssW,cssH);
-  const max = Math.max(...values,1); const pad={top:26,right:8,bottom:34,left:8};
-  const chartW=cssW-pad.left-pad.right, chartH=cssH-pad.top-pad.bottom, gap=14;
-  const n=Math.max(labels.length,1); const barW=Math.max((chartW-gap*(n-1))/n,6);
+  const color = barColor || '#2F7A5F';
+  const max = Math.max(...values,1);
+  const pad={top:28,right:14,bottom:46,left:14};
+  const chartW=cssW-pad.left-pad.right, chartH=cssH-pad.top-pad.bottom;
+  const n=Math.max(labels.length,1);
+  const gap = Math.max(Math.min(chartW/n*0.35, 22), 8);
+  const barW=Math.max((chartW-gap*(n-1))/n,10);
+
+  // خطوط أفقية إرشادية خفيفة (0% / 50% / 100%) لتسهيل قراءة الارتفاع
+  ctx.strokeStyle = '#E3E9DC'; ctx.lineWidth = 1;
+  [0, 0.5, 1].forEach(f => {
+    const gy = pad.top + chartH * (1-f);
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(cssW-pad.right, gy); ctx.stroke();
+  });
+
   labels.forEach((label,i)=>{
     const val=values[i]||0; const barH = max>0 ? (val/max)*chartH : 0;
     const x=pad.left+i*(barW+gap); const y=pad.top+(chartH-barH);
-    ctx.fillStyle=colors[i%colors.length]; roundRectPath(ctx,x,y,barW,barH,5); ctx.fill();
-    ctx.fillStyle='#20291F'; ctx.font='700 11px Segoe UI, Tahoma, sans-serif'; ctx.textAlign='center';
-    ctx.fillText(fmt(val), x+barW/2, Math.max(y-6,12));
-    ctx.fillStyle='#6B7566'; ctx.font='11px Segoe UI, Tahoma, sans-serif';
-    const short = label.length>8 ? label.slice(0,7)+'…' : label;
-    ctx.fillText(short, x+barW/2, cssH-pad.bottom+16);
+    ctx.fillStyle=color; roundRectPath(ctx,x,y,barW,Math.max(barH,2),6); ctx.fill();
+
+    ctx.fillStyle='#20291F'; ctx.font='700 12px Segoe UI, Tahoma, sans-serif'; ctx.textAlign='center';
+    if (val>0) ctx.fillText(fmt(val), x+barW/2, Math.max(y-8,14));
+
+    ctx.fillStyle='#556056'; ctx.font='11px Segoe UI, Tahoma, sans-serif';
+    const lines = wrapChartLabel(ctx, label, barW+gap-4);
+    lines.forEach((ln, li) => ctx.fillText(ln, x+barW/2, cssH-pad.bottom+16+(li*13)));
   });
   if (values.every(v=>!v)) { ctx.fillStyle='#9AA593'; ctx.font='12px Segoe UI, Tahoma, sans-serif'; ctx.textAlign='center'; ctx.fillText(t('no_data'), cssW/2, cssH/2); }
 }
@@ -948,7 +978,7 @@ function deleteCrop(){
   const crop = document.getElementById('crop-select').value;
   if (!crop) return;
   const count = db.expenses.filter(e=>e.crop===crop).length;
-  const msg = currentLang==='ar' ? `هل أنت متأكد من حذف محصول "${crop}"؟ سيتم حذف ${count} سجل مرتبط به.` : `Delete crop "${crop}"? This will remove ${count} related record(s).`;
+  const msg = currentLang==='ar' ? `هل أنت متأكد من حذف عمل "${crop}"؟ سيتم حذف ${count} سجل مرتبط به.` : `Delete job "${crop}"? This will remove ${count} related record(s).`;
   if (confirm(msg)) {
     db.crops = db.crops.filter(c => c !== crop);
     db.expenses = db.expenses.filter(e => e.crop !== crop);
@@ -1025,7 +1055,7 @@ function updateModalTotal(){
 function saveExpense(){
   const crop = document.getElementById('m-crop').value;
   const date = document.getElementById('m-date').value;
-  if (!crop) { alert(currentLang==='ar'?'يرجى اختيار المحصول.':'Please select a crop.'); return; }
+  if (!crop) { alert(currentLang==='ar'?'يرجى اختيار العمل.':'Please select a job.'); return; }
   if (!date) { alert(currentLang==='ar'?'يرجى إدخال التأريخ.':'Please enter a date.'); return; }
   const values = {};
   document.querySelectorAll('.m-item-input').forEach(inp => { values[inp.getAttribute('data-item-id')] = Number(inp.value)||0; });
@@ -1173,11 +1203,15 @@ function runSearch(){
 /* ===================== التصدير والاستيراد والطباعة ===================== */
 function exportJSON(){
   const json = JSON.stringify(db, null, 2);
-  const blob = new Blob([json], {type:'application/json;charset=utf-8;'});
+  const blob = new Blob([json], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = `alatrakchi_backup_${new Date().toISOString().slice(0,10)}.json`;
-  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  // تأخير بسيط قبل التنظيف: بعض متصفحات الجوال تُلغي التنزيل إذا حُذف الرابط فوراً
+  setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 400);
 }
 function importJSON(evt){
   const file = evt.target.files[0]; if (!file) return;
@@ -1205,7 +1239,10 @@ function exportCSV(){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = `alatrakchi_expenses_${new Date().toISOString().slice(0,10)}.csv`;
-  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 400);
   closeDrawer();
 }
 function resetAllData(){
@@ -1236,7 +1273,21 @@ function printReport(){
 /* ===================== التشغيل ===================== */
 async function init(){
   const savedLang = safeGet('alfallah_lang');
-  if (savedLang && I18N[savedLang]) currentLang = savedLang;
+  if (savedLang && I18N[savedLang]) {
+    currentLang = savedLang;
+  } else {
+    // أول تشغيل: نحاول مطابقة لغة النظام (عربي/إنكليزي/ألماني)، وإلا الإنكليزية افتراضياً
+    const sysLangs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+    let detected = 'en';
+    for (const l of sysLangs) {
+      const code = (l || '').toLowerCase().slice(0,2);
+      if (code === 'ar') { detected = 'ar'; break; }
+      if (code === 'de') { detected = 'de'; break; }
+      if (code === 'en') { detected = 'en'; break; }
+    }
+    currentLang = detected;
+    safeSet('alfallah_lang', currentLang);
+  }
 
   try { __idb = await openIDB(); } catch(e){ __idb = null; __idbBlocked = true; }
   let loadedFromIdb = false;
