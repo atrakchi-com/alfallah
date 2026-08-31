@@ -3,152 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
-<meta name="copyright" content="© مزارع مايا للإنتاج الزراعي — جميع الحقوق محفوظة">
-<title>برنامج الفلاح لحساب المصروفات — من إنتاج مزارع مايا للإنتاج الزراعي</title>
+<meta name="copyright" content="© داود الاطرقجي للاستشارات الهندسية — جميع الحقوق محفوظة">
+<title>برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية</title>
 
-<!-- منع تخزين نسخة قديمة من الصفحة نفسها في ذاكرة المتصفح المؤقتة (لا علاقة له بحفظ بيانات المستخدم، هذا يُدار عبر IndexedDB/localStorage داخل البرنامج) -->
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="expires" content="0">
-
-<!-- لون شريط الحالة في المتصفح والتطبيق المثبّت -->
 <meta name="theme-color" content="#1E4B3B">
-
-<!-- دعم وضع "التطبيق المستقل" عند التثبيت من الشاشة الرئيسية على iPhone/iPad -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="برنامج الفلاح">
 <link rel="apple-touch-icon" href="icon-192.png">
-
-<!-- نفس الدعم على أندرويد/كروم -->
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-
-<!-- تمنع تحويل أي رقم يظهر في المصروفات إلى رابط اتصال هاتفي تلقائياً -->
 <meta name="format-detection" content="telephone=no">
 <style>
 :root{
-  --bg:#F2F5EE;
-  --surface:#FFFFFF;
-  --surface-2:#EAF0E4;
-  --ink:#20291F;
-  --muted:#6B7566;
-  --line:#DDE3D6;
-  --green-900:#123527;
-  --green-800:#1E4B3B;
-  --green-700:#25604B;
-  --green-600:#2F7A5F;
-  --gold:#C88A2E;
-  --gold-dark:#A66F1E;
-  --clay:#7C5A3A;
-  --danger:#B3261E;
-  --danger-dark:#8E1E17;
-  --radius:12px;
-  --radius-sm:7px;
-  --shadow:0 1px 2px rgba(18,53,39,.06), 0 6px 18px rgba(18,53,39,.07);
+  --bg:#F2F5EE; --surface:#FFFFFF; --surface-2:#EAF0E4; --ink:#20291F; --muted:#6B7566;
+  --line:#DDE3D6; --green-900:#123527; --green-800:#1E4B3B; --green-700:#25604B; --green-600:#2F7A5F;
+  --gold:#C88A2E; --gold-dark:#A66F1E; --clay:#7C5A3A; --danger:#B3261E; --danger-dark:#8E1E17;
+  --radius:12px; --radius-sm:7px; --shadow:0 1px 2px rgba(18,53,39,.06), 0 6px 18px rgba(18,53,39,.07);
   --furrow: repeating-linear-gradient(90deg, var(--gold) 0 18px, transparent 18px 36px);
 }
 *{box-sizing:border-box; margin:0; padding:0;}
 html,body{height:100%;}
-body{
-  font-family:"Segoe UI","Tahoma","Geneva","Cairo","Arial",sans-serif;
-  background:var(--bg);
-  color:var(--ink);
-  direction:rtl;
-  display:flex; flex-direction:column; min-height:100vh;
-  -webkit-font-smoothing:antialiased;
-}
+body{font-family:"Segoe UI","Tahoma","Geneva","Cairo","Arial",sans-serif; background:var(--bg); color:var(--ink); direction:rtl; display:flex; flex-direction:column; min-height:100vh; -webkit-font-smoothing:antialiased;}
+body.lang-en, body.lang-de{direction:ltr;}
 button, input, select, textarea{font-family:inherit;}
 
-/* ===== Protected header — do not remove ===== */
-#app-header{
-  background:linear-gradient(180deg, var(--green-800), var(--green-900));
-  color:#fff;
-  padding:14px 16px 10px;
-  text-align:center;
-  position:relative;
-  flex:0 0 auto;
-}
-#app-header .brandline{
-  display:flex; align-items:center; justify-content:center; gap:10px;
-  flex-wrap:wrap;
-}
-#app-header svg{flex:0 0 auto; width:26px; height:26px;}
-#app-header h1{
-  font-size:clamp(.95rem, 2.6vw, 1.35rem);
-  font-weight:800;
-  letter-spacing:.2px;
-  line-height:1.4;
-}
-#app-header .sub{
-  font-size:.72rem; color:#D9E8DE; margin-top:2px; font-weight:600; letter-spacing:.5px;
-}
+#app-header{background:linear-gradient(180deg, var(--green-800), var(--green-900)); color:#fff; padding:14px 16px 10px; text-align:center; position:relative; flex:0 0 auto;}
+#app-header .brandline{display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap;}
+#app-header img.brandmark{height:38px; width:auto; flex:0 0 auto;}
+#app-header h1{font-size:clamp(.9rem, 2.5vw, 1.25rem); font-weight:800; letter-spacing:.2px; line-height:1.4;}
+#app-header .sub{font-size:.72rem; color:#D9E8DE; margin-top:2px; font-weight:600; letter-spacing:.5px;}
 .furrow-bar{height:5px; background-image:var(--furrow); background-color:var(--green-900);}
 
-/* status/lock bar in header */
-#header-tools{
-  position:absolute; left:12px; top:12px; display:flex; gap:6px;
-}
-#header-tools button{
-  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.35);
-  color:#fff; border-radius:6px; padding:6px 10px; font-size:.75rem; cursor:pointer; font-weight:700;
-}
+#header-tools{display:flex; flex-wrap:wrap; justify-content:center; gap:6px; padding:8px 10px 0;}
+#header-tools button, #header-tools select{background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.35); color:#fff; border-radius:6px; padding:6px 9px; font-size:.72rem; cursor:pointer; font-weight:700;}
 #header-tools button:hover{background:rgba(255,255,255,.22);}
+#header-tools select{background:rgba(255,255,255,.9); color:var(--green-900);}
 
-nav{
-  background:var(--green-700);
-  display:flex; flex-wrap:wrap; justify-content:center; gap:6px;
-  padding:8px 10px;
-  flex:0 0 auto;
-}
-nav button{
-  background:transparent; border:1px solid rgba(255,255,255,.28); color:#fff;
-  padding:8px 14px; border-radius:20px; cursor:pointer; font-weight:700; font-size:.85rem;
-  transition:.15s;
-}
+nav{background:var(--green-700); display:flex; flex-wrap:wrap; justify-content:center; gap:6px; padding:8px 10px; flex:0 0 auto;}
+nav button{background:transparent; border:1px solid rgba(255,255,255,.28); color:#fff; padding:8px 14px; border-radius:20px; cursor:pointer; font-weight:700; font-size:.85rem; transition:.15s;}
 nav button:hover{background:rgba(255,255,255,.14);}
 nav button.active{background:var(--gold); border-color:var(--gold); color:#2b1c00;}
 
 main{flex:1; width:100%; max-width:1180px; margin:0 auto; padding:18px 14px 40px;}
 .hidden{display:none !important;}
 
-h2.page-title{
-  font-size:1.05rem; color:var(--green-900); margin-bottom:14px; font-weight:800;
-  display:flex; align-items:center; gap:8px;
-}
+h2.page-title{font-size:1.05rem; color:var(--green-900); margin-bottom:14px; font-weight:800; display:flex; align-items:center; gap:8px;}
 h2.page-title::before{content:""; width:5px; height:20px; background:var(--gold); border-radius:3px; display:inline-block;}
 
-/* cards */
 .card-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin-bottom:18px;}
-.card{
-  background:var(--surface); border-radius:var(--radius); padding:14px 16px;
-  box-shadow:var(--shadow); border-right:4px solid var(--green-700);
-}
+.card{background:var(--surface); border-radius:var(--radius); padding:14px 16px; box-shadow:var(--shadow); border-right:4px solid var(--green-700);}
+body.lang-en .card, body.lang-de .card{border-right:none; border-left:4px solid var(--green-700);}
 .card p.title{font-size:.78rem; color:var(--muted); font-weight:700;}
 .card p.value{font-size:1.5rem; font-weight:800; color:var(--green-800); margin-top:6px;}
-.card.gold{border-right-color:var(--gold);} .card.gold p.value{color:var(--gold-dark);}
-.card.clay{border-right-color:var(--clay);} .card.clay p.value{color:var(--clay);}
-.card.blue{border-right-color:#2563A6;} .card.blue p.value{color:#2563A6;}
+.card.gold{border-color:var(--gold);} .card.gold p.value{color:var(--gold-dark);}
+.card.clay{border-color:var(--clay);} .card.clay p.value{color:var(--clay);}
+.card.blue{border-color:#2563A6;} .card.blue p.value{color:#2563A6;}
 
-.panel{
-  background:var(--surface); border-radius:var(--radius); padding:16px;
-  box-shadow:var(--shadow); margin-bottom:18px;
-}
+.panel{background:var(--surface); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); margin-bottom:18px;}
 .panel h3{font-size:.92rem; color:var(--green-900); margin-bottom:12px; font-weight:800;}
 
 .charts-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
 @media(max-width:720px){.charts-grid{grid-template-columns:1fr;}}
 canvas.chart-canvas{width:100%; height:220px; display:block;}
 
-/* tables */
 .table-wrap{overflow-x:auto;}
 table{width:100%; border-collapse:collapse; text-align:right; font-size:.86rem; min-width:640px;}
-thead th{
-  background:var(--green-900); color:#fff; padding:10px 10px; font-weight:700; white-space:nowrap;
-  cursor:default; position:sticky; top:0;
-}
+body.lang-en table, body.lang-de table{text-align:left;}
+thead th{background:var(--green-900); color:#fff; padding:10px 10px; font-weight:700; white-space:nowrap; position:sticky; top:0;}
 thead th.sortable{cursor:pointer; user-select:none;}
 thead th.sortable:hover{background:var(--green-800);}
 thead th .arrow{font-size:.7rem; opacity:.8; margin-inline-start:3px;}
@@ -159,11 +86,7 @@ td.num, th.num{text-align:center;}
 td.total-cell{font-weight:800; color:var(--green-800);}
 tfoot td{padding:10px; font-weight:800; background:var(--surface-2); border-top:2px solid var(--green-700);}
 
-/* buttons */
-.btn{
-  background:var(--green-700); color:#fff; border:none; padding:9px 16px; border-radius:8px;
-  cursor:pointer; font-weight:700; font-size:.85rem; transition:.15s; white-space:nowrap;
-}
+.btn{background:var(--green-700); color:#fff; border:none; padding:9px 16px; border-radius:8px; cursor:pointer; font-weight:700; font-size:.85rem; transition:.15s; white-space:nowrap;}
 .btn:hover{background:var(--green-800);}
 .btn-gold{background:var(--gold); color:#2b1c00;} .btn-gold:hover{background:var(--gold-dark); color:#fff;}
 .btn-danger{background:var(--danger);} .btn-danger:hover{background:var(--danger-dark);}
@@ -174,17 +97,13 @@ tfoot td{padding:10px; font-weight:800; background:var(--surface-2); border-top:
 
 .toolbar{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
 .toolbar .group{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
-.select, select, input[type=text], input[type=date], input[type=number], input[type=password], textarea{
-  padding:8px 10px; border:1px solid #C9D2C2; border-radius:7px; font-size:.86rem; background:#fff; color:var(--ink);
-}
+.select, select, input[type=text], input[type=date], input[type=number], input[type=password], input[type=email], textarea{padding:8px 10px; border:1px solid #C9D2C2; border-radius:7px; font-size:.86rem; background:#fff; color:var(--ink);}
 select{font-weight:700; color:var(--green-900);}
 
-/* filter bar */
 .filter-bar{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:14px;}
 .filter-bar label{display:block; font-size:.72rem; font-weight:700; color:var(--muted); margin-bottom:4px;}
 .result-badge{background:var(--surface-2); border:1px dashed var(--green-700); border-radius:8px; padding:8px 12px; font-size:.82rem; font-weight:700; color:var(--green-900); margin-bottom:10px; display:inline-block;}
 
-/* modal */
 .modal-overlay{position:fixed; inset:0; background:rgba(18,53,39,.55); display:flex; align-items:center; justify-content:center; z-index:200; padding:14px;}
 .modal-box{background:#fff; border-radius:var(--radius); width:100%; max-width:440px; max-height:92vh; overflow-y:auto; box-shadow:0 20px 50px rgba(0,0,0,.3);}
 .modal-head{background:var(--green-800); color:#fff; padding:14px 16px; border-radius:var(--radius) var(--radius) 0 0; display:flex; justify-content:space-between; align-items:center;}
@@ -195,43 +114,45 @@ select{font-weight:700; color:var(--green-900);}
 .form-group label{display:block; font-size:.82rem; margin-bottom:5px; font-weight:700; color:var(--green-900);}
 .form-group input, .form-group select, .form-group textarea{width:100%;}
 .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
-.modal-foot{display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; border-top:1px solid var(--line);}
+.modal-foot{display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; border-top:1px solid var(--line); flex-wrap:wrap;}
 .total-preview{background:var(--surface-2); border-radius:8px; padding:10px 12px; text-align:center; font-weight:800; color:var(--green-900); margin-top:6px; font-size:1.05rem;}
 .help-text{font-size:.72rem; color:var(--muted); margin-top:4px;}
 
-/* lock screen */
-#lock-screen{
-  position:fixed; inset:0; background:linear-gradient(160deg,var(--green-900),var(--green-800) 60%, var(--green-700));
-  display:flex; align-items:flex-start; justify-content:center; z-index:500; padding:16px;
-  overflow-y:auto; -webkit-overflow-scrolling:touch;
-}
-#lock-screen .lock-card{margin-top:8vh; margin-bottom:24vh;}
-.lock-card{background:#fff; border-radius:16px; padding:28px 26px; width:100%; max-width:340px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.4);}
-.lock-card svg{width:46px; height:46px; margin-bottom:8px;}
+#lock-screen{position:fixed; inset:0; background:linear-gradient(160deg,var(--green-900),var(--green-800) 60%, var(--green-700)); display:flex; align-items:flex-start; justify-content:center; z-index:500; padding:16px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
+.lock-card{background:#fff; border-radius:16px; padding:28px 26px; width:100%; max-width:340px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.4); margin-top:8vh; margin-bottom:24vh;}
+.lock-card img{height:44px; margin-bottom:8px;}
 .lock-card h2{color:var(--green-900); font-size:1.05rem; margin-bottom:4px; font-weight:800;}
 .lock-card p.hint{color:var(--muted); font-size:.78rem; margin-bottom:16px;}
-#pin-input{
-  width:100%; text-align:center; letter-spacing:10px; font-size:1.4rem; padding:12px; border-radius:8px;
-  border:2px solid var(--line); font-weight:800;
-}
+#pin-input{width:100%; text-align:center; letter-spacing:10px; font-size:1.4rem; padding:12px; border-radius:8px; border:2px solid var(--line); font-weight:800;}
 #pin-input:focus{outline:none; border-color:var(--green-700);}
 #lock-error{color:var(--danger); font-size:.78rem; margin-top:8px; min-height:16px; font-weight:700;}
 .lock-actions{margin-top:14px; display:flex; flex-direction:column; gap:8px;}
 
-/* footer — protected, always visible */
-footer{
-  background:var(--green-900); color:#EDEFE7; text-align:center; padding:12px 10px;
-  font-size:.76rem; margin-top:auto; border-top:3px solid var(--gold);
-}
+footer{background:var(--green-900); color:#EDEFE7; text-align:center; padding:12px 10px; font-size:.76rem; margin-top:auto; border-top:3px solid var(--gold);}
 footer strong{color:var(--gold);}
 
 #print-report{display:none;}
+
+/* القائمة الجانبية */
+#side-drawer-overlay{position:fixed; inset:0; background:rgba(18,53,39,.5); z-index:300; display:none;}
+#side-drawer-overlay.open{display:block;}
+#side-drawer{position:fixed; top:0; bottom:0; inset-inline-start:0; width:78%; max-width:300px; background:#fff; z-index:301; transform:translateX(-105%); transition:transform .2s ease; box-shadow:4px 0 20px rgba(0,0,0,.25); display:flex; flex-direction:column;}
+body.lang-en #side-drawer, body.lang-de #side-drawer{inset-inline-start:auto; inset-inline-end:0; transform:translateX(105%);}
+#side-drawer.open{transform:translateX(0);}
+#side-drawer .sd-head{background:var(--green-800); color:#fff; padding:16px; display:flex; justify-content:space-between; align-items:center;}
+#side-drawer .sd-head button{background:transparent; border:none; color:#fff; font-size:1.2rem;}
+#side-drawer .sd-body{padding:10px; flex:1; overflow-y:auto;}
+#side-drawer a, #side-drawer button.sd-item{display:block; width:100%; text-align:inherit; background:none; border:none; padding:13px 10px; font-size:.9rem; font-weight:700; color:var(--green-900); border-bottom:1px solid var(--line); cursor:pointer; text-decoration:none;}
+#side-drawer a:hover, #side-drawer button.sd-item:hover{background:var(--surface-2);}
+
+.backup-row{display:flex; justify-content:space-between; align-items:center; padding:10px; border:1px solid var(--line); border-radius:8px; margin-bottom:8px;}
+.backup-row .meta{font-size:.8rem; color:var(--green-900); font-weight:700;}
 
 @media print{
   body *{visibility:hidden;}
   #app-header, #app-header *, footer, footer *, #print-report, #print-report *{visibility:visible;}
   #header-tools{display:none !important;}
-  nav, main > section, .no-print, #lock-screen{display:none !important;}
+  nav, main > section, .no-print, #lock-screen, #side-drawer, #side-drawer-overlay{display:none !important;}
   #print-report{display:block !important; position:relative; padding:14px;}
   #print-report table{width:100%; border-collapse:collapse; font-size:.8rem;}
   #print-report th,#print-report td{border:1px solid #999; padding:6px;}
@@ -243,425 +164,485 @@ footer strong{color:var(--gold);}
 </head>
 <body>
 
-<!-- ===================== PROTECTED HEADER — لا يمكن إزالته ===================== -->
 <header id="app-header">
-  <div id="header-tools" class="no-print">
-    <button onclick="exportJSON()" title="نسخة احتياطية سريعة">💾 نسخة</button>
-    <button onclick="lockApp()" title="قفل البرنامج">🔒 قفل</button>
-  </div>
   <div class="brandline">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C12 2 6 6 6 12C6 15.3 8.7 18 12 18C15.3 18 18 15.3 18 12C18 6 12 2 12 2Z" fill="#C88A2E"/>
-      <path d="M12 18V22" stroke="#C88A2E" stroke-width="1.6" stroke-linecap="round"/>
-    </svg>
-    <h1>برنامج الفلاح لحساب المصروفات — من إنتاج مزارع مايا للإنتاج الزراعي</h1>
+    <img class="brandmark" src="data:image/png;base64,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" alt="شعار داود الاطرقجي للاستشارات الهندسية">
+    <h1>برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية</h1>
   </div>
-  <div class="sub">إدارة مصروفات المحاصيل والخزينة</div>
+  <div class="sub" data-i18n="header_sub">إدارة مصروفات المحاصيل والخزينة</div>
+  <div id="header-tools" class="no-print">
+    <button onclick="openDrawer()" title="القائمة">☰</button>
+    <select id="lang-select" onchange="setLanguage(this.value)" title="اللغة">
+      <option value="ar">عربي</option>
+      <option value="en">English</option>
+      <option value="de">Deutsch</option>
+    </select>
+    <button onclick="printReport()" data-i18n="btn_print">🖨️ طباعة</button>
+    <button onclick="openBackupsModal()" data-i18n="btn_restore">↺ استرجاع</button>
+    <button onclick="saveAndClose()" data-i18n="btn_save_close">💾 حفظ وإغلاق</button>
+    <button onclick="lockApp()" data-i18n="btn_lock">🔒 قفل</button>
+  </div>
 </header>
 <div class="furrow-bar"></div>
-<!-- =================== نهاية الترويسة المحمية =================== -->
 
-<!-- Navigation -->
 <nav class="no-print">
-  <button id="btn-dash" class="active" onclick="showTab('dash')">لوحة النتيجة</button>
-  <button id="btn-crops" onclick="showTab('crops')">المحاصيل</button>
-  <button id="btn-cash" onclick="showTab('cash')">الخزينة والتعزيز</button>
-  <button id="btn-search" onclick="showTab('search')">البحث والتصفية</button>
-  <button id="btn-settings" onclick="showTab('settings')">الإعدادات والنسخ</button>
+  <button id="btn-dash" class="active" onclick="showTab('dash')" data-i18n="nav_dash">لوحة النتيجة</button>
+  <button id="btn-crops" onclick="showTab('crops')" data-i18n="nav_crops">المحاصيل</button>
+  <button id="btn-cash" onclick="showTab('cash')" data-i18n="nav_cash">الخزينة والتعزيز</button>
+  <button id="btn-search" onclick="showTab('search')" data-i18n="nav_search">البحث والتصفية</button>
+  <button id="btn-settings" onclick="showTab('settings')" data-i18n="nav_settings">الإعدادات</button>
 </nav>
 
 <main>
-
-  <!-- ===== Dashboard ===== -->
   <section id="tab-dash">
-    <h2 class="page-title">لوحة النتيجة الرئيسية</h2>
+    <h2 class="page-title" data-i18n="dash_title">لوحة النتيجة الرئيسية</h2>
     <div class="card-grid">
-      <div class="card"><p class="title">إجمالي المصروفات الكلي</p><p id="k-total" class="value">0.00</p></div>
-      <div class="card blue"><p class="title">نقد الخزينة</p><p id="k-treasury" class="value">0.00</p></div>
-      <div class="card gold"><p class="title">النقد بالجيب</p><p id="k-pocket" class="value">0.00</p></div>
-      <div class="card clay"><p class="title">المتوفر بالبيت</p><p id="k-home" class="value">0.00</p></div>
+      <div class="card"><p class="title" data-i18n="k_total">إجمالي المصروفات الكلي</p><p id="k-total" class="value">0</p></div>
+      <div class="card blue"><p class="title" data-i18n="k_treasury">نقد الخزينة</p><p id="k-treasury" class="value">0</p></div>
+      <div class="card gold"><p class="title" data-i18n="k_pocket">النقد بالجيب</p><p id="k-pocket" class="value">0</p></div>
+      <div class="card clay"><p class="title" data-i18n="k_home">المتوفر بالبيت</p><p id="k-home" class="value">0</p></div>
     </div>
-
     <div class="panel">
-      <h3>مجموع الصرفيات لكل محصول</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th>المحصول</th><th class="num">السقي</th><th class="num">الأسمدة</th>
-            <th class="num">شبكات الري</th><th class="num">العمالة</th><th class="num">المجموع</th>
-          </tr></thead>
-          <tbody id="dash-table-body"></tbody>
-          <tfoot><tr>
-            <td>الإجمالي</td>
-            <td id="f-irr" class="num">0</td><td id="f-fert" class="num">0</td>
-            <td id="f-net" class="num">0</td><td id="f-lab" class="num">0</td>
-            <td id="f-sum" class="num">0</td>
-          </tr></tfoot>
-        </table>
-      </div>
+      <h3 data-i18n="dash_table_title">مجموع الصرفيات لكل محصول</h3>
+      <div class="table-wrap"><table>
+        <thead id="dash-thead"></thead>
+        <tbody id="dash-table-body"></tbody>
+        <tfoot id="dash-tfoot"></tfoot>
+      </table></div>
     </div>
-
     <div class="panel">
-      <h3>الرسم البياني للمصروفات</h3>
+      <h3 data-i18n="dash_chart_title">الرسم البياني للمصروفات</h3>
       <div class="charts-grid">
-        <div>
-          <p style="text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:6px; font-weight:700;">حسب المحصول</p>
-          <canvas id="chart-crop" class="chart-canvas"></canvas>
-        </div>
-        <div>
-          <p style="text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:6px; font-weight:700;">حسب البند</p>
-          <canvas id="chart-item" class="chart-canvas"></canvas>
-        </div>
+        <div><p style="text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:6px; font-weight:700;" data-i18n="by_crop">حسب المحصول</p><canvas id="chart-crop" class="chart-canvas"></canvas></div>
+        <div><p style="text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:6px; font-weight:700;" data-i18n="by_item">حسب البند</p><canvas id="chart-item" class="chart-canvas"></canvas></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Crops ===== -->
   <section id="tab-crops" class="hidden">
-    <h2 class="page-title">إدارة المحاصيل</h2>
+    <h2 class="page-title" data-i18n="crops_title">إدارة المحاصيل</h2>
     <div class="toolbar no-print">
       <div class="group">
         <select id="crop-select" onchange="renderCropsTable()"></select>
-        <button class="btn btn-ghost btn-sm" onclick="addCrop()">＋ محصول جديد</button>
-        <button class="btn-danger btn btn-sm" onclick="deleteCrop()">حذف المحصول</button>
+        <button class="btn btn-ghost btn-sm" onclick="addCrop()" data-i18n="btn_add_crop">＋ محصول جديد</button>
+        <button class="btn-danger btn btn-sm" onclick="deleteCrop()" data-i18n="btn_delete_crop">حذف المحصول</button>
       </div>
-      <button class="btn btn-gold" onclick="openExpenseModal()">＋ إضافة مصروف جديد</button>
+      <div class="group">
+        <button class="btn btn-ghost btn-sm" onclick="addItemDef()" data-i18n="btn_add_item">＋ بند جديد</button>
+        <button class="btn-danger btn btn-sm" onclick="deleteItemDef()" data-i18n="btn_delete_item">حذف بند</button>
+      </div>
+      <button class="btn btn-gold" onclick="openExpenseModal()" data-i18n="btn_add_expense">＋ إضافة مصروف جديد</button>
     </div>
-
     <div class="panel">
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th>التأريخ</th><th class="num">السقي</th><th class="num">الأسمدة</th>
-            <th class="num">شبكات الري</th><th class="num">العمالة</th><th class="num">المجموع</th>
-            <th>ملاحظات</th><th class="no-print">إجراء</th>
-          </tr></thead>
-          <tbody id="crops-table-body"></tbody>
-        </table>
-      </div>
-      <p id="crops-empty" class="help-text hidden" style="margin-top:10px;">لا توجد سجلات مصروفات لهذا المحصول بعد.</p>
+      <div class="table-wrap"><table>
+        <thead id="crops-thead"></thead>
+        <tbody id="crops-table-body"></tbody>
+      </table></div>
+      <p id="crops-empty" class="help-text hidden" style="margin-top:10px;" data-i18n="crops_empty">لا توجد سجلات مصروفات لهذا المحصول بعد.</p>
     </div>
   </section>
 
-  <!-- ===== Cash / Treasury ===== -->
   <section id="tab-cash" class="hidden">
-    <h2 class="page-title">تفاصيل التعزيز — حركة الخزينة والجيب</h2>
+    <h2 class="page-title" data-i18n="cash_title">تفاصيل التعزيز — حركة الخزينة والجيب</h2>
     <div class="card-grid">
-      <div class="card blue"><p class="title">المتوفر بالخزينة</p><p id="cash-treasury" class="value">0.00</p></div>
-      <div class="card gold"><p class="title">النقد بالجيب</p><p id="cash-pocket" class="value">0.00</p></div>
-      <div class="card clay"><p class="title">المتوفر بالبيت</p><p id="cash-home" class="value">0.00</p></div>
+      <div class="card blue"><p class="title" data-i18n="cash_treasury">المتوفر بالخزينة</p><p id="cash-treasury" class="value">0</p></div>
+      <div class="card gold"><p class="title" data-i18n="k_pocket">النقد بالجيب</p><p id="cash-pocket" class="value">0</p></div>
+      <div class="card clay"><p class="title" data-i18n="k_home">المتوفر بالبيت</p><p id="cash-home" class="value">0</p></div>
     </div>
-
     <div class="panel no-print">
-      <h3>تعديل رصيد "المتوفر بالبيت" مباشرة</h3>
+      <h3 data-i18n="cash_home_edit">تعديل رصيد "المتوفر بالبيت" مباشرة</h3>
       <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-        <input type="number" id="home-balance-input" style="max-width:180px;" placeholder="القيمة">
-        <button class="btn btn-ghost" onclick="updateHomeBalance()">تحديث الرصيد</button>
+        <input type="number" id="home-balance-input" style="max-width:180px;" data-i18n-ph="value_ph" placeholder="القيمة">
+        <button class="btn btn-ghost" onclick="updateHomeBalance()" data-i18n="btn_update_balance">تحديث الرصيد</button>
       </div>
     </div>
-
     <div class="toolbar no-print">
-      <h3 style="color:var(--green-900);">سجل حركات النقد</h3>
-      <button class="btn btn-gold" onclick="openCashModal()">＋ حركة نقدية جديدة</button>
+      <h3 style="color:var(--green-900);" data-i18n="cash_log">سجل حركات النقد</h3>
+      <button class="btn btn-gold" onclick="openCashModal()" data-i18n="btn_new_movement">＋ حركة نقدية جديدة</button>
     </div>
-
     <div class="panel">
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th>التأريخ</th><th>نوع الحركة</th><th class="num">المبلغ</th>
-            <th>ملاحظات</th><th class="no-print">حذف</th>
-          </tr></thead>
-          <tbody id="cash-table-body"></tbody>
-        </table>
-      </div>
-      <p id="cash-empty" class="help-text hidden" style="margin-top:10px;">لا توجد حركات نقدية مسجلة بعد.</p>
+      <div class="table-wrap"><table>
+        <thead><tr>
+          <th data-i18n="th_date">التأريخ</th><th data-i18n="th_movement_type">نوع الحركة</th><th class="num" data-i18n="th_amount">المبلغ</th>
+          <th data-i18n="th_notes">ملاحظات</th><th class="no-print" data-i18n="th_delete">حذف</th>
+        </tr></thead>
+        <tbody id="cash-table-body"></tbody>
+      </table></div>
+      <p id="cash-empty" class="help-text hidden" style="margin-top:10px;" data-i18n="cash_empty">لا توجد حركات نقدية مسجلة بعد.</p>
       <p id="cash-formula-note" class="help-text" style="margin-top:10px; line-height:1.7;"></p>
     </div>
   </section>
 
-  <!-- ===== Search ===== -->
   <section id="tab-search" class="hidden">
-    <h2 class="page-title">البحث والتصفية المتقدمة</h2>
+    <h2 class="page-title" data-i18n="search_title">البحث والتصفية المتقدمة</h2>
     <div class="panel no-print">
       <div class="filter-bar">
-        <div>
-          <label>بحث نصي (بالملاحظات)</label>
-          <input type="text" id="s-query" placeholder="اكتب كلمة..." oninput="runSearch()">
-        </div>
-        <div>
-          <label>المحصول</label>
-          <select id="s-crop" onchange="runSearch()"></select>
-        </div>
-        <div>
-          <label>بند المصروف</label>
-          <select id="s-item" onchange="runSearch()">
-            <option value="">كل البنود</option>
-            <option value="irr">السقي</option>
-            <option value="fert">الأسمدة</option>
-            <option value="net">شبكات الري</option>
-            <option value="lab">العمالة</option>
-          </select>
-        </div>
-        <div>
-          <label>من تاريخ</label>
-          <input type="date" id="s-from" onchange="runSearch()">
-        </div>
-        <div>
-          <label>إلى تاريخ</label>
-          <input type="date" id="s-to" onchange="runSearch()">
-        </div>
+        <div><label data-i18n="s_text_label">بحث نصي (بالملاحظات)</label><input type="text" id="s-query" data-i18n-ph="s_text_ph" placeholder="اكتب كلمة..." oninput="runSearch()"></div>
+        <div><label data-i18n="s_crop_label">المحصول</label><select id="s-crop" onchange="runSearch()"></select></div>
+        <div><label data-i18n="s_item_label">بند المصروف</label><select id="s-item" onchange="runSearch()"></select></div>
+        <div><label data-i18n="s_from">من تاريخ</label><input type="date" id="s-from" onchange="runSearch()"></div>
+        <div><label data-i18n="s_to">إلى تاريخ</label><input type="date" id="s-to" onchange="runSearch()"></div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="clearSearch()">إعادة تعيين الفلاتر</button>
+      <button class="btn btn-ghost btn-sm" onclick="clearSearch()" data-i18n="btn_reset_filters">إعادة تعيين الفلاتر</button>
     </div>
-
     <div class="panel">
-      <span id="search-badge" class="result-badge">النتائج: 0 سجل — الإجمالي: 0.00</span>
-      <div class="table-wrap">
-        <table>
-          <thead><tr>
-            <th class="sortable" onclick="sortSearch('crop')">المحصول<span class="arrow" id="ar-crop"></span></th>
-            <th class="sortable" onclick="sortSearch('date')">التأريخ<span class="arrow" id="ar-date"></span></th>
-            <th class="num sortable" onclick="sortSearch('irr')">السقي<span class="arrow" id="ar-irr"></span></th>
-            <th class="num sortable" onclick="sortSearch('fert')">الأسمدة<span class="arrow" id="ar-fert"></span></th>
-            <th class="num sortable" onclick="sortSearch('net')">شبكات الري<span class="arrow" id="ar-net"></span></th>
-            <th class="num sortable" onclick="sortSearch('lab')">العمالة<span class="arrow" id="ar-lab"></span></th>
-            <th class="num sortable" onclick="sortSearch('total')">المجموع<span class="arrow" id="ar-total"></span></th>
-            <th>ملاحظات</th>
-          </tr></thead>
-          <tbody id="search-table-body"></tbody>
-        </table>
-      </div>
+      <span id="search-badge" class="result-badge"></span>
+      <div class="table-wrap"><table>
+        <thead id="search-thead"></thead>
+        <tbody id="search-table-body"></tbody>
+      </table></div>
     </div>
   </section>
 
-  <!-- ===== Settings ===== -->
   <section id="tab-settings" class="hidden">
-    <h2 class="page-title">الإعدادات والنسخ الاحتياطي</h2>
-
+    <h2 class="page-title" data-i18n="settings_title">الإعدادات</h2>
     <div class="panel" style="max-width:520px;">
-      <h3>تغيير رمز الدخول السري (PIN)</h3>
-      <div class="form-group"><label>الرمز الحالي</label><input type="password" id="pin-old" inputmode="numeric" maxlength="8"></div>
-      <div class="form-group"><label>الرمز الجديد</label><input type="password" id="pin-new" inputmode="numeric" maxlength="8"></div>
-      <div class="form-group"><label>تأكيد الرمز الجديد</label><input type="password" id="pin-new2" inputmode="numeric" maxlength="8"></div>
-      <button class="btn btn-gold" onclick="changePin()">تحديث رمز الدخول</button>
+      <h3 data-i18n="pin_change_title">تغيير رمز الدخول السري (PIN)</h3>
+      <div class="form-group"><label data-i18n="pin_current">الرمز الحالي</label><input type="password" id="pin-old" inputmode="numeric" maxlength="8"></div>
+      <div class="form-group"><label data-i18n="pin_new">الرمز الجديد</label><input type="password" id="pin-new" inputmode="numeric" maxlength="8"></div>
+      <div class="form-group"><label data-i18n="pin_confirm">تأكيد الرمز الجديد</label><input type="password" id="pin-new2" inputmode="numeric" maxlength="8"></div>
+      <button class="btn btn-gold" onclick="changePin()" data-i18n="btn_update_pin">تحديث رمز الدخول</button>
       <p id="pin-msg" class="help-text"></p>
     </div>
-
     <div class="panel" style="max-width:520px;">
-      <h3>إدارة البيانات والتقارير</h3>
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <button class="btn" onclick="exportJSON()">تصدير نسخة احتياطية كاملة (JSON)</button>
-        <p class="help-text" style="margin:-4px 0 4px;">⚠️ لا تحاول فتح ملف JSON مباشرة من كروم أو من مجلد التنزيلات — هو ملف بيانات فقط وليس صفحة، سيظهر كنص غير مفهوم. استخدم زر "استرجاع نسخة احتياطية" أدناه دائماً لإعادته للبرنامج.</p>
-        <input type="file" id="import-json-file" class="hidden" accept=".json" onchange="importJSON(event)">
-        <button class="btn btn-ghost" onclick="document.getElementById('import-json-file').click()">استرجاع نسخة احتياطية (JSON)</button>
-        <button class="btn" onclick="exportCSV()">تصدير المصروفات إلى Excel / CSV</button>
-        <button class="btn" style="background:var(--clay);" onclick="printReport()">طباعة تقرير PDF</button>
-        <button class="btn btn-danger" onclick="resetAllData()">حذف جميع البيانات (بدء من جديد)</button>
-      </div>
-      <p class="help-text" style="margin-top:10px;">تُحفظ بياناتك تلقائياً على هذا الجهاز عبر طبقتين مستقلتين (localStorage و IndexedDB)، وتبقى محفوظة بعد إغلاق البرنامج على الأجهزة التي تسمح بذلك. يُنصح دائماً بأخذ نسخة احتياطية دورياً.</p>
-    </div>
-
-    <div class="panel" style="max-width:620px;">
-      <h3>⚠️ إذا كانت البيانات تُفقد عند إعادة فتح الملف على الجوال</h3>
-      <p class="help-text" style="line-height:1.9;">
-        بعض متصفحات الجوال (وخصوصاً عند فتح الملف مباشرة من "الملفات" أو واتساب) تمنع الحفظ الدائم تماماً لأسباب أمنية،
-        ولا يوجد شيفرة برمجية يمكنها تجاوز هذا القيد. الحل الوحيد المضمون 100% هو رفع الملف على استضافة ويب مجانية
-        (يصبح له عنوان https حقيقي بدل file://)، ثم إضافته للشاشة الرئيسية كأنه تطبيق حقيقي، وعندها يُحفظ كل شيء دون مشاكل.
-      </p>
-      <ol style="margin:12px 0 6px; padding-inline-start:20px; font-size:.85rem; line-height:2.1; color:var(--ink);">
-        <li>افتح موقع استضافة مجاني من الجوال، مثل: <strong>GitHub Pages</strong> (github.com) أو <strong>Netlify Drop</strong> (app.netlify.com/drop) أو <strong>InfinityFree</strong>.</li>
-        <li>أنشئ حساباً مجانياً (بريد إلكتروني فقط)، ثم ارفع ملف <em>برنامج_الفلاح.html</em> بعد إعادة تسميته إلى <strong>index.html</strong>.</li>
-        <li>احصل على الرابط العام للموقع بعد الرفع (سينتهي بـ https://...).</li>
-        <li>افتح هذا الرابط من متصفح Chrome على الجوال.</li>
-        <li>اضغط قائمة النقاط الثلاث ⋮ أعلى الشاشة ← <strong>"إضافة إلى الشاشة الرئيسية" / "تثبيت التطبيق"</strong>.</li>
-        <li>الآن سيظهر أيقونة "برنامج الفلاح" على شاشتك الرئيسية، وسيفتح كتطبيق مستقل وتُحفظ بياناته بشكل دائم ومضمون.</li>
-      </ol>
-      <p class="help-text">حتى تنتهي من هذه الخطوة: خذ نسخة احتياطية JSON من الأعلى بعد كل جلسة عمل، واسترجعها في المرة القادمة، تفادياً لأي فقدان للبيانات.</p>
+      <h3 data-i18n="danger_zone">منطقة الحذف</h3>
+      <button class="btn btn-danger" onclick="resetAllData()" data-i18n="btn_reset_all">حذف جميع البيانات (بدء من جديد)</button>
     </div>
   </section>
-
 </main>
 
-<!-- ===== Expense Modal ===== -->
+<!-- القائمة الجانبية -->
+<div id="side-drawer-overlay" class="no-print" onclick="closeDrawer()"></div>
+<div id="side-drawer" class="no-print">
+  <div class="sd-head"><strong data-i18n="menu_title">القائمة</strong><button onclick="closeDrawer()">✕</button></div>
+  <div class="sd-body">
+    <a href="mailto:atrakchi.com@gmail.com?subject=برنامج%20الفلاح" data-i18n="contact_us">📧 اتصل بنا</a>
+    <button class="sd-item" onclick="exportCSV()" data-i18n="export_csv">📊 تصدير Excel / CSV</button>
+    <button class="sd-item" onclick="exportJSONManual()" data-i18n="export_json_manual">⬇️ تصدير نسخة JSON يدوياً</button>
+    <button class="sd-item" onclick="document.getElementById('import-json-file').click()" data-i18n="import_json_manual">⬆️ استرجاع من ملف JSON</button>
+    <input type="file" id="import-json-file" class="hidden" accept=".json" onchange="importJSON(event)">
+  </div>
+</div>
+
+<!-- نافذة المصروفات -->
 <div id="expense-modal" class="modal-overlay hidden">
   <div class="modal-box">
-    <div class="modal-head">
-      <h3 id="expense-modal-title">تسجيل مصروف جديد</h3>
-      <button onclick="closeExpenseModal()">✕</button>
-    </div>
+    <div class="modal-head"><h3 id="expense-modal-title" data-i18n="new_expense_title">تسجيل مصروف جديد</h3><button onclick="closeExpenseModal()">✕</button></div>
     <div class="modal-body">
       <input type="hidden" id="m-id">
-      <div class="form-group"><label>المحصول</label><select id="m-crop"></select></div>
-      <div class="form-group"><label>التأريخ</label><input type="date" id="m-date"></div>
-      <div class="grid-2">
-        <div class="form-group"><label>السقي</label><input type="number" id="m-irr" value="0" min="0" oninput="updateModalTotal()"></div>
-        <div class="form-group"><label>الأسمدة</label><input type="number" id="m-fert" value="0" min="0" oninput="updateModalTotal()"></div>
-        <div class="form-group"><label>شبكات الري</label><input type="number" id="m-net" value="0" min="0" oninput="updateModalTotal()"></div>
-        <div class="form-group"><label>العمالة</label><input type="number" id="m-lab" value="0" min="0" oninput="updateModalTotal()"></div>
-      </div>
-      <div class="total-preview">المجموع: <span id="m-total-preview">0.00</span></div>
-      <div class="form-group" style="margin-top:12px;"><label>ملاحظات</label><textarea id="m-notes" rows="2"></textarea></div>
+      <div class="form-group"><label data-i18n="crop_label">المحصول</label><select id="m-crop"></select></div>
+      <div class="form-group"><label data-i18n="date_label">التأريخ</label><input type="date" id="m-date"></div>
+      <div class="grid-2" id="m-items-container"></div>
+      <div class="total-preview"><span data-i18n="total_label">المجموع</span>: <span id="m-total-preview">0</span></div>
+      <div class="form-group" style="margin-top:12px;"><label data-i18n="notes_label">ملاحظات</label><textarea id="m-notes" rows="2"></textarea></div>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-danger hidden" id="m-delete-btn" onclick="deleteExpenseFromModal()">حذف</button>
-      <button class="btn btn-ghost" onclick="closeExpenseModal()">إلغاء</button>
-      <button class="btn btn-gold" onclick="saveExpense()">حفظ السجل</button>
+      <button class="btn btn-danger hidden" id="m-delete-btn" onclick="deleteExpenseFromModal()" data-i18n="btn_delete">حذف</button>
+      <button class="btn btn-ghost" onclick="closeExpenseModal()" data-i18n="btn_cancel">إلغاء</button>
+      <button class="btn btn-gold" onclick="saveExpense()" data-i18n="btn_save_record">حفظ السجل</button>
     </div>
   </div>
 </div>
 
-<!-- ===== Cash Modal ===== -->
+<!-- نافذة الحركة النقدية -->
 <div id="cash-modal" class="modal-overlay hidden">
   <div class="modal-box">
-    <div class="modal-head">
-      <h3>تفاصيل التعزيز — حركة نقدية</h3>
-      <button onclick="closeCashModal()">✕</button>
-    </div>
+    <div class="modal-head"><h3 data-i18n="cash_title">تفاصيل التعزيز — حركة نقدية</h3><button onclick="closeCashModal()">✕</button></div>
     <div class="modal-body">
-      <div class="form-group">
-        <label>نوع الحركة</label>
+      <div class="form-group"><label data-i18n="movement_type_label">نوع الحركة</label>
         <select id="c-type">
-          <option value="deposit">تعزيز رصيد (إضافة للخزينة)</option>
-          <option value="withdraw">سحب نقدي (من الخزينة إلى الجيب)</option>
+          <option value="deposit" data-i18n="deposit_opt">تعزيز رصيد (إضافة للخزينة)</option>
+          <option value="withdraw" data-i18n="withdraw_opt">سحب نقدي (من الخزينة إلى الجيب)</option>
         </select>
       </div>
-      <div class="form-group"><label>المبلغ</label><input type="number" id="c-amount" value="0" min="0"></div>
-      <div class="form-group"><label>التأريخ</label><input type="date" id="c-date"></div>
-      <div class="form-group"><label>ملاحظات</label><textarea id="c-notes" rows="2"></textarea></div>
-      <div class="total-preview">المتوفر بالخزينة حالياً: <span id="c-treasury-preview">0.00</span></div>
+      <div class="form-group"><label data-i18n="amount_label">المبلغ</label><input type="number" id="c-amount" min="0"></div>
+      <div class="form-group"><label data-i18n="date_label">التأريخ</label><input type="date" id="c-date"></div>
+      <div class="form-group"><label data-i18n="notes_label">ملاحظات</label><textarea id="c-notes" rows="2"></textarea></div>
+      <div class="total-preview"><span data-i18n="cash_treasury_now">المتوفر بالخزينة حالياً</span>: <span id="c-treasury-preview">0</span></div>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-ghost" onclick="closeCashModal()">إلغاء</button>
-      <button class="btn btn-gold" onclick="saveCashMovement()">حفظ الحركة</button>
+      <button class="btn btn-ghost" onclick="closeCashModal()" data-i18n="btn_cancel">إلغاء</button>
+      <button class="btn btn-gold" onclick="saveCashMovement()" data-i18n="btn_save_movement">حفظ الحركة</button>
     </div>
   </div>
 </div>
 
-<!-- ===== Lock Screen ===== -->
+<!-- نافذة إدخال نصي عامة (بديل عن prompt المتصفح) -->
+<div id="text-input-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-head"><h3 id="text-input-title">—</h3><button onclick="closeTextInputModal(null)">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><input type="text" id="text-input-field" autocomplete="off"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeTextInputModal(null)" data-i18n="btn_cancel">إلغاء</button>
+      <button class="btn btn-gold" onclick="submitTextInputModal()" data-i18n="btn_ok">موافق</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة اختيار بند للحذف -->
+<div id="select-item-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-head"><h3 data-i18n="select_item_delete">اختر البند لحذفه</h3><button onclick="document.getElementById('select-item-modal').classList.add('hidden')">✕</button></div>
+    <div class="modal-body"><div class="form-group"><select id="select-item-field"></select></div></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="document.getElementById('select-item-modal').classList.add('hidden')" data-i18n="btn_cancel">إلغاء</button>
+      <button class="btn btn-danger" onclick="confirmDeleteItemDef()" data-i18n="btn_delete">حذف</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة النسخ الاحتياطية -->
+<div id="backups-modal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-head"><h3 data-i18n="backups_title">استرجاع نسخة محفوظة</h3><button onclick="closeBackupsModal()">✕</button></div>
+    <div class="modal-body">
+      <p class="help-text" style="margin-bottom:10px;" data-i18n="backups_hint">آخر 10 نسخ حُفظت تلقائياً عند الضغط على "حفظ وإغلاق":</p>
+      <div id="backups-list"></div>
+      <p id="backups-empty" class="help-text hidden" data-i18n="backups_empty">لا توجد نسخ محفوظة تلقائياً بعد.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="document.getElementById('import-json-file').click(); closeBackupsModal();" data-i18n="restore_from_file">استرجاع من ملف بدلاً من ذلك</button>
+    </div>
+  </div>
+</div>
+
+<!-- شاشة القفل -->
 <div id="lock-screen">
   <div class="lock-card">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="4" y="10" width="16" height="11" rx="2" fill="#1E4B3B"/>
-      <path d="M7 10V7a5 5 0 0 1 10 0v3" stroke="#C88A2E" stroke-width="2" fill="none"/>
-    </svg>
-    <h2>برنامج الفلاح لحساب المصروفات</h2>
-    <p class="hint">من إنتاج مزارع مايا للإنتاج الزراعي — أدخل رمز الدخول</p>
+    <img src="data:image/png;base64,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" alt="">
+    <h2 data-i18n="app_short_title">برنامج الفلاح لحساب المصروفات</h2>
+    <p class="hint" data-i18n="lock_hint">داود الاطرقجي للاستشارات الهندسية — أدخل رمز الدخول</p>
     <form id="lock-form" onsubmit="event.preventDefault(); tryUnlock(); return false;" autocomplete="off">
       <input type="tel" id="pin-input" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="8" placeholder="••••">
       <p id="lock-error"></p>
-      <div class="lock-actions">
-        <button type="submit" class="btn btn-gold">دخول</button>
-      </div>
+      <div class="lock-actions"><button type="submit" class="btn btn-gold" data-i18n="btn_enter">دخول</button></div>
     </form>
   </div>
 </div>
 
-<!-- ===== Hidden print report ===== -->
 <div id="print-report"></div>
 
-<!-- ===================== PROTECTED FOOTER — لا يمكن إزالته ===================== -->
 <footer>
-  <strong>©</strong> مزارع مايا للإنتاج الزراعي — جميع الحقوق محفوظة | برنامج الفلاح لحساب المصروفات
+  <strong>©</strong> داود الاطرقجي للاستشارات الهندسية — <span data-i18n="all_rights">جميع الحقوق محفوظة</span> | <span data-i18n="app_short_title">برنامج الفلاح لحساب المصروفات</span>
 </footer>
-<!-- =================== نهاية التذييل المحمي =================== -->
 
 <script>
 /* =========================================================
-   برنامج الفلاح لحساب المصروفات — من إنتاج مزارع مايا للإنتاج الزراعي
-   جميع الحقوق محفوظة © مزارع مايا للإنتاج الزراعي
+   برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية
    ========================================================= */
 
-const DB_KEY = 'alfallah_db_v2';
-const OLD_DB_KEY = 'alfallah_db';
-const SESSION_KEY = 'alfallah_unlocked';
+/* ===================== الترجمة ===================== */
+const I18N = {
+ar: {
+  header_sub:"إدارة مصروفات المحاصيل والخزينة", btn_print:"🖨️ طباعة", btn_restore:"↺ استرجاع", btn_save_close:"💾 حفظ وإغلاق", btn_lock:"🔒 قفل",
+  nav_dash:"لوحة النتيجة", nav_crops:"المحاصيل", nav_cash:"الخزينة والتعزيز", nav_search:"البحث والتصفية", nav_settings:"الإعدادات",
+  dash_title:"لوحة النتيجة الرئيسية", k_total:"إجمالي المصروفات الكلي", k_treasury:"نقد الخزينة", k_pocket:"النقد بالجيب", k_home:"المتوفر بالبيت",
+  dash_table_title:"مجموع الصرفيات لكل محصول", dash_chart_title:"الرسم البياني للمصروفات", by_crop:"حسب المحصول", by_item:"حسب البند",
+  total_col:"المجموع", crop_col:"المحصول", no_data:"لا توجد بيانات بعد",
+  crops_title:"إدارة المحاصيل", btn_add_crop:"＋ محصول جديد", btn_delete_crop:"حذف المحصول", btn_add_item:"＋ بند جديد", btn_delete_item:"حذف بند",
+  btn_add_expense:"＋ إضافة مصروف جديد", crops_empty:"لا توجد سجلات مصروفات لهذا المحصول بعد.",
+  th_date:"التأريخ", th_notes:"ملاحظات", th_action:"إجراء", th_delete:"حذف", th_movement_type:"نوع الحركة", th_amount:"المبلغ",
+  cash_title:"تفاصيل التعزيز — حركة الخزينة والجيب", cash_treasury:"المتوفر بالخزينة", cash_home_edit:'تعديل رصيد "المتوفر بالبيت" مباشرة',
+  value_ph:"القيمة", btn_update_balance:"تحديث الرصيد", cash_log:"سجل حركات النقد", btn_new_movement:"＋ حركة نقدية جديدة",
+  cash_empty:"لا توجد حركات نقدية مسجلة بعد.",
+  search_title:"البحث والتصفية المتقدمة", s_text_label:"بحث نصي (بالملاحظات)", s_text_ph:"اكتب كلمة...", s_crop_label:"المحصول",
+  s_item_label:"بند المصروف", s_all_items:"كل البنود", s_all_crops:"كل المحاصيل", s_from:"من تاريخ", s_to:"إلى تاريخ",
+  btn_reset_filters:"إعادة تعيين الفلاتر", results_label:"النتائج", total_label:"الإجمالي", no_results:"لا توجد نتائج مطابقة",
+  settings_title:"الإعدادات", pin_change_title:"تغيير رمز الدخول السري (PIN)", pin_current:"الرمز الحالي", pin_new:"الرمز الجديد",
+  pin_confirm:"تأكيد الرمز الجديد", btn_update_pin:"تحديث رمز الدخول", danger_zone:"منطقة الحذف", btn_reset_all:"حذف جميع البيانات (بدء من جديد)",
+  menu_title:"القائمة", contact_us:"📧 اتصل بنا", export_csv:"📊 تصدير Excel / CSV", export_json_manual:"⬇️ تصدير نسخة JSON يدوياً",
+  import_json_manual:"⬆️ استرجاع من ملف JSON",
+  new_expense_title:"تسجيل مصروف جديد", edit_expense_title:"تعديل سجل المصروف", crop_label:"المحصول", date_label:"التأريخ",
+  notes_label:"ملاحظات", btn_delete:"حذف", btn_cancel:"إلغاء", btn_save_record:"حفظ السجل", btn_ok:"موافق",
+  movement_type_label:"نوع الحركة", deposit_opt:"تعزيز رصيد (إضافة للخزينة)", withdraw_opt:"سحب نقدي (من الخزينة إلى الجيب)",
+  amount_label:"المبلغ", cash_treasury_now:"المتوفر بالخزينة حالياً", btn_save_movement:"حفظ الحركة",
+  select_item_delete:"اختر البند لحذفه", backups_title:"استرجاع نسخة محفوظة", backups_hint:'آخر 10 نسخ حُفظت تلقائياً عند الضغط على "حفظ وإغلاق":',
+  backups_empty:"لا توجد نسخ محفوظة تلقائياً بعد.", restore_from_file:"استرجاع من ملف بدلاً من ذلك", restore_btn:"استرجاع",
+  app_short_title:"برنامج الفلاح لحساب المصروفات", lock_hint:"داود الاطرقجي للاستشارات الهندسية — أدخل رمز الدخول",
+  btn_enter:"دخول", all_rights:"جميع الحقوق محفوظة",
+  new_item_prompt:"اسم البند الجديد", new_crop_prompt:"اسم المحصول الجديد"
+},
+en: {
+  header_sub:"Manage crop expenses and cash", btn_print:"🖨️ Print", btn_restore:"↺ Restore", btn_save_close:"💾 Save & Close", btn_lock:"🔒 Lock",
+  nav_dash:"Dashboard", nav_crops:"Crops", nav_cash:"Cash & Treasury", nav_search:"Search & Filter", nav_settings:"Settings",
+  dash_title:"Main Dashboard", k_total:"Total Expenses", k_treasury:"Treasury Cash", k_pocket:"Pocket Cash", k_home:"Cash at Home",
+  dash_table_title:"Total Expenses per Crop", dash_chart_title:"Expense Charts", by_crop:"By Crop", by_item:"By Item",
+  total_col:"Total", crop_col:"Crop", no_data:"No data yet",
+  crops_title:"Manage Crops", btn_add_crop:"＋ New Crop", btn_delete_crop:"Delete Crop", btn_add_item:"＋ New Item", btn_delete_item:"Delete Item",
+  btn_add_expense:"＋ Add New Expense", crops_empty:"No expense records for this crop yet.",
+  th_date:"Date", th_notes:"Notes", th_action:"Action", th_delete:"Delete", th_movement_type:"Type", th_amount:"Amount",
+  cash_title:"Treasury Details — Cash Movement", cash_treasury:"Treasury Balance", cash_home_edit:'Edit "Cash at Home" balance directly',
+  value_ph:"Value", btn_update_balance:"Update Balance", cash_log:"Cash Movements Log", btn_new_movement:"＋ New Movement",
+  cash_empty:"No cash movements recorded yet.",
+  search_title:"Advanced Search & Filter", s_text_label:"Text Search (Notes)", s_text_ph:"Type a word...", s_crop_label:"Crop",
+  s_item_label:"Item", s_all_items:"All Items", s_all_crops:"All Crops", s_from:"From Date", s_to:"To Date",
+  btn_reset_filters:"Reset Filters", results_label:"Results", total_label:"Total", no_results:"No matching results",
+  settings_title:"Settings", pin_change_title:"Change PIN", pin_current:"Current PIN", pin_new:"New PIN",
+  pin_confirm:"Confirm New PIN", btn_update_pin:"Update PIN", danger_zone:"Danger Zone", btn_reset_all:"Delete All Data (start fresh)",
+  menu_title:"Menu", contact_us:"📧 Contact Us", export_csv:"📊 Export Excel / CSV", export_json_manual:"⬇️ Export JSON Backup",
+  import_json_manual:"⬆️ Restore from JSON File",
+  new_expense_title:"New Expense Record", edit_expense_title:"Edit Expense Record", crop_label:"Crop", date_label:"Date",
+  notes_label:"Notes", btn_delete:"Delete", btn_cancel:"Cancel", btn_save_record:"Save Record", btn_ok:"OK",
+  movement_type_label:"Movement Type", deposit_opt:"Deposit (add to treasury)", withdraw_opt:"Withdraw (treasury → pocket)",
+  amount_label:"Amount", cash_treasury_now:"Current Treasury Balance", btn_save_movement:"Save Movement",
+  select_item_delete:"Select item to delete", backups_title:"Restore a Saved Backup", backups_hint:'Last 10 auto-saved backups from "Save & Close":',
+  backups_empty:"No auto-saved backups yet.", restore_from_file:"Restore from file instead", restore_btn:"Restore",
+  app_short_title:"Farmer's Expense App", lock_hint:"Dawood Al-Atrakchi Engineering Consulting — Enter PIN",
+  btn_enter:"Enter", all_rights:"All Rights Reserved",
+  new_item_prompt:"New item name", new_crop_prompt:"New crop name"
+},
+de: {
+  header_sub:"Verwaltung der Ernteausgaben und Kasse", btn_print:"🖨️ Drucken", btn_restore:"↺ Wiederherstellen", btn_save_close:"💾 Speichern & Schließen", btn_lock:"🔒 Sperren",
+  nav_dash:"Übersicht", nav_crops:"Ernten", nav_cash:"Kasse & Rücklage", nav_search:"Suche & Filter", nav_settings:"Einstellungen",
+  dash_title:"Hauptübersicht", k_total:"Gesamtausgaben", k_treasury:"Kassenbestand", k_pocket:"Bargeld", k_home:"Zuhause verfügbar",
+  dash_table_title:"Ausgaben je Ernte", dash_chart_title:"Ausgabendiagramme", by_crop:"Nach Ernte", by_item:"Nach Posten",
+  total_col:"Summe", crop_col:"Ernte", no_data:"Noch keine Daten",
+  crops_title:"Ernten verwalten", btn_add_crop:"＋ Neue Ernte", btn_delete_crop:"Ernte löschen", btn_add_item:"＋ Neuer Posten", btn_delete_item:"Posten löschen",
+  btn_add_expense:"＋ Neue Ausgabe hinzufügen", crops_empty:"Noch keine Ausgaben für diese Ernte.",
+  th_date:"Datum", th_notes:"Notizen", th_action:"Aktion", th_delete:"Löschen", th_movement_type:"Art", th_amount:"Betrag",
+  cash_title:"Kassendetails — Bargeldbewegung", cash_treasury:"Kassenbestand", cash_home_edit:'"Zuhause verfügbar" direkt bearbeiten',
+  value_ph:"Wert", btn_update_balance:"Saldo aktualisieren", cash_log:"Bargeldbewegungen", btn_new_movement:"＋ Neue Bewegung",
+  cash_empty:"Noch keine Bargeldbewegungen erfasst.",
+  search_title:"Erweiterte Suche & Filter", s_text_label:"Textsuche (Notizen)", s_text_ph:"Wort eingeben...", s_crop_label:"Ernte",
+  s_item_label:"Posten", s_all_items:"Alle Posten", s_all_crops:"Alle Ernten", s_from:"Von Datum", s_to:"Bis Datum",
+  btn_reset_filters:"Filter zurücksetzen", results_label:"Ergebnisse", total_label:"Summe", no_results:"Keine passenden Ergebnisse",
+  settings_title:"Einstellungen", pin_change_title:"PIN ändern", pin_current:"Aktuelle PIN", pin_new:"Neue PIN",
+  pin_confirm:"Neue PIN bestätigen", btn_update_pin:"PIN aktualisieren", danger_zone:"Gefahrenzone", btn_reset_all:"Alle Daten löschen (neu beginnen)",
+  menu_title:"Menü", contact_us:"📧 Kontakt", export_csv:"📊 Excel / CSV exportieren", export_json_manual:"⬇️ JSON-Backup exportieren",
+  import_json_manual:"⬆️ Aus JSON-Datei wiederherstellen",
+  new_expense_title:"Neue Ausgabe erfassen", edit_expense_title:"Ausgabe bearbeiten", crop_label:"Ernte", date_label:"Datum",
+  notes_label:"Notizen", btn_delete:"Löschen", btn_cancel:"Abbrechen", btn_save_record:"Eintrag speichern", btn_ok:"OK",
+  movement_type_label:"Art der Bewegung", deposit_opt:"Einzahlung (in Kasse)", withdraw_opt:"Abhebung (Kasse → Bargeld)",
+  amount_label:"Betrag", cash_treasury_now:"Aktueller Kassenbestand", btn_save_movement:"Bewegung speichern",
+  select_item_delete:"Posten zum Löschen wählen", backups_title:"Gespeichertes Backup wiederherstellen", backups_hint:'Letzte 10 automatische Backups von "Speichern & Schließen":',
+  backups_empty:"Noch keine automatischen Backups.", restore_from_file:"Stattdessen aus Datei wiederherstellen", restore_btn:"Wiederherstellen",
+  app_short_title:"Bauern-Ausgaben-App", lock_hint:"Dawood Al-Atrakchi Ingenieurberatung — PIN eingeben",
+  btn_enter:"Eintreten", all_rights:"Alle Rechte vorbehalten",
+  new_item_prompt:"Name des neuen Postens", new_crop_prompt:"Name der neuen Ernte"
+}
+};
+let currentLang = 'ar';
+function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.ar[key] || key; }
+function applyStaticTranslations(){
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+  document.body.classList.remove('lang-ar','lang-en','lang-de');
+  document.body.classList.add('lang-'+currentLang);
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.setAttribute('placeholder', t(el.getAttribute('data-i18n-ph'))); });
+  document.getElementById('lang-select').value = currentLang;
+}
+function setLanguage(lang){
+  currentLang = lang;
+  safeSet('alfallah_lang', lang);
+  applyStaticTranslations();
+  refreshCurrentTab();
+}
+function refreshCurrentTab(){
+  updateSelects();
+  const active = document.querySelector('nav > button.active');
+  if (active) showTab(active.id.replace('btn-',''));
+}
+
+/* ===================== التخزين ===================== */
+const DB_KEY = 'alfallah_db_v3';
+const OLD_DB_KEY_V2 = 'alfallah_db_v2';
+const OLD_DB_KEY_V1 = 'alfallah_db';
+const SESSION_KEY = 'alfallah_unlocked_at';
+const BACKUPS_KEY = 'alfallah_backups_v1';
+const SESSION_VALID_MS = 8 * 60 * 60 * 1000; // 8 ساعات
 
 let db = null;
 let searchSort = { field: 'date', dir: 'desc' };
+let textInputCallback = null;
 
 function defaultDB(){
   return {
-    crops: ["الكوسة", "البنجر", "الباذنجان"],
+    crops: ["البنجر", "الباذنجان"],
+    itemDefs: [
+      {id:'irr', name:'السقي'}, {id:'fert', name:'الأسمدة'},
+      {id:'net', name:'شبكات الري'}, {id:'lab', name:'العمالة'}
+    ],
     expenses: [],
-    cash: { treasury: 0, pocket: 0, home: 0 },
+    cash: { home: 0 },
     movements: [],
     pin: "1234"
   };
 }
 
+function normalizeDB(data){
+  if (!data) return defaultDB();
+  if (!Array.isArray(data.itemDefs) || !data.itemDefs.length) {
+    data.itemDefs = [
+      {id:'irr', name:'السقي'}, {id:'fert', name:'الأسمدة'},
+      {id:'net', name:'شبكات الري'}, {id:'lab', name:'العمالة'}
+    ];
+  }
+  if (!Array.isArray(data.crops)) data.crops = [];
+  if (!Array.isArray(data.expenses)) data.expenses = [];
+  if (!Array.isArray(data.movements)) data.movements = [];
+  if (!data.cash) data.cash = { home: 0 };
+  if (typeof data.cash.home !== 'number') data.cash.home = Number(data.cash.home) || 0;
+  if (!data.pin) data.pin = '1234';
+  data.expenses = data.expenses.map(e => {
+    if (!e.values) {
+      e.values = { irr:Number(e.irr)||0, fert:Number(e.fert)||0, net:Number(e.net)||0, lab:Number(e.lab)||0 };
+      delete e.irr; delete e.fert; delete e.net; delete e.lab;
+    }
+    if (!e.id) e.id = (Date.now()+Math.random()).toString(36);
+    return e;
+  });
+  return data;
+}
+
 function loadDB(){
-  let raw = localStorage.getItem(DB_KEY);
-  if (raw) { try { return JSON.parse(raw); } catch(e){ /* fallthrough */ } }
-  // migrate legacy data if present
-  let legacy = localStorage.getItem(OLD_DB_KEY);
-  if (legacy) {
+  let raw = safeGet(DB_KEY);
+  if (raw) { try { return normalizeDB(JSON.parse(raw)); } catch(e){} }
+  let v2 = safeGet(OLD_DB_KEY_V2);
+  if (v2) { try { const d = normalizeDB(JSON.parse(v2)); saveDBRaw(d); return d; } catch(e){} }
+  let v1 = safeGet(OLD_DB_KEY_V1);
+  if (v1) {
     try {
-      const old = JSON.parse(legacy);
+      const old = JSON.parse(v1);
       const fresh = defaultDB();
       if (Array.isArray(old.crops)) fresh.crops = old.crops;
       if (Array.isArray(old.expenses)) {
         fresh.expenses = old.expenses.map(e => ({
-          id: e.id || Date.now() + Math.random(),
-          crop: e.crop, date: e.date || '',
-          irr: Number(e.irr)||0, fert: Number(e.fert)||0,
-          net: Number(e.net)||0, lab: Number(e.lab)||0,
-          notes: e.notes || ''
+          id: e.id || (Date.now()+Math.random()).toString(36),
+          crop: e.crop, date: e.date || '', notes: e.notes || '',
+          values: { irr:Number(e.irr)||0, fert:Number(e.fert)||0, net:Number(e.net)||0, lab:Number(e.lab)||0 }
         }));
       }
       saveDBRaw(fresh);
       return fresh;
-    } catch(e){ /* ignore */ }
+    } catch(e){}
   }
   const fresh = defaultDB();
   saveDBRaw(fresh);
   return fresh;
 }
-
 function saveDBRaw(data){
   const json = JSON.stringify(data);
   safeSet(DB_KEY, json);
   idbSet(DB_KEY, json);
 }
 function saveData(){ saveDBRaw(db); }
+function fmt(n){ return Math.round(Number(n)||0).toString(); }
 
-function fmt(n){ return (Number(n)||0).toFixed(2); }
-
-/* ============ Safe storage (works even if the browser blocks
-   localStorage/sessionStorage on file:// pages, e.g. many mobile
-   browsers when opening the HTML file directly). Falls back to an
-   in-memory store so the app still opens; only persistence is lost. ============ */
 let __memStore = {};
 let __storageBlocked = false;
-function safeGet(key){
-  try { return localStorage.getItem(key); }
-  catch(e){ __storageBlocked = true; return (key in __memStore) ? __memStore[key] : null; }
-}
-function safeSet(key, val){
-  try { localStorage.setItem(key, val); }
-  catch(e){ __storageBlocked = true; __memStore[key] = val; }
-}
-function safeSessionGet(key){
-  try { return sessionStorage.getItem(key); }
-  catch(e){ return (key in __memStore) ? __memStore['s_'+key] : null; }
-}
-function safeSessionSet(key, val){
-  try { sessionStorage.setItem(key, val); }
-  catch(e){ __memStore['s_'+key] = val; }
-}
-function safeSessionRemove(key){
-  try { sessionStorage.removeItem(key); }
-  catch(e){ delete __memStore['s_'+key]; }
-}
+function safeGet(key){ try { return localStorage.getItem(key); } catch(e){ __storageBlocked = true; return (key in __memStore) ? __memStore[key] : null; } }
+function safeSet(key, val){ try { localStorage.setItem(key, val); } catch(e){ __storageBlocked = true; __memStore[key] = val; } }
+function safeSessionGet(key){ try { return localStorage.getItem(key); } catch(e){ return (key in __memStore) ? __memStore['s_'+key] : null; } }
+function safeSessionSet(key, val){ try { localStorage.setItem(key, val); } catch(e){ __memStore['s_'+key] = val; } }
+function safeSessionRemove(key){ try { localStorage.removeItem(key); } catch(e){ delete __memStore['s_'+key]; } }
 
-/* ============ IndexedDB — طبقة تخزين ثانية مستقلة تماماً عن localStorage.
-   بعض متصفحات الجوال (خصوصاً عند فتح ملف HTML مباشرة file://) تمنع
-   localStorage لكن تسمح بـ IndexedDB أو العكس، لذلك نكتب في الاثنين معاً
-   ونقرأ من أي منهما نجح، لمضاعفة فرصة نجاة البيانات بعد إغلاق البرنامج. ============ */
 const IDB_NAME = 'alfallah_store';
 const IDB_STORE = 'kv';
 let __idb = null;
 let __idbBlocked = false;
-
 function openIDB(){
   return new Promise((resolve) => {
     if (!window.indexedDB) { __idbBlocked = true; resolve(null); return; }
@@ -670,7 +651,7 @@ function openIDB(){
       req.onupgradeneeded = () => { try { req.result.createObjectStore(IDB_STORE); } catch(e){} };
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => { __idbBlocked = true; resolve(null); };
-      req.onblocked = () => { resolve(null); };
+      req.onblocked = () => resolve(null);
     } catch(e){ __idbBlocked = true; resolve(null); }
   });
 }
@@ -694,23 +675,75 @@ function idbSet(key, val){
   } catch(e){ __idbBlocked = true; }
 }
 
-/* ================= Lock / PIN ================= */
+/* ===================== النسخ الاحتياطية الدوّارة ===================== */
+function loadBackups(){
+  try { return JSON.parse(safeGet(BACKUPS_KEY) || '[]'); } catch(e){ return []; }
+}
+function pushBackupSnapshot(){
+  const list = loadBackups();
+  list.unshift({ ts: new Date().toISOString(), data: JSON.stringify(db) });
+  while (list.length > 10) list.pop();
+  const json = JSON.stringify(list);
+  safeSet(BACKUPS_KEY, json);
+  idbSet(BACKUPS_KEY, json);
+}
+function formatBackupDate(iso){
+  try {
+    const d = new Date(iso);
+    return d.toLocaleString(currentLang === 'ar' ? 'ar-EG' : (currentLang === 'de' ? 'de-DE' : 'en-US'));
+  } catch(e){ return iso; }
+}
+function openBackupsModal(){
+  const list = loadBackups();
+  const container = document.getElementById('backups-list');
+  container.innerHTML = '';
+  list.forEach((b, idx) => {
+    const row = document.createElement('div');
+    row.className = 'backup-row';
+    row.innerHTML = `<span class="meta">${formatBackupDate(b.ts)}</span>
+      <button class="btn btn-gold btn-sm" onclick="restoreBackupAt(${idx})">${t('restore_btn')}</button>`;
+    container.appendChild(row);
+  });
+  document.getElementById('backups-empty').classList.toggle('hidden', list.length > 0);
+  applyStaticTranslations();
+  document.getElementById('backups-modal').classList.remove('hidden');
+}
+function closeBackupsModal(){ document.getElementById('backups-modal').classList.add('hidden'); }
+function restoreBackupAt(idx){
+  const list = loadBackups();
+  const item = list[idx];
+  if (!item) return;
+  if (!confirm(currentLang==='ar' ? 'سيتم استبدال البيانات الحالية بهذه النسخة، هل تريد المتابعة؟' : (currentLang==='de' ? 'Aktuelle Daten werden ersetzt. Fortfahren?' : 'Current data will be replaced. Continue?'))) return;
+  try {
+    db = normalizeDB(JSON.parse(item.data));
+    saveData();
+    closeBackupsModal();
+    updateSelects();
+    showTab('dash');
+  } catch(e){
+    alert(currentLang==='ar' ? 'تعذر استرجاع هذه النسخة.' : 'Could not restore this backup.');
+  }
+}
+function saveAndClose(){
+  pushBackupSnapshot();
+  const msg = currentLang==='ar' ? 'تم حفظ نسخة احتياطية بنجاح. يمكنك إغلاق المتصفح الآن بأمان.' :
+              currentLang==='de' ? 'Backup erfolgreich gespeichert. Sie können den Browser jetzt sicher schließen.' :
+              'Backup saved successfully. You can safely close the browser now.';
+  alert(msg);
+  lockApp();
+}
+
+/* ===================== القفل ===================== */
 function checkLockOnLoad(){
-  const unlocked = safeSessionGet(SESSION_KEY);
-  if (unlocked === '1') {
+  const savedAt = Number(safeSessionGet(SESSION_KEY) || 0);
+  if (savedAt && (Date.now() - savedAt) < SESSION_VALID_MS) {
     document.getElementById('lock-screen').classList.add('hidden');
   } else {
     document.getElementById('lock-screen').classList.remove('hidden');
     setTimeout(()=>document.getElementById('pin-input').focus(), 150);
   }
   if (__storageBlocked && __idbBlocked) {
-    document.getElementById('lock-error').innerHTML =
-      '⚠️ متصفحك يمنع أي حفظ دائم لهذا الملف عند فتحه مباشرة (شائع على الجوال).<br>' +
-      'البرنامج سيعمل الآن، لكن البيانات ستُفقد عند الإغلاق.<br>' +
-      '<strong>الحل الدائم:</strong> ارفع هذا الملف على استضافة مجانية (مثل GitHub Pages) ثم افتح الرابط من كروم واختر "إضافة إلى الشاشة الرئيسية" — راجع دليل التثبيت في تبويب "الإعدادات والنسخ" لاحقاً بعد الدخول.';
-  } else if (__storageBlocked || __idbBlocked) {
-    document.getElementById('lock-error').innerHTML =
-      'تنبيه: إحدى طبقتي الحفظ غير متاحة في متصفحك، لكن تم تفعيل طبقة احتياطية والبيانات ستُحفظ من خلالها. للأمان يُنصح بأخذ نسخة احتياطية دورياً من "الإعدادات".';
+    document.getElementById('lock-error').innerHTML = '⚠️ ' + (currentLang==='ar' ? 'متصفحك يمنع الحفظ الدائم هنا. استخدم "حفظ وإغلاق" دورياً لأخذ نسخة يدوية.' : 'This browser blocks permanent storage here. Use "Save & Close" regularly for manual backups.');
   }
 }
 function tryUnlock(){
@@ -718,21 +751,16 @@ function tryUnlock(){
   const input = document.getElementById('pin-input');
   const val = (input.value || '').trim();
   if (val === db.pin) {
-    safeSessionSet(SESSION_KEY, '1');
+    safeSessionSet(SESSION_KEY, String(Date.now()));
     document.getElementById('lock-screen').classList.add('hidden');
-    if (!__storageBlocked) document.getElementById('lock-error').textContent = '';
+    document.getElementById('lock-error').textContent = '';
     input.value = '';
   } else {
-    document.getElementById('lock-error').textContent = 'رمز الدخول غير صحيح، حاول مرة أخرى. (الرمز الافتراضي: 1234)';
+    document.getElementById('lock-error').textContent = currentLang==='ar' ? 'رمز الدخول غير صحيح، حاول مرة أخرى. (الافتراضي: 1234)' : (currentLang==='de' ? 'Falsche PIN. Versuchen Sie es erneut. (Standard: 1234)' : 'Incorrect PIN. Try again. (Default: 1234)');
     input.value = '';
     input.focus();
   }
 }
-document.addEventListener('keydown', function(e){
-  if (e.key === 'Enter' && !document.getElementById('lock-screen').classList.contains('hidden')) {
-    tryUnlock();
-  }
-});
 function lockApp(){
   safeSessionRemove(SESSION_KEY);
   document.getElementById('lock-screen').classList.remove('hidden');
@@ -743,19 +771,38 @@ function changePin(){
   const newV = document.getElementById('pin-new').value.trim();
   const newV2 = document.getElementById('pin-new2').value.trim();
   const msg = document.getElementById('pin-msg');
-  if (oldV !== db.pin){ msg.style.color = 'var(--danger)'; msg.textContent = 'الرمز الحالي غير صحيح.'; return; }
-  if (newV.length < 4){ msg.style.color = 'var(--danger)'; msg.textContent = 'الرمز الجديد يجب ألا يقل عن 4 أرقام/رموز.'; return; }
-  if (newV !== newV2){ msg.style.color = 'var(--danger)'; msg.textContent = 'تأكيد الرمز الجديد غير مطابق.'; return; }
-  db.pin = newV;
-  saveData();
+  if (oldV !== db.pin){ msg.style.color = 'var(--danger)'; msg.textContent = currentLang==='ar'?'الرمز الحالي غير صحيح.':'Current PIN is incorrect.'; return; }
+  if (newV.length < 4){ msg.style.color = 'var(--danger)'; msg.textContent = currentLang==='ar'?'الرمز الجديد يجب ألا يقل عن 4 أرقام.':'New PIN must be at least 4 digits.'; return; }
+  if (newV !== newV2){ msg.style.color = 'var(--danger)'; msg.textContent = currentLang==='ar'?'تأكيد الرمز غير مطابق.':'PIN confirmation does not match.'; return; }
+  db.pin = newV; saveData();
   msg.style.color = 'var(--green-800)';
-  msg.textContent = 'تم تحديث رمز الدخول بنجاح.';
-  document.getElementById('pin-old').value = '';
-  document.getElementById('pin-new').value = '';
-  document.getElementById('pin-new2').value = '';
+  msg.textContent = currentLang==='ar'?'تم تحديث رمز الدخول بنجاح.':'PIN updated successfully.';
+  document.getElementById('pin-old').value=''; document.getElementById('pin-new').value=''; document.getElementById('pin-new2').value='';
 }
 
-/* ================= Tabs ================= */
+/* ===================== القائمة الجانبية ===================== */
+function openDrawer(){ document.getElementById('side-drawer').classList.add('open'); document.getElementById('side-drawer-overlay').classList.add('open'); }
+function closeDrawer(){ document.getElementById('side-drawer').classList.remove('open'); document.getElementById('side-drawer-overlay').classList.remove('open'); }
+function exportJSONManual(){ exportJSON(); closeDrawer(); }
+
+/* ===================== نافذة إدخال نصي عامة ===================== */
+function askText(title, defaultVal, callback){
+  document.getElementById('text-input-title').textContent = title;
+  document.getElementById('text-input-field').value = defaultVal || '';
+  textInputCallback = callback;
+  document.getElementById('text-input-modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('text-input-field').focus(), 80);
+}
+function closeTextInputModal(){ document.getElementById('text-input-modal').classList.add('hidden'); textInputCallback = null; }
+function submitTextInputModal(){
+  const val = document.getElementById('text-input-field').value.trim();
+  const cb = textInputCallback;
+  document.getElementById('text-input-modal').classList.add('hidden');
+  textInputCallback = null;
+  if (cb) cb(val);
+}
+
+/* ===================== التبويبات ===================== */
 function showTab(tabId){
   document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
   document.querySelectorAll('nav > button').forEach(b => b.classList.remove('active'));
@@ -767,202 +814,180 @@ function showTab(tabId){
   if (tabId === 'search') runSearch();
 }
 
-/* ================= Selects ================= */
 function updateSelects(){
   const cropSel = document.getElementById('crop-select');
   const mCropSel = document.getElementById('m-crop');
   const sCropSel = document.getElementById('s-crop');
+  const sItemSel = document.getElementById('s-item');
   const prevCrop = cropSel.value;
-
   cropSel.innerHTML = ''; mCropSel.innerHTML = '';
-  sCropSel.innerHTML = '<option value="">كل المحاصيل</option>';
-
+  sCropSel.innerHTML = `<option value="">${t('s_all_crops')}</option>`;
+  sItemSel.innerHTML = `<option value="">${t('s_all_items')}</option>`;
   db.crops.forEach(c => {
     cropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
     mCropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
     sCropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
   });
+  db.itemDefs.forEach(it => { sItemSel.innerHTML += `<option value="${escapeHtml(it.id)}">${escapeHtml(it.name)}</option>`; });
   if (db.crops.includes(prevCrop)) cropSel.value = prevCrop;
 }
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-function escapeHtml(str){
-  return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-}
-
-/* ================= Dashboard ================= */
+/* ===================== الحسابات ===================== */
 function computeSummary(){
   const summary = {};
-  db.crops.forEach(c => summary[c] = { irr:0, fert:0, net:0, lab:0, sum:0 });
-  let total=0, tIrr=0, tFert=0, tNet=0, tLab=0;
+  db.crops.forEach(c => { summary[c] = { sum: 0 }; db.itemDefs.forEach(it => summary[c][it.id] = 0); });
+  let total = 0;
+  const itemTotals = {}; db.itemDefs.forEach(it => itemTotals[it.id] = 0);
   db.expenses.forEach(e => {
-    if (!summary[e.crop]) summary[e.crop] = { irr:0, fert:0, net:0, lab:0, sum:0 };
-    const rowSum = (e.irr||0)+(e.fert||0)+(e.net||0)+(e.lab||0);
-    summary[e.crop].irr += e.irr||0;
-    summary[e.crop].fert += e.fert||0;
-    summary[e.crop].net += e.net||0;
-    summary[e.crop].lab += e.lab||0;
+    if (!summary[e.crop]) { summary[e.crop] = { sum: 0 }; db.itemDefs.forEach(it => summary[e.crop][it.id] = 0); }
+    let rowSum = 0;
+    Object.keys(e.values || {}).forEach(k => {
+      const v = Number(e.values[k]) || 0;
+      rowSum += v;
+      if (summary[e.crop][k] === undefined) summary[e.crop][k] = 0;
+      summary[e.crop][k] += v;
+      if (itemTotals[k] === undefined) itemTotals[k] = 0;
+      itemTotals[k] += v;
+    });
     summary[e.crop].sum += rowSum;
-    total += rowSum; tIrr += e.irr||0; tFert += e.fert||0; tNet += e.net||0; tLab += e.lab||0;
+    total += rowSum;
   });
-  return { summary, total, tIrr, tFert, tNet, tLab };
+  return { summary, total, itemTotals };
 }
-
-/* حساب الخزينة والجيب دائماً من سجل الحركات + المصروفات (وليس بالتراكم اليدوي)
-   لتفادي أي انحراف في الأرقام:
-   - نقد الخزينة  = إجمالي (تعزيز رصيد) − إجمالي (سحب نقدي)
-   - النقد بالجيب = إجمالي (سحب نقدي) − إجمالي المصروفات المسجّلة على المحاصيل
-     (لأن أي مصروف يُدفع فعلياً من النقد الذي سُحب من الخزينة إلى الجيب،
-      أي أن تسجيل المصروف يستوجب ضمنياً "سحب نقدي" من رصيد الجيب) */
 function computeCash(){
   let deposits = 0, withdrawals = 0;
-  db.movements.forEach(m => {
-    if (m.type === 'deposit') deposits += (m.amount||0);
-    else withdrawals += (m.amount||0);
-  });
+  db.movements.forEach(m => { if (m.type === 'deposit') deposits += (m.amount||0); else withdrawals += (m.amount||0); });
   const { total: totalExpenses } = computeSummary();
-  const treasury = deposits - withdrawals;
-  const pocket = withdrawals - totalExpenses;
-  return { treasury, pocket, deposits, withdrawals, totalExpenses };
+  return { treasury: deposits - withdrawals, pocket: withdrawals - totalExpenses, deposits, withdrawals, totalExpenses };
 }
 
+/* ===================== لوحة النتيجة ===================== */
 function renderDashboard(){
-  const { summary, total, tIrr, tFert, tNet, tLab } = computeSummary();
+  const { summary, total, itemTotals } = computeSummary();
   const { treasury, pocket } = computeCash();
-
   document.getElementById('k-total').textContent = fmt(total);
   document.getElementById('k-treasury').textContent = fmt(treasury);
   document.getElementById('k-pocket').textContent = fmt(pocket);
   document.getElementById('k-home').textContent = fmt(db.cash.home);
 
+  let theadHtml = `<tr><th>${t('crop_col')}</th>`;
+  db.itemDefs.forEach(it => theadHtml += `<th class="num">${escapeHtml(it.name)}</th>`);
+  theadHtml += `<th class="num">${t('total_col')}</th></tr>`;
+  document.getElementById('dash-thead').innerHTML = theadHtml;
+
   let html = '';
   db.crops.forEach(c => {
-    const s = summary[c] || {irr:0,fert:0,net:0,lab:0,sum:0};
-    html += `<tr>
-      <td><strong>${escapeHtml(c)}</strong></td>
-      <td class="num">${fmt(s.irr)}</td><td class="num">${fmt(s.fert)}</td>
-      <td class="num">${fmt(s.net)}</td><td class="num">${fmt(s.lab)}</td>
-      <td class="num total-cell">${fmt(s.sum)}</td>
-    </tr>`;
+    const s = summary[c] || { sum: 0 };
+    html += `<tr><td><strong>${escapeHtml(c)}</strong></td>`;
+    db.itemDefs.forEach(it => html += `<td class="num">${fmt(s[it.id]||0)}</td>`);
+    html += `<td class="num total-cell">${fmt(s.sum||0)}</td></tr>`;
   });
-  document.getElementById('dash-table-body').innerHTML = html || `<tr><td colspan="6" style="text-align:center; color:var(--muted);">لا توجد بيانات بعد</td></tr>`;
+  document.getElementById('dash-table-body').innerHTML = html || `<tr><td colspan="${db.itemDefs.length+2}" style="text-align:center; color:var(--muted);">${t('no_data')}</td></tr>`;
 
-  document.getElementById('f-irr').textContent = fmt(tIrr);
-  document.getElementById('f-fert').textContent = fmt(tFert);
-  document.getElementById('f-net').textContent = fmt(tNet);
-  document.getElementById('f-lab').textContent = fmt(tLab);
-  document.getElementById('f-sum').textContent = fmt(total);
+  let tfootHtml = `<tr><td>${t('total_label')}</td>`;
+  db.itemDefs.forEach(it => tfootHtml += `<td class="num">${fmt(itemTotals[it.id]||0)}</td>`);
+  tfootHtml += `<td class="num">${fmt(total)}</td></tr>`;
+  document.getElementById('dash-tfoot').innerHTML = tfootHtml;
 
-  drawBarChart('chart-crop', db.crops, db.crops.map(c => (summary[c]?summary[c].sum:0)),
-    ['#1E4B3B','#2F7A5F','#C88A2E','#7C5A3A','#2563A6','#8E1E17']);
-  drawBarChart('chart-item', ['السقي','الأسمدة','شبكات الري','العمالة'], [tIrr,tFert,tNet,tLab],
-    ['#2563A6','#C88A2E','#2F7A5F','#7C5A3A']);
+  drawBarChart('chart-crop', db.crops, db.crops.map(c => (summary[c]?summary[c].sum:0)), ['#1E4B3B','#2F7A5F','#C88A2E','#7C5A3A','#2563A6','#8E1E17']);
+  drawBarChart('chart-item', db.itemDefs.map(it=>it.name), db.itemDefs.map(it=>itemTotals[it.id]||0), ['#2563A6','#C88A2E','#2F7A5F','#7C5A3A','#8E1E17','#123527']);
 }
 
-/* ============== Simple dependency-free canvas bar chart ============== */
-function roundRectPath(ctx,x,y,w,h,r){
-  h = Math.max(h,0);
-  r = Math.min(r, w/2, h/2 || r);
-  ctx.beginPath();
-  ctx.moveTo(x+r,y);
-  ctx.arcTo(x+w,y,x+w,y+h,r);
-  ctx.arcTo(x+w,y+h,x,y+h,r);
-  ctx.arcTo(x,y+h,x,y,r);
-  ctx.arcTo(x,y,x+w,y,r);
-  ctx.closePath();
-}
+function roundRectPath(ctx,x,y,w,h,r){ h=Math.max(h,0); r=Math.min(r,w/2,h/2||r); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 function drawBarChart(canvasId, labels, values, colors){
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const dpr = window.devicePixelRatio || 1;
-  const cssW = canvas.clientWidth || 300, cssH = canvas.clientHeight || 220;
+  const canvas = document.getElementById(canvasId); if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1; const cssW = canvas.clientWidth||300, cssH = canvas.clientHeight||220;
   canvas.width = cssW*dpr; canvas.height = cssH*dpr;
-  const ctx = canvas.getContext('2d');
-  ctx.setTransform(dpr,0,0,dpr,0,0);
-  ctx.clearRect(0,0,cssW,cssH);
-
-  const max = Math.max(...values, 1);
-  const pad = { top:26, right:8, bottom:34, left:8 };
-  const chartW = cssW - pad.left - pad.right;
-  const chartH = cssH - pad.top - pad.bottom;
-  const gap = 14;
-  const n = Math.max(labels.length,1);
-  const barW = Math.max((chartW - gap*(n-1)) / n, 6);
-
-  labels.forEach((label,i) => {
-    const val = values[i] || 0;
-    const barH = max>0 ? (val/max)*chartH : 0;
-    const x = pad.left + i*(barW+gap);
-    const y = pad.top + (chartH - barH);
-    ctx.fillStyle = colors[i % colors.length];
-    roundRectPath(ctx, x, y, barW, barH, 5);
-    ctx.fill();
-
-    ctx.fillStyle = '#20291F';
-    ctx.font = '700 11px Segoe UI, Tahoma, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(fmt(val).replace('.00',''), x + barW/2, Math.max(y-6, 12));
-
-    ctx.fillStyle = '#6B7566';
-    ctx.font = '11px Segoe UI, Tahoma, sans-serif';
-    const short = label.length > 8 ? label.slice(0,7)+'…' : label;
-    ctx.fillText(short, x + barW/2, cssH - pad.bottom + 16);
+  const ctx = canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,cssW,cssH);
+  const max = Math.max(...values,1); const pad={top:26,right:8,bottom:34,left:8};
+  const chartW=cssW-pad.left-pad.right, chartH=cssH-pad.top-pad.bottom, gap=14;
+  const n=Math.max(labels.length,1); const barW=Math.max((chartW-gap*(n-1))/n,6);
+  labels.forEach((label,i)=>{
+    const val=values[i]||0; const barH = max>0 ? (val/max)*chartH : 0;
+    const x=pad.left+i*(barW+gap); const y=pad.top+(chartH-barH);
+    ctx.fillStyle=colors[i%colors.length]; roundRectPath(ctx,x,y,barW,barH,5); ctx.fill();
+    ctx.fillStyle='#20291F'; ctx.font='700 11px Segoe UI, Tahoma, sans-serif'; ctx.textAlign='center';
+    ctx.fillText(fmt(val), x+barW/2, Math.max(y-6,12));
+    ctx.fillStyle='#6B7566'; ctx.font='11px Segoe UI, Tahoma, sans-serif';
+    const short = label.length>8 ? label.slice(0,7)+'…' : label;
+    ctx.fillText(short, x+barW/2, cssH-pad.bottom+16);
   });
-
-  if (values.every(v => !v)) {
-    ctx.fillStyle = '#9AA593';
-    ctx.font = '12px Segoe UI, Tahoma, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('لا توجد بيانات لعرضها', cssW/2, cssH/2);
-  }
+  if (values.every(v=>!v)) { ctx.fillStyle='#9AA593'; ctx.font='12px Segoe UI, Tahoma, sans-serif'; ctx.textAlign='center'; ctx.fillText(t('no_data'), cssW/2, cssH/2); }
 }
-window.addEventListener('resize', () => {
-  if (!document.getElementById('tab-dash').classList.contains('hidden')) renderDashboard();
-});
+window.addEventListener('resize', () => { if (!document.getElementById('tab-dash').classList.contains('hidden')) renderDashboard(); });
 
-/* ================= Crops ================= */
+/* ===================== المحاصيل ===================== */
 function renderCropsTable(){
   const crop = document.getElementById('crop-select').value;
+  let theadHtml = `<tr><th>${t('th_date')}</th>`;
+  db.itemDefs.forEach(it => theadHtml += `<th class="num">${escapeHtml(it.name)}</th>`);
+  theadHtml += `<th class="num">${t('total_col')}</th><th>${t('th_notes')}</th><th class="no-print">${t('th_action')}</th></tr>`;
+  document.getElementById('crops-thead').innerHTML = theadHtml;
+
   const body = document.getElementById('crops-table-body');
   const rows = db.expenses.filter(e => e.crop === crop).sort((a,b)=> (a.date<b.date?1:-1));
   body.innerHTML = '';
   rows.forEach(e => {
-    const total = (e.irr||0)+(e.fert||0)+(e.net||0)+(e.lab||0);
-    body.innerHTML += `<tr class="clickable" onclick="openExpenseModal('${e.id}')">
-      <td>${e.date||'-'}</td>
-      <td class="num">${fmt(e.irr)}</td><td class="num">${fmt(e.fert)}</td>
-      <td class="num">${fmt(e.net)}</td><td class="num">${fmt(e.lab)}</td>
-      <td class="num total-cell">${fmt(total)}</td>
-      <td>${e.notes ? escapeHtml(e.notes) : '-'}</td>
-      <td class="no-print"><button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); deleteExpense('${e.id}')">حذف</button></td>
-    </tr>`;
+    const total = Object.values(e.values||{}).reduce((a,b)=>a+(Number(b)||0),0);
+    let rowHtml = `<tr class="clickable" onclick="openExpenseModal('${e.id}')"><td>${e.date||'-'}</td>`;
+    db.itemDefs.forEach(it => rowHtml += `<td class="num">${fmt(e.values && e.values[it.id])}</td>`);
+    rowHtml += `<td class="num total-cell">${fmt(total)}</td><td>${e.notes?escapeHtml(e.notes):'-'}</td>
+      <td class="no-print"><button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); deleteExpense('${e.id}')">${t('btn_delete')}</button></td></tr>`;
+    body.innerHTML += rowHtml;
   });
   document.getElementById('crops-empty').classList.toggle('hidden', rows.length>0);
 }
 
 function addCrop(){
-  const name = prompt('أدخل اسم المحصول الجديد:');
-  if (name && name.trim() && !db.crops.includes(name.trim())) {
-    db.crops.push(name.trim());
-    saveData();
-    updateSelects();
-    renderCropsTable();
-  }
+  askText(t('new_crop_prompt'), '', (name) => {
+    if (name && !db.crops.includes(name)) { db.crops.push(name); saveData(); updateSelects(); renderCropsTable(); }
+  });
 }
 function deleteCrop(){
   const crop = document.getElementById('crop-select').value;
   if (!crop) return;
   const count = db.expenses.filter(e=>e.crop===crop).length;
-  if (confirm(`هل أنت متأكد من حذف محصول "${crop}"؟ سيتم حذف ${count} سجل مصروفات مرتبط به. هذا الإجراء لا يمكن التراجع عنه.`)) {
+  const msg = currentLang==='ar' ? `هل أنت متأكد من حذف محصول "${crop}"؟ سيتم حذف ${count} سجل مرتبط به.` : `Delete crop "${crop}"? This will remove ${count} related record(s).`;
+  if (confirm(msg)) {
     db.crops = db.crops.filter(c => c !== crop);
     db.expenses = db.expenses.filter(e => e.crop !== crop);
-    saveData();
-    updateSelects();
-    renderCropsTable();
-    renderDashboard();
+    saveData(); updateSelects(); renderCropsTable(); renderDashboard();
   }
 }
+function addItemDef(){
+  askText(t('new_item_prompt'), '', (name) => {
+    if (!name) return;
+    const id = 'item_' + Date.now().toString(36) + Math.floor(Math.random()*1000);
+    db.itemDefs.push({id, name});
+    saveData(); updateSelects(); renderCropsTable(); renderDashboard();
+  });
+}
+function deleteItemDef(){
+  const sel = document.getElementById('select-item-field');
+  sel.innerHTML = db.itemDefs.map(it => `<option value="${escapeHtml(it.id)}">${escapeHtml(it.name)}</option>`).join('');
+  document.getElementById('select-item-modal').classList.remove('hidden');
+}
+function confirmDeleteItemDef(){
+  const id = document.getElementById('select-item-field').value;
+  if (!id) return;
+  if (db.itemDefs.length <= 1) { alert(currentLang==='ar'?'يجب أن يبقى بند واحد على الأقل.':'At least one item must remain.'); return; }
+  db.itemDefs = db.itemDefs.filter(it => it.id !== id);
+  saveData();
+  document.getElementById('select-item-modal').classList.add('hidden');
+  updateSelects(); renderCropsTable(); renderDashboard();
+}
 
-/* ================= Expense modal (add/edit) ================= */
+/* ===================== نافذة المصروف ===================== */
+function buildExpenseItemInputs(values){
+  const c = document.getElementById('m-items-container');
+  c.innerHTML = '';
+  db.itemDefs.forEach(it => {
+    const v = (values && values[it.id] !== undefined) ? values[it.id] : '';
+    c.innerHTML += `<div class="form-group"><label>${escapeHtml(it.name)}</label>
+      <input type="number" min="0" class="m-item-input" data-item-id="${escapeHtml(it.id)}" value="${v}" oninput="updateModalTotal()"></div>`;
+  });
+}
 function openExpenseModal(id){
   updateSelects();
   const modal = document.getElementById('expense-modal');
@@ -974,24 +999,18 @@ function openExpenseModal(id){
     document.getElementById('m-id').value = e.id;
     document.getElementById('m-crop').value = e.crop;
     document.getElementById('m-date').value = e.date || '';
-    document.getElementById('m-irr').value = e.irr||0;
-    document.getElementById('m-fert').value = e.fert||0;
-    document.getElementById('m-net').value = e.net||0;
-    document.getElementById('m-lab').value = e.lab||0;
+    buildExpenseItemInputs(e.values);
     document.getElementById('m-notes').value = e.notes || '';
-    title.textContent = 'تعديل سجل المصروف';
+    title.textContent = t('edit_expense_title');
     delBtn.classList.remove('hidden');
   } else {
     document.getElementById('m-id').value = '';
     const currentCrop = document.getElementById('crop-select').value;
     if (currentCrop) document.getElementById('m-crop').value = currentCrop;
     document.getElementById('m-date').valueAsDate = new Date();
-    document.getElementById('m-irr').value = 0;
-    document.getElementById('m-fert').value = 0;
-    document.getElementById('m-net').value = 0;
-    document.getElementById('m-lab').value = 0;
+    buildExpenseItemInputs(null);
     document.getElementById('m-notes').value = '';
-    title.textContent = 'تسجيل مصروف جديد';
+    title.textContent = t('new_expense_title');
     delBtn.classList.add('hidden');
   }
   updateModalTotal();
@@ -999,98 +1018,68 @@ function openExpenseModal(id){
 }
 function closeExpenseModal(){ document.getElementById('expense-modal').classList.add('hidden'); }
 function updateModalTotal(){
-  const t = (Number(document.getElementById('m-irr').value)||0)
-          + (Number(document.getElementById('m-fert').value)||0)
-          + (Number(document.getElementById('m-net').value)||0)
-          + (Number(document.getElementById('m-lab').value)||0);
-  document.getElementById('m-total-preview').textContent = fmt(t);
+  let tSum = 0;
+  document.querySelectorAll('.m-item-input').forEach(inp => { tSum += Number(inp.value)||0; });
+  document.getElementById('m-total-preview').textContent = fmt(tSum);
 }
 function saveExpense(){
   const crop = document.getElementById('m-crop').value;
   const date = document.getElementById('m-date').value;
-  if (!crop) { alert('يرجى اختيار المحصول.'); return; }
-  if (!date) { alert('يرجى إدخال التأريخ.'); return; }
+  if (!crop) { alert(currentLang==='ar'?'يرجى اختيار المحصول.':'Please select a crop.'); return; }
+  if (!date) { alert(currentLang==='ar'?'يرجى إدخال التأريخ.':'Please enter a date.'); return; }
+  const values = {};
+  document.querySelectorAll('.m-item-input').forEach(inp => { values[inp.getAttribute('data-item-id')] = Number(inp.value)||0; });
   const id = document.getElementById('m-id').value;
-  const rec = {
-    id: id || (Date.now() + Math.random()).toString(36),
-    crop, date,
-    irr: Number(document.getElementById('m-irr').value)||0,
-    fert: Number(document.getElementById('m-fert').value)||0,
-    net: Number(document.getElementById('m-net').value)||0,
-    lab: Number(document.getElementById('m-lab').value)||0,
-    notes: document.getElementById('m-notes').value.trim()
-  };
-  if (id) {
-    const idx = db.expenses.findIndex(x => String(x.id) === String(id));
-    if (idx > -1) db.expenses[idx] = rec;
-  } else {
-    db.expenses.push(rec);
-  }
-  saveData();
-  closeExpenseModal();
-  renderCropsTable();
-  renderDashboard();
+  const rec = { id: id || (Date.now()+Math.random()).toString(36), crop, date, values, notes: document.getElementById('m-notes').value.trim() };
+  if (id) { const idx = db.expenses.findIndex(x => String(x.id)===String(id)); if (idx>-1) db.expenses[idx]=rec; }
+  else { db.expenses.push(rec); }
+  saveData(); closeExpenseModal(); renderCropsTable(); renderDashboard();
 }
 function deleteExpense(id){
-  if (confirm('هل ترغب فعلاً بحذف هذا السجل؟ لا يمكن التراجع عن هذا الإجراء.')) {
+  if (confirm(currentLang==='ar'?'هل ترغب فعلاً بحذف هذا السجل؟':'Delete this record?')) {
     db.expenses = db.expenses.filter(e => String(e.id) !== String(id));
-    saveData();
-    renderCropsTable();
-    renderDashboard();
+    saveData(); renderCropsTable(); renderDashboard();
   }
 }
 function deleteExpenseFromModal(){
-  const id = document.getElementById('m-id').value;
-  if (!id) return;
-  if (confirm('هل ترغب فعلاً بحذف هذا السجل؟')) {
+  const id = document.getElementById('m-id').value; if (!id) return;
+  if (confirm(currentLang==='ar'?'هل ترغب فعلاً بحذف هذا السجل؟':'Delete this record?')) {
     db.expenses = db.expenses.filter(e => String(e.id) !== String(id));
-    saveData();
-    closeExpenseModal();
-    renderCropsTable();
-    renderDashboard();
+    saveData(); closeExpenseModal(); renderCropsTable(); renderDashboard();
   }
 }
 
-/* ================= Cash / Treasury ================= */
+/* ===================== الخزينة ===================== */
 function renderCashTab(){
   const { treasury, pocket, deposits, withdrawals, totalExpenses } = computeCash();
   document.getElementById('cash-treasury').textContent = fmt(treasury);
   document.getElementById('cash-pocket').textContent = fmt(pocket);
   document.getElementById('cash-home').textContent = fmt(db.cash.home);
-  document.getElementById('home-balance-input').value = db.cash.home;
-
+  document.getElementById('home-balance-input').value = db.cash.home || '';
   const body = document.getElementById('cash-table-body');
   const rows = [...db.movements].sort((a,b)=> (a.date<b.date?1:-1));
   body.innerHTML = '';
   rows.forEach(m => {
-    body.innerHTML += `<tr>
-      <td>${m.date||'-'}</td>
-      <td>${m.type==='deposit' ? 'تعزيز رصيد' : 'سحب نقدي'}</td>
-      <td class="num total-cell">${fmt(m.amount)}</td>
-      <td>${m.notes ? escapeHtml(m.notes) : '-'}</td>
-      <td class="no-print"><button class="btn btn-danger btn-sm" onclick="deleteCashMovement('${m.id}')">حذف</button></td>
-    </tr>`;
+    body.innerHTML += `<tr><td>${m.date||'-'}</td><td>${m.type==='deposit'?t('deposit_opt'):t('withdraw_opt')}</td>
+      <td class="num total-cell">${fmt(m.amount)}</td><td>${m.notes?escapeHtml(m.notes):'-'}</td>
+      <td class="no-print"><button class="btn btn-danger btn-sm" onclick="deleteCashMovement('${m.id}')">${t('btn_delete')}</button></td></tr>`;
   });
   document.getElementById('cash-empty').classList.toggle('hidden', rows.length>0);
-
   const noteEl = document.getElementById('cash-formula-note');
   if (noteEl) {
-    noteEl.innerHTML = `نقد الخزينة = إجمالي التعزيز (${fmt(deposits)}) − إجمالي السحب (${fmt(withdrawals)}).
-      النقد بالجيب = إجمالي السحب (${fmt(withdrawals)}) − إجمالي المصروفات المسجّلة على المحاصيل (${fmt(totalExpenses)}) —
-      أي أن كل مصروف يُسجَّل على محصول يُخصم تلقائياً من النقد المتوفر بالجيب.`;
+    noteEl.innerHTML = currentLang==='ar'
+      ? `نقد الخزينة = إجمالي التعزيز (${fmt(deposits)}) − إجمالي السحب (${fmt(withdrawals)}). النقد بالجيب = إجمالي السحب (${fmt(withdrawals)}) − إجمالي المصروفات (${fmt(totalExpenses)}).`
+      : `Treasury = Deposits (${fmt(deposits)}) − Withdrawals (${fmt(withdrawals)}). Pocket = Withdrawals (${fmt(withdrawals)}) − Total Expenses (${fmt(totalExpenses)}).`;
   }
 }
 function updateHomeBalance(){
   const v = Number(document.getElementById('home-balance-input').value);
-  db.cash.home = isNaN(v) ? 0 : v;
-  saveData();
-  renderCashTab();
-  renderDashboard();
+  db.cash.home = isNaN(v) ? 0 : v; saveData(); renderCashTab(); renderDashboard();
 }
 function openCashModal(){
   const { treasury } = computeCash();
   document.getElementById('c-type').value = 'deposit';
-  document.getElementById('c-amount').value = 0;
+  document.getElementById('c-amount').value = '';
   document.getElementById('c-date').valueAsDate = new Date();
   document.getElementById('c-notes').value = '';
   document.getElementById('c-treasury-preview').textContent = fmt(treasury);
@@ -1102,36 +1091,26 @@ function saveCashMovement(){
   const amount = Number(document.getElementById('c-amount').value)||0;
   const date = document.getElementById('c-date').value;
   const notes = document.getElementById('c-notes').value.trim();
-  if (amount <= 0) { alert('يرجى إدخال مبلغ أكبر من صفر.'); return; }
-  if (!date) { alert('يرجى إدخال التأريخ.'); return; }
+  if (amount <= 0) { alert(currentLang==='ar'?'يرجى إدخال مبلغ أكبر من صفر.':'Please enter an amount greater than zero.'); return; }
+  if (!date) { alert(currentLang==='ar'?'يرجى إدخال التأريخ.':'Please enter a date.'); return; }
   const { treasury } = computeCash();
   if (type === 'withdraw' && amount > treasury) {
-    if (!confirm('المبلغ المطلوب سحبه أكبر من الرصيد المتوفر بالخزينة، هل تريد المتابعة؟')) return;
+    if (!confirm(currentLang==='ar'?'المبلغ أكبر من رصيد الخزينة، متابعة؟':'Amount exceeds treasury balance. Continue?')) return;
   }
   db.movements.push({ id:(Date.now()+Math.random()).toString(36), type, amount, date, notes });
-  saveData();
-  closeCashModal();
-  renderCashTab();
-  renderDashboard();
+  saveData(); closeCashModal(); renderCashTab(); renderDashboard();
 }
 function deleteCashMovement(id){
-  const m = db.movements.find(x => String(x.id) === String(id));
-  if (!m) return;
-  if (confirm('حذف هذه الحركة سيعيد احتساب أرصدة الخزينة والجيب تلقائياً. متابعة؟')) {
+  if (confirm(currentLang==='ar'?'حذف هذه الحركة سيعيد احتساب الأرصدة تلقائياً. متابعة؟':'Deleting will recalculate balances automatically. Continue?')) {
     db.movements = db.movements.filter(x => String(x.id) !== String(id));
-    saveData();
-    renderCashTab();
-    renderDashboard();
+    saveData(); renderCashTab(); renderDashboard();
   }
 }
 
-/* ================= Search & filter ================= */
+/* ===================== البحث ===================== */
 function clearSearch(){
-  document.getElementById('s-query').value='';
-  document.getElementById('s-crop').value='';
-  document.getElementById('s-item').value='';
-  document.getElementById('s-from').value='';
-  document.getElementById('s-to').value='';
+  document.getElementById('s-query').value=''; document.getElementById('s-crop').value='';
+  document.getElementById('s-item').value=''; document.getElementById('s-from').value=''; document.getElementById('s-to').value='';
   runSearch();
 }
 function getFilteredExpenses(){
@@ -1140,187 +1119,143 @@ function getFilteredExpenses(){
   const item = document.getElementById('s-item').value;
   const from = document.getElementById('s-from').value;
   const to = document.getElementById('s-to').value;
-
   return db.expenses.filter(e => {
     if (crop && e.crop !== crop) return false;
     if (q && !(e.notes||'').toLowerCase().includes(q)) return false;
-    if (item && !(Number(e[item])>0)) return false;
+    if (item && !((Number(e.values && e.values[item]))>0)) return false;
     if (from && e.date && e.date < from) return false;
     if (to && e.date && e.date > to) return false;
     return true;
-  }).map(e => ({...e, total:(e.irr||0)+(e.fert||0)+(e.net||0)+(e.lab||0)}));
+  }).map(e => ({...e, total: Object.values(e.values||{}).reduce((a,b)=>a+(Number(b)||0),0)}));
 }
 function sortSearch(field){
   if (searchSort.field === field) searchSort.dir = searchSort.dir==='asc'?'desc':'asc';
   else { searchSort.field = field; searchSort.dir = 'asc'; }
   runSearch();
 }
+function buildSearchThead(){
+  let html = `<tr><th class="sortable" onclick="sortSearch('crop')">${t('crop_col')}<span class="arrow" id="ar-crop"></span></th>
+    <th class="sortable" onclick="sortSearch('date')">${t('th_date')}<span class="arrow" id="ar-date"></span></th>`;
+  db.itemDefs.forEach(it => { html += `<th class="num sortable" onclick="sortSearch('${it.id}')">${escapeHtml(it.name)}<span class="arrow" id="ar-${it.id}"></span></th>`; });
+  html += `<th class="num sortable" onclick="sortSearch('total')">${t('total_col')}<span class="arrow" id="ar-total"></span></th><th>${t('th_notes')}</th></tr>`;
+  document.getElementById('search-thead').innerHTML = html;
+}
 function runSearch(){
+  buildSearchThead();
   let rows = getFilteredExpenses();
   const {field, dir} = searchSort;
   rows.sort((a,b) => {
-    let va = a[field], vb = b[field];
+    let va = (field==='crop'||field==='date') ? a[field] : (field==='total' ? a.total : (a.values?a.values[field]:0));
+    let vb = (field==='crop'||field==='date') ? b[field] : (field==='total' ? b.total : (b.values?b.values[field]:0));
     if (typeof va === 'string') va = va.toLowerCase();
     if (typeof vb === 'string') vb = vb.toLowerCase();
-    if (va < vb) return dir==='asc' ? -1 : 1;
-    if (va > vb) return dir==='asc' ? 1 : -1;
+    va = va===undefined?0:va; vb = vb===undefined?0:vb;
+    if (va < vb) return dir==='asc'?-1:1;
+    if (va > vb) return dir==='asc'?1:-1;
     return 0;
   });
-
-  document.querySelectorAll('#tab-search .arrow').forEach(a => a.textContent='');
   const arrowEl = document.getElementById('ar-'+field);
   if (arrowEl) arrowEl.textContent = dir==='asc' ? '▲' : '▼';
-
   const body = document.getElementById('search-table-body');
   body.innerHTML = '';
   let sumTotal = 0;
   rows.forEach(e => {
     sumTotal += e.total;
-    body.innerHTML += `<tr>
-      <td><strong>${escapeHtml(e.crop)}</strong></td>
-      <td>${e.date||'-'}</td>
-      <td class="num">${fmt(e.irr)}</td><td class="num">${fmt(e.fert)}</td>
-      <td class="num">${fmt(e.net)}</td><td class="num">${fmt(e.lab)}</td>
-      <td class="num total-cell">${fmt(e.total)}</td>
-      <td>${e.notes ? escapeHtml(e.notes) : '-'}</td>
-    </tr>`;
+    let rowHtml = `<tr><td><strong>${escapeHtml(e.crop)}</strong></td><td>${e.date||'-'}</td>`;
+    db.itemDefs.forEach(it => rowHtml += `<td class="num">${fmt(e.values && e.values[it.id])}</td>`);
+    rowHtml += `<td class="num total-cell">${fmt(e.total)}</td><td>${e.notes?escapeHtml(e.notes):'-'}</td></tr>`;
+    body.innerHTML += rowHtml;
   });
-  if (!rows.length) body.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--muted);">لا توجد نتائج مطابقة</td></tr>`;
-  document.getElementById('search-badge').textContent = `النتائج: ${rows.length} سجل — الإجمالي: ${fmt(sumTotal)}`;
+  if (!rows.length) body.innerHTML = `<tr><td colspan="${db.itemDefs.length+4}" style="text-align:center; color:var(--muted);">${t('no_results')}</td></tr>`;
+  document.getElementById('search-badge').textContent = `${t('results_label')}: ${rows.length} — ${t('total_label')}: ${fmt(sumTotal)}`;
 }
 
-/* ================= Export / Import / Print ================= */
+/* ===================== التصدير والاستيراد والطباعة ===================== */
 function exportJSON(){
   const json = JSON.stringify(db, null, 2);
   const blob = new Blob([json], {type:'application/json;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = `مزارع_مايا_نسخة_احتياطية_${new Date().toISOString().slice(0,10)}.json`;
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
+  a.href = url; a.download = `alatrakchi_backup_${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
 }
 function importJSON(evt){
-  const file = evt.target.files[0];
-  if (!file) return;
+  const file = evt.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = function(e){
     try {
-      const parsed = JSON.parse(e.target.result);
-      if (!parsed.crops || !parsed.expenses) throw new Error('bad shape');
-      if (!parsed.cash) parsed.cash = {treasury:0,pocket:0,home:0};
-      if (!parsed.movements) parsed.movements = [];
-      if (!parsed.pin) parsed.pin = db.pin;
-      db = parsed;
-      saveData();
-      alert('تم استرجاع النسخة الاحتياطية بنجاح.');
-      updateSelects();
-      showTab('dash');
-    } catch(err){
-      alert('ملف غير صالح، تعذر استرجاع البيانات.');
-    }
+      const parsed = normalizeDB(JSON.parse(e.target.result));
+      db = parsed; saveData();
+      alert(currentLang==='ar'?'تم استرجاع النسخة بنجاح.':'Backup restored successfully.');
+      updateSelects(); showTab('dash');
+    } catch(err){ alert(currentLang==='ar'?'ملف غير صالح.':'Invalid file.'); }
     evt.target.value = '';
   };
   reader.readAsText(file);
 }
 function exportCSV(){
-  const header = ['المحصول','التأريخ','السقي','الأسمدة','شبكات الري','العمالة','المجموع','ملاحظات'];
+  const header = [t('crop_col'), t('th_date'), ...db.itemDefs.map(it=>it.name), t('total_col'), t('th_notes')];
   const rows = db.expenses.map(e => {
-    const total = (e.irr||0)+(e.fert||0)+(e.net||0)+(e.lab||0);
-    return [e.crop, e.date, e.irr||0, e.fert||0, e.net||0, e.lab||0, total, (e.notes||'').replace(/"/g,'""')];
+    const total = Object.values(e.values||{}).reduce((a,b)=>a+(Number(b)||0),0);
+    return [e.crop, e.date, ...db.itemDefs.map(it => e.values&&e.values[it.id]||0), total, (e.notes||'').replace(/"/g,'""')];
   });
   let csv = '\uFEFF' + header.join(',') + '\r\n';
   rows.forEach(r => { csv += r.map(v => `"${v}"`).join(',') + '\r\n'; });
   const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url;
-  a.download = `مزارع_مايا_المصروفات_${new Date().toISOString().slice(0,10)}.csv`;
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
+  a.href = url; a.download = `alatrakchi_expenses_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  closeDrawer();
 }
 function resetAllData(){
-  if (confirm('سيتم حذف جميع البيانات (المحاصيل، المصروفات، الخزينة) نهائياً. هل أنت متأكد؟')) {
-    if (confirm('تأكيد أخير: هذا الإجراء لا يمكن التراجع عنه. هل ترغب بالمتابعة؟')) {
-      db = defaultDB();
-      saveData();
-      updateSelects();
-      showTab('dash');
-      alert('تم حذف جميع البيانات وإعادة تعيين البرنامج.');
-    }
-  }
+  const c1 = currentLang==='ar' ? 'سيتم حذف جميع البيانات نهائياً. هل أنت متأكد؟' : 'All data will be permanently deleted. Are you sure?';
+  const c2 = currentLang==='ar' ? 'تأكيد أخير: هذا الإجراء لا يمكن التراجع عنه.' : 'Final confirmation: this cannot be undone.';
+  if (confirm(c1)) { if (confirm(c2)) { db = defaultDB(); saveData(); updateSelects(); showTab('dash'); } }
 }
 function printReport(){
-  const { summary, total, tIrr, tFert, tNet, tLab } = computeSummary();
+  const { summary, total, itemTotals } = computeSummary();
   const cashNow = computeCash();
+  let headCols = `<th>${t('crop_col')}</th>` + db.itemDefs.map(it=>`<th>${escapeHtml(it.name)}</th>`).join('') + `<th>${t('total_col')}</th>`;
   let cropRows = '';
   db.crops.forEach(c => {
-    const s = summary[c] || {irr:0,fert:0,net:0,lab:0,sum:0};
-    cropRows += `<tr><td>${escapeHtml(c)}</td><td>${fmt(s.irr)}</td><td>${fmt(s.fert)}</td><td>${fmt(s.net)}</td><td>${fmt(s.lab)}</td><td>${fmt(s.sum)}</td></tr>`;
+    const s = summary[c] || { sum:0 };
+    cropRows += `<tr><td>${escapeHtml(c)}</td>` + db.itemDefs.map(it=>`<td>${fmt(s[it.id]||0)}</td>`).join('') + `<td>${fmt(s.sum||0)}</td></tr>`;
   });
-  const today = new Date().toLocaleDateString('ar-EG');
-  const html = `
-    <h3>تقرير المصروفات — بتاريخ ${today}</h3>
-    <table>
-      <thead><tr><th>المحصول</th><th>السقي</th><th>الأسمدة</th><th>شبكات الري</th><th>العمالة</th><th>المجموع</th></tr></thead>
-      <tbody>${cropRows}</tbody>
-      <tfoot><tr><td><strong>الإجمالي</strong></td><td>${fmt(tIrr)}</td><td>${fmt(tFert)}</td><td>${fmt(tNet)}</td><td>${fmt(tLab)}</td><td><strong>${fmt(total)}</strong></td></tr></tfoot>
-    </table>
-    <h3>ملخص الخزينة</h3>
-    <table>
-      <thead><tr><th>نقد الخزينة</th><th>النقد بالجيب</th><th>المتوفر بالبيت</th></tr></thead>
-      <tbody><tr><td>${fmt(cashNow.treasury)}</td><td>${fmt(cashNow.pocket)}</td><td>${fmt(db.cash.home)}</td></tr></tbody>
-    </table>`;
-  document.getElementById('print-report').innerHTML = html;
+  let footRow = `<tr><td><strong>${t('total_label')}</strong></td>` + db.itemDefs.map(it=>`<td>${fmt(itemTotals[it.id]||0)}</td>`).join('') + `<td><strong>${fmt(total)}</strong></td></tr>`;
+  const today = new Date().toLocaleDateString(currentLang==='ar'?'ar-EG':(currentLang==='de'?'de-DE':'en-US'));
+  document.getElementById('print-report').innerHTML = `
+    <h3>${t('dash_table_title')} — ${today}</h3>
+    <table><thead><tr>${headCols}</tr></thead><tbody>${cropRows}</tbody><tfoot>${footRow}</tfoot></table>
+    <h3>${t('cash_title')}</h3>
+    <table><thead><tr><th>${t('k_treasury')}</th><th>${t('k_pocket')}</th><th>${t('k_home')}</th></tr></thead>
+    <tbody><tr><td>${fmt(cashNow.treasury)}</td><td>${fmt(cashNow.pocket)}</td><td>${fmt(db.cash.home)}</td></tr></tbody></table>`;
   setTimeout(() => window.print(), 50);
 }
 
-/* ================= Init ================= */
+/* ===================== التشغيل ===================== */
 async function init(){
-  try {
-    __idb = await openIDB();
-  } catch(e){ __idb = null; __idbBlocked = true; }
+  const savedLang = safeGet('alfallah_lang');
+  if (savedLang && I18N[savedLang]) currentLang = savedLang;
 
+  try { __idb = await openIDB(); } catch(e){ __idb = null; __idbBlocked = true; }
   let loadedFromIdb = false;
   if (__idb) {
     try {
       const raw = await idbGet(DB_KEY);
-      if (raw) {
-        db = JSON.parse(raw);
-        loadedFromIdb = true;
-        // اعِد كتابتها في localStorage أيضاً لمزامنة الطبقتين إن أمكن
-        safeSet(DB_KEY, raw);
-      }
-    } catch(e){ /* fall through to localStorage */ }
+      if (raw) { db = normalizeDB(JSON.parse(raw)); loadedFromIdb = true; safeSet(DB_KEY, raw); }
+    } catch(e){}
   }
+  if (!loadedFromIdb) { try { db = loadDB(); } catch(e){ db = defaultDB(); } }
 
-  if (!loadedFromIdb) {
-    try {
-      db = loadDB();
-    } catch(e){
-      db = defaultDB();
-    }
-  }
-
-  try {
-    checkLockOnLoad();
-  } catch(e){
-    document.getElementById('lock-screen').classList.remove('hidden');
-  }
-  try {
-    updateSelects();
-    showTab('dash');
-  } catch(e){ /* dashboard render is retried once the user unlocks */ }
+  applyStaticTranslations();
+  try { checkLockOnLoad(); } catch(e){ document.getElementById('lock-screen').classList.remove('hidden'); }
+  try { updateSelects(); showTab('dash'); } catch(e){}
 }
 init();
 
-/* تسجيل Service Worker لتفعيل العمل دون إنترنت وقابلية التثبيت الحقيقية.
-   يعمل فقط عند التصفح عبر https (وهو متوفر لديك على atrakchi.contact)،
-   ولا يعمل عند فتح الملف مباشرة (file://) — وهذا متوقع وطبيعي. */
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
+  window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
 }
 </script>
 </body>

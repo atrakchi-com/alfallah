@@ -4,7 +4,7 @@
    نستخدم التخزين المؤقت أولاً لأنها نادراً ما تتغيّر. هذا يمنح التطبيق قابلية العمل
    دون إنترنت مع تفادي مشكلة تلقّي نسخة قديمة عالقة في الذاكرة المؤقتة. */
 
-const CACHE_NAME = 'alfallah-cache-v1';
+const CACHE_NAME = 'alfallah-cache-v2';
 const CORE_ASSETS = [
   './alfallah.html',
   './manifest.json',
