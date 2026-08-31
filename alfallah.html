@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#1E4B3B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="برنامج الفلاح">
+<meta name="apple-mobile-web-app-title" content="Atrakchi">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
@@ -21,7 +21,7 @@
 <meta name="format-detection" content="telephone=no">
 <style>
 :root{
-  --bg:#F2F5EE; --surface:#FFFFFF; --surface-2:#EAF0E4; --ink:#20291F; --muted:#6B7566;
+  --bg:#F2F5EE; --surface:#FFFFFF; --surface-2:#EAF0E4; --ink:#20291F; --muted:#4E5A49;
   --line:#DDE3D6; --green-900:#123527; --green-800:#1E4B3B; --green-700:#25604B; --green-600:#2F7A5F;
   --gold:#C88A2E; --gold-dark:#A66F1E; --clay:#7C5A3A; --danger:#B3261E; --danger-dark:#8E1E17;
   --radius:12px; --radius-sm:7px; --shadow:0 1px 2px rgba(18,53,39,.06), 0 6px 18px rgba(18,53,39,.07);
@@ -83,6 +83,8 @@ tbody td{padding:9px 10px; border-bottom:1px solid var(--line);}
 tbody tr:hover{background:var(--surface-2);}
 tbody tr.clickable{cursor:pointer;}
 td.num, th.num{text-align:center;}
+td.num{font-weight:700; color:#12160E;}
+tbody td{font-weight:500;}
 td.total-cell{font-weight:800; color:var(--green-800);}
 tfoot td{padding:10px; font-weight:800; background:var(--surface-2); border-top:2px solid var(--green-700);}
 
@@ -98,7 +100,7 @@ tfoot td{padding:10px; font-weight:800; background:var(--surface-2); border-top:
 .toolbar{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
 .toolbar .group{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
 .select, select, input[type=text], input[type=date], input[type=number], input[type=password], input[type=email], textarea{padding:8px 10px; border:1px solid #C9D2C2; border-radius:7px; font-size:.86rem; background:#fff; color:var(--ink);}
-input[type=date]{direction:ltr; text-align:start;}
+input[type=date]{direction:ltr !important; unicode-bidi:bidi-override !important; text-align:start;}
 select{font-weight:700; color:var(--green-900);}
 
 .filter-bar{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:14px;}
@@ -153,7 +155,8 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%)
   nav, #header-tools, .no-print, #lock-screen, #side-drawer, #side-drawer-overlay, main, .furrow-bar{display:none !important;}
   #print-report{display:block !important; padding:14px;}
   #print-report table{width:100%; border-collapse:collapse; font-size:.8rem; margin-bottom:16px;}
-  #print-report th,#print-report td{border:1px solid #999; padding:6px;}
+  #print-report th,#print-report td{border:1px solid #999; padding:6px; font-weight:600; color:#111;}
+  #print-report th{font-weight:800;}
   #print-report h3{margin:14px 0 6px; color:#123527;}
   footer{position:static; margin-top:20px;}
 }
@@ -524,6 +527,27 @@ de: {
 }
 };
 let currentLang = 'ar';
+
+/* أعمال وبنود "إرشادية" افتراضية تُترجم تلقائياً حسب لغة الواجهة (لأنها أمثلة توضيحية
+   فقط لطريقة استخدام البرنامج). أي عمل أو بند يُضيفه المستخدم بنفسه لاحقاً يبقى كما كتبه
+   حرفياً في كل اللغات، لأنه بيانات المستخدم الخاصة وليس نصاً من تصميم البرنامج. */
+const SEED_CROPS = {
+  seed_build:     { ar:"بناء",    en:"Construction", de:"Bau" },
+  seed_sanitary:  { ar:"صحيات",   en:"Plumbing",      de:"Sanitär" },
+  seed_eggplant:  { ar:"الباذنجان", en:"Eggplant",    de:"Aubergine" }
+};
+const SEED_ITEMS = {
+  net: { ar:"شبكات الري", en:"Irrigation Networks", de:"Bewässerungsnetze" },
+  lab: { ar:"العمالة",    en:"Labor",               de:"Arbeitskosten" }
+};
+function cropLabel(id){
+  const seed = SEED_CROPS[id];
+  return seed ? (seed[currentLang] || seed.ar) : id;
+}
+function itemLabel(itemDef){
+  const seed = SEED_ITEMS[itemDef.id];
+  return seed ? (seed[currentLang] || seed.ar) : itemDef.name;
+}
 function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.ar[key] || key; }
 function applyStaticTranslations(){
   document.documentElement.lang = currentLang;
@@ -561,9 +585,8 @@ let textInputCallback = null;
 
 function defaultDB(){
   return {
-    crops: ["بناء", "صحيات", "البنجر", "الباذنجان"],
+    crops: ["seed_build", "seed_sanitary", "seed_eggplant"],
     itemDefs: [
-      {id:'irr', name:'السقي'}, {id:'fert', name:'الأسمدة'},
       {id:'net', name:'شبكات الري'}, {id:'lab', name:'العمالة'}
     ],
     expenses: [],
@@ -825,11 +848,11 @@ function updateSelects(){
   sCropSel.innerHTML = `<option value="">${t('s_all_crops')}</option>`;
   sItemSel.innerHTML = `<option value="">${t('s_all_items')}</option>`;
   db.crops.forEach(c => {
-    cropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
-    mCropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
-    sCropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
+    cropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(cropLabel(c))}</option>`;
+    mCropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(cropLabel(c))}</option>`;
+    sCropSel.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(cropLabel(c))}</option>`;
   });
-  db.itemDefs.forEach(it => { sItemSel.innerHTML += `<option value="${escapeHtml(it.id)}">${escapeHtml(it.name)}</option>`; });
+  db.itemDefs.forEach(it => { sItemSel.innerHTML += `<option value="${escapeHtml(it.id)}">${escapeHtml(itemLabel(it))}</option>`; });
   if (db.crops.includes(prevCrop)) cropSel.value = prevCrop;
 }
 function escapeHtml(str){ return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
@@ -873,14 +896,14 @@ function renderDashboard(){
   document.getElementById('k-home').textContent = fmt(db.cash.home);
 
   let theadHtml = `<tr><th>${t('crop_col')}</th>`;
-  db.itemDefs.forEach(it => theadHtml += `<th class="num">${escapeHtml(it.name)}</th>`);
+  db.itemDefs.forEach(it => theadHtml += `<th class="num">${escapeHtml(itemLabel(it))}</th>`);
   theadHtml += `<th class="num">${t('total_col')}</th></tr>`;
   document.getElementById('dash-thead').innerHTML = theadHtml;
 
   let html = '';
   db.crops.forEach(c => {
     const s = summary[c] || { sum: 0 };
-    html += `<tr><td><strong>${escapeHtml(c)}</strong></td>`;
+    html += `<tr><td><strong>${escapeHtml(cropLabel(c))}</strong></td>`;
     db.itemDefs.forEach(it => html += `<td class="num">${fmt(s[it.id]||0)}</td>`);
     html += `<td class="num total-cell">${fmt(s.sum||0)}</td></tr>`;
   });
@@ -891,8 +914,8 @@ function renderDashboard(){
   tfootHtml += `<td class="num">${fmt(total)}</td></tr>`;
   document.getElementById('dash-tfoot').innerHTML = tfootHtml;
 
-  drawBarChart('chart-crop', db.crops, db.crops.map(c => (summary[c]?summary[c].sum:0)), '#2F7A5F');
-  drawBarChart('chart-item', db.itemDefs.map(it=>it.name), db.itemDefs.map(it=>itemTotals[it.id]||0), '#C88A2E');
+  drawBarChart('chart-crop', db.crops.map(c=>cropLabel(c)), db.crops.map(c => (summary[c]?summary[c].sum:0)), '#2F7A5F');
+  drawBarChart('chart-item', db.itemDefs.map(it=>itemLabel(it)), db.itemDefs.map(it=>itemTotals[it.id]||0), '#C88A2E');
 }
 
 function roundRectPath(ctx,x,y,w,h,r){ h=Math.max(h,0); r=Math.min(r,w/2,h/2||r); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
@@ -955,7 +978,7 @@ window.addEventListener('resize', () => { if (!document.getElementById('tab-dash
 function renderCropsTable(){
   const crop = document.getElementById('crop-select').value;
   let theadHtml = `<tr><th>${t('th_date')}</th>`;
-  db.itemDefs.forEach(it => theadHtml += `<th class="num">${escapeHtml(it.name)}</th>`);
+  db.itemDefs.forEach(it => theadHtml += `<th class="num">${escapeHtml(itemLabel(it))}</th>`);
   theadHtml += `<th class="num">${t('total_col')}</th><th>${t('th_notes')}</th><th class="no-print">${t('th_action')}</th></tr>`;
   document.getElementById('crops-thead').innerHTML = theadHtml;
 
@@ -982,7 +1005,7 @@ function deleteCrop(){
   const crop = document.getElementById('crop-select').value;
   if (!crop) return;
   const count = db.expenses.filter(e=>e.crop===crop).length;
-  const msg = currentLang==='ar' ? `هل أنت متأكد من حذف عمل "${crop}"؟ سيتم حذف ${count} سجل مرتبط به.` : `Delete job "${crop}"? This will remove ${count} related record(s).`;
+  const msg = currentLang==='ar' ? `هل أنت متأكد من حذف عمل "${cropLabel(crop)}"؟ سيتم حذف ${count} سجل مرتبط به.` : `Delete job "${cropLabel(crop)}"? This will remove ${count} related record(s).`;
   if (confirm(msg)) {
     db.crops = db.crops.filter(c => c !== crop);
     db.expenses = db.expenses.filter(e => e.crop !== crop);
@@ -999,7 +1022,7 @@ function addItemDef(){
 }
 function deleteItemDef(){
   const sel = document.getElementById('select-item-field');
-  sel.innerHTML = db.itemDefs.map(it => `<option value="${escapeHtml(it.id)}">${escapeHtml(it.name)}</option>`).join('');
+  sel.innerHTML = db.itemDefs.map(it => `<option value="${escapeHtml(it.id)}">${escapeHtml(itemLabel(it))}</option>`).join('');
   document.getElementById('select-item-modal').classList.remove('hidden');
 }
 function confirmDeleteItemDef(){
@@ -1018,7 +1041,7 @@ function buildExpenseItemInputs(values){
   c.innerHTML = '';
   db.itemDefs.forEach(it => {
     const v = (values && values[it.id] !== undefined) ? values[it.id] : '';
-    c.innerHTML += `<div class="form-group"><label>${escapeHtml(it.name)}</label>
+    c.innerHTML += `<div class="form-group"><label>${escapeHtml(itemLabel(it))}</label>
       <input type="number" min="0" class="m-item-input" data-item-id="${escapeHtml(it.id)}" value="${v}" oninput="updateModalTotal()"></div>`;
   });
 }
@@ -1170,7 +1193,7 @@ function sortSearch(field){
 function buildSearchThead(){
   let html = `<tr><th class="sortable" onclick="sortSearch('crop')">${t('crop_col')}<span class="arrow" id="ar-crop"></span></th>
     <th class="sortable" onclick="sortSearch('date')">${t('th_date')}<span class="arrow" id="ar-date"></span></th>`;
-  db.itemDefs.forEach(it => { html += `<th class="num sortable" onclick="sortSearch('${it.id}')">${escapeHtml(it.name)}<span class="arrow" id="ar-${it.id}"></span></th>`; });
+  db.itemDefs.forEach(it => { html += `<th class="num sortable" onclick="sortSearch('${it.id}')">${escapeHtml(itemLabel(it))}<span class="arrow" id="ar-${it.id}"></span></th>`; });
   html += `<th class="num sortable" onclick="sortSearch('total')">${t('total_col')}<span class="arrow" id="ar-total"></span></th><th>${t('th_notes')}</th></tr>`;
   document.getElementById('search-thead').innerHTML = html;
 }
@@ -1179,8 +1202,8 @@ function runSearch(){
   let rows = getFilteredExpenses();
   const {field, dir} = searchSort;
   rows.sort((a,b) => {
-    let va = (field==='crop'||field==='date') ? a[field] : (field==='total' ? a.total : (a.values?a.values[field]:0));
-    let vb = (field==='crop'||field==='date') ? b[field] : (field==='total' ? b.total : (b.values?b.values[field]:0));
+    let va = (field==='crop') ? cropLabel(a.crop) : (field==='date') ? a[field] : (field==='total' ? a.total : (a.values?a.values[field]:0));
+    let vb = (field==='crop') ? cropLabel(b.crop) : (field==='date') ? b[field] : (field==='total' ? b.total : (b.values?b.values[field]:0));
     if (typeof va === 'string') va = va.toLowerCase();
     if (typeof vb === 'string') vb = vb.toLowerCase();
     va = va===undefined?0:va; vb = vb===undefined?0:vb;
@@ -1195,7 +1218,7 @@ function runSearch(){
   let sumTotal = 0;
   rows.forEach(e => {
     sumTotal += e.total;
-    let rowHtml = `<tr><td><strong>${escapeHtml(e.crop)}</strong></td><td>${e.date||'-'}</td>`;
+    let rowHtml = `<tr><td><strong>${escapeHtml(cropLabel(e.crop))}</strong></td><td>${e.date||'-'}</td>`;
     db.itemDefs.forEach(it => rowHtml += `<td class="num">${fmt(e.values && e.values[it.id])}</td>`);
     rowHtml += `<td class="num total-cell">${fmt(e.total)}</td><td>${e.notes?escapeHtml(e.notes):'-'}</td></tr>`;
     body.innerHTML += rowHtml;
@@ -1232,10 +1255,10 @@ function importJSON(evt){
   reader.readAsText(file);
 }
 function exportCSV(){
-  const header = [t('crop_col'), t('th_date'), ...db.itemDefs.map(it=>it.name), t('total_col'), t('th_notes')];
+  const header = [t('crop_col'), t('th_date'), ...db.itemDefs.map(it=>itemLabel(it)), t('total_col'), t('th_notes')];
   const rows = db.expenses.map(e => {
     const total = Object.values(e.values||{}).reduce((a,b)=>a+(Number(b)||0),0);
-    return [e.crop, e.date, ...db.itemDefs.map(it => e.values&&e.values[it.id]||0), total, (e.notes||'').replace(/"/g,'""')];
+    return [cropLabel(e.crop), e.date, ...db.itemDefs.map(it => e.values&&e.values[it.id]||0), total, (e.notes||'').replace(/"/g,'""')];
   });
   let csv = '\uFEFF' + header.join(',') + '\r\n';
   rows.forEach(r => { csv += r.map(v => `"${v}"`).join(',') + '\r\n'; });
@@ -1257,11 +1280,11 @@ function resetAllData(){
 function printReport(){
   const { summary, total, itemTotals } = computeSummary();
   const cashNow = computeCash();
-  let headCols = `<th>${t('crop_col')}</th>` + db.itemDefs.map(it=>`<th>${escapeHtml(it.name)}</th>`).join('') + `<th>${t('total_col')}</th>`;
+  let headCols = `<th>${t('crop_col')}</th>` + db.itemDefs.map(it=>`<th>${escapeHtml(itemLabel(it))}</th>`).join('') + `<th>${t('total_col')}</th>`;
   let cropRows = '';
   db.crops.forEach(c => {
     const s = summary[c] || { sum:0 };
-    cropRows += `<tr><td>${escapeHtml(c)}</td>` + db.itemDefs.map(it=>`<td>${fmt(s[it.id]||0)}</td>`).join('') + `<td>${fmt(s.sum||0)}</td></tr>`;
+    cropRows += `<tr><td>${escapeHtml(cropLabel(c))}</td>` + db.itemDefs.map(it=>`<td>${fmt(s[it.id]||0)}</td>`).join('') + `<td>${fmt(s.sum||0)}</td></tr>`;
   });
   let footRow = `<tr><td><strong>${t('total_label')}</strong></td>` + db.itemDefs.map(it=>`<td>${fmt(itemTotals[it.id]||0)}</td>`).join('') + `<td><strong>${fmt(total)}</strong></td></tr>`;
   const today = new Date().toLocaleDateString(currentLang==='ar'?'ar-EG':(currentLang==='de'?'de-DE':'en-US'));

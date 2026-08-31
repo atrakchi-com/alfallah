@@ -1,10 +1,12 @@
 /* برنامج الفلاح — Service Worker
-   الاستراتيجية: للصفحة الرئيسية (HTML) نحاول الشبكة أولاً لضمان وصول آخر تحديث،
-   ونرجع للنسخة المخزّنة فقط عند انعدام الاتصال. للملفات الثابتة (أيقونات/مانيفست)
-   نستخدم التخزين المؤقت أولاً لأنها نادراً ما تتغيّر. هذا يمنح التطبيق قابلية العمل
-   دون إنترنت مع تفادي مشكلة تلقّي نسخة قديمة عالقة في الذاكرة المؤقتة. */
+   الاستراتيجية (مُحدَّثة لتسريع الفتح): "اعرض المخزَّن فوراً، وحدِّثه بصمت في الخلفية"
+   (Stale-While-Revalidate) لصفحة HTML الرئيسية. بدل انتظار رحلة كاملة للشبكة قبل
+   إظهار أي شيء (وهو ما كان يُبطئ الفتح فعلياً خصوصاً بشبكة ضعيفة في مواقع العمل)،
+   يُعرض المحتوى المحفوظ محلياً على الفور، ثم تُجلب أي نسخة أحدث من الإنترنت في
+   الخلفية لتكون جاهزة في المرة القادمة. للملفات الثابتة (أيقونات/مانيفست) تبقى
+   نفس استراتيجية "التخزين المؤقت أولاً" لأنها نادراً ما تتغيّر. */
 
-const CACHE_NAME = 'alfallah-cache-v6';
+const CACHE_NAME = 'alfallah-cache-v7';
 const CORE_ASSETS = [
   './alfallah.html',
   './manifest.json',
@@ -36,13 +38,17 @@ self.addEventListener('fetch', (event) => {
 
   if (isHTML) {
     event.respondWith(
-      fetch(req)
-        .then((resp) => {
-          const copy = resp.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          return resp;
-        })
-        .catch(() => caches.match(req).then((cached) => cached || caches.match('./alfallah.html')))
+      caches.match(req).then((cached) => {
+        const networkUpdate = fetch(req)
+          .then((resp) => {
+            const copy = resp.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+            return resp;
+          })
+          .catch(() => cached || caches.match('./alfallah.html'));
+        // إن وُجدت نسخة محفوظة، اعرضها فوراً بلا أي انتظار للشبكة
+        return cached || networkUpdate;
+      })
     );
     return;
   }
