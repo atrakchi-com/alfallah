@@ -139,7 +139,7 @@ footer strong{color:var(--gold);}
 #side-drawer-overlay.open{display:block;}
 #side-drawer{position:fixed; top:0; bottom:0; inset-inline-start:0; width:78%; max-width:300px; background:#fff; z-index:301; transform:translateX(105%); transition:transform .2s ease; box-shadow:4px 0 20px rgba(0,0,0,.25); display:flex; flex-direction:column; pointer-events:none;}
 body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%);}
-#side-drawer.open{transform:translateX(0); pointer-events:auto;}
+#side-drawer.open{transform:translateX(0) !important; pointer-events:auto;}
 #side-drawer .sd-head{background:var(--green-800); color:#fff; padding:16px; display:flex; justify-content:space-between; align-items:center;}
 #side-drawer .sd-head button{background:transparent; border:none; color:#fff; font-size:1.2rem;}
 #side-drawer .sd-body{padding:10px; flex:1; overflow-y:auto;}
