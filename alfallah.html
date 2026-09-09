@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
 <meta name="copyright" content="© داود الاطرقجي للاستشارات الهندسية — جميع الحقوق محفوظة">
-<title>برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية</title>
+<title>الصرفيات اطرقجي — داود الاطرقجي للاستشارات الهندسية</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
@@ -122,6 +122,21 @@ select{font-weight:700; color:var(--green-900);}
 .help-text{font-size:.72rem; color:var(--muted); margin-top:4px;}
 
 #lock-screen{position:fixed; inset:0; background:linear-gradient(160deg,var(--green-900),var(--green-800) 60%, var(--green-700)); display:flex; align-items:flex-start; justify-content:center; z-index:500; padding:16px; overflow-y:auto; -webkit-overflow-scrolling:touch;}
+#splash-screen{position:fixed; inset:0; z-index:900; background:radial-gradient(circle at 50% 45%, var(--green-800), var(--green-900) 70%); display:flex; align-items:center; justify-content:center; cursor:pointer;}
+#splash-screen.hidden{display:none;}
+.splash-inner{text-align:center;}
+.splash-logo-anim{height:64px; width:auto; animation:splashSpiralIn .9s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes splashSpiralIn{
+  0%{opacity:0; transform:scale(.15) rotate(-260deg);}
+  70%{opacity:1; transform:scale(1.08) rotate(8deg);}
+  100%{opacity:1; transform:scale(1) rotate(0deg);}
+}
+.splash-slogan-anim{margin-top:14px; color:var(--gold); font-weight:800; font-size:1.1rem; letter-spacing:6px; text-transform:uppercase; direction:ltr;
+  opacity:0; animation:splashSloganIn 1s ease .6s forwards;}
+@keyframes splashSloganIn{
+  0%{opacity:0; letter-spacing:14px; transform:translateY(6px);}
+  100%{opacity:1; letter-spacing:3px; transform:translateY(0);}
+}
 .lock-card{background:#fff; border-radius:16px; padding:28px 26px; width:100%; max-width:340px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.4); margin-top:8vh; margin-bottom:24vh;}
 .lock-card img{height:44px; margin-bottom:8px;}
 .lock-card h2{color:var(--green-900); font-size:1.05rem; margin-bottom:4px; font-weight:800;}
@@ -168,9 +183,9 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%)
 <header id="app-header">
   <div class="brandline">
     <img class="brandmark" src="data:image/png;base64,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" alt="شعار داود الاطرقجي للاستشارات الهندسية">
-    <h1 data-i18n="app_title">برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية</h1>
+    <h1 data-i18n="app_title">الصرفيات اطرقجي — داود الاطرقجي للاستشارات الهندسية</h1>
   </div>
-  <div class="sub" data-i18n="header_sub">إدارة مصروفات الأعمال والخزينة</div>
+  <div class="sub" data-i18n="header_sub">إدارة الصرفيات والخزينة</div>
   <div id="header-tools" class="no-print">
     <button onclick="openDrawer()" title="القائمة">☰</button>
     <select id="lang-select" onchange="setLanguage(this.value)" title="اللغة">
@@ -185,10 +200,11 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%)
 
 <nav class="no-print">
   <button id="btn-dash" class="active" onclick="showTab('dash')" data-i18n="nav_dash">لوحة النتيجة</button>
-  <button id="btn-crops" onclick="showTab('crops')" data-i18n="nav_crops">الأعمال</button>
+  <button id="btn-crops" onclick="showTab('crops')" data-i18n="nav_crops">الصرفيات</button>
   <button id="btn-cash" onclick="showTab('cash')" data-i18n="nav_cash">الخزينة والتعزيز</button>
   <button id="btn-search" onclick="showTab('search')" data-i18n="nav_search">البحث والتصفية</button>
   <button id="btn-settings" onclick="showTab('settings')" data-i18n="nav_settings">الإعدادات</button>
+  <button id="btn-help" onclick="showTab('help')" data-i18n="nav_help">التعليمات</button>
 </nav>
 
 <main>
@@ -218,12 +234,12 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%)
   </section>
 
   <section id="tab-crops" class="hidden">
-    <h2 class="page-title" data-i18n="crops_title">إدارة الأعمال</h2>
+    <h2 class="page-title" data-i18n="crops_title">إدارة الصرفيات</h2>
     <div class="toolbar no-print">
       <div class="group">
         <select id="crop-select" onchange="renderCropsTable()"></select>
-        <button class="btn btn-ghost btn-sm" onclick="addCrop()" data-i18n="btn_add_crop">＋ عمل جديد</button>
-        <button class="btn-danger btn btn-sm" onclick="deleteCrop()" data-i18n="btn_delete_crop">حذف عمل</button>
+        <button class="btn btn-ghost btn-sm" onclick="addCrop()" data-i18n="btn_add_crop">＋ بند جديد</button>
+        <button class="btn-danger btn btn-sm" onclick="deleteCrop()" data-i18n="btn_delete_crop">حذف بند</button>
       </div>
       <div class="group">
         <button class="btn btn-ghost btn-sm" onclick="addItemDef()" data-i18n="btn_add_item">＋ بند جديد</button>
@@ -303,9 +319,37 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%)
       <p id="pin-msg" class="help-text"></p>
     </div>
     <div class="panel" style="max-width:520px;">
+      <h3 data-i18n="legal_title">القانونية</h3>
+      <div class="toolbar">
+        <button class="btn btn-ghost btn-sm" onclick="showTab('privacy')" data-i18n="nav_privacy">سياسة الخصوصية</button>
+        <button class="btn btn-ghost btn-sm" onclick="showTab('terms')" data-i18n="nav_terms">اتفاقية الاستخدام</button>
+      </div>
+    </div>
+    <div class="panel" style="max-width:520px;">
       <h3 data-i18n="danger_zone">منطقة الحذف</h3>
       <button class="btn btn-danger" onclick="resetAllData()" data-i18n="btn_reset_all">حذف جميع البيانات (بدء من جديد)</button>
     </div>
+  </section>
+
+  <section id="tab-help" class="hidden">
+    <h2 class="page-title" data-i18n="nav_help">التعليمات</h2>
+    <div id="help-content" class="panel" style="max-width:720px; margin-inline:auto;"></div>
+    <div class="toolbar" style="max-width:720px; margin:0 auto; justify-content:center;">
+      <button class="btn btn-ghost btn-sm" onclick="showTab('privacy')" data-i18n="nav_privacy">سياسة الخصوصية</button>
+      <button class="btn btn-ghost btn-sm" onclick="showTab('terms')" data-i18n="nav_terms">اتفاقية الاستخدام</button>
+    </div>
+  </section>
+
+  <section id="tab-privacy" class="hidden">
+    <h2 class="page-title" data-i18n="nav_privacy">سياسة الخصوصية</h2>
+    <div id="privacy-content" class="panel" style="max-width:720px; margin-inline:auto;"></div>
+    <div class="toolbar" style="max-width:720px; margin:0 auto;"><button class="btn btn-ghost btn-sm" onclick="showTab('help')" data-i18n="btn_back_to_help">↩ رجوع للتعليمات</button></div>
+  </section>
+
+  <section id="tab-terms" class="hidden">
+    <h2 class="page-title" data-i18n="nav_terms">اتفاقية الاستخدام</h2>
+    <div id="terms-content" class="panel" style="max-width:720px; margin-inline:auto;"></div>
+    <div class="toolbar" style="max-width:720px; margin:0 auto;"><button class="btn btn-ghost btn-sm" onclick="showTab('help')" data-i18n="btn_back_to_help">↩ رجوع للتعليمات</button></div>
   </section>
 </main>
 
@@ -316,7 +360,7 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%)
   <div class="sd-body">
     <button class="sd-item" onclick="printReport(); closeDrawer();" data-i18n="btn_print">🖨️ طباعة</button>
     <button class="sd-item" onclick="closeDrawer(); openBackupsModal();" data-i18n="btn_restore">↺ استرجاع نسخة محفوظة</button>
-    <a href="mailto:atrakchi.com@gmail.com?subject=برنامج%20الفلاح" data-i18n="contact_us">📧 اتصل بنا</a>
+    <a href="mailto:atrakchi.com@gmail.com?subject=الصرفيات%20اطرقجي" data-i18n="contact_us">📧 اتصل بنا</a>
     <button class="sd-item" onclick="exportCSV()" data-i18n="export_csv">📊 تصدير Excel / CSV</button>
     <button class="sd-item" onclick="exportJSONManual()" data-i18n="export_json_manual">⬇️ تصدير نسخة JSON يدوياً</button>
     <button class="sd-item" onclick="document.getElementById('import-json-file').click()" data-i18n="import_json_manual">⬆️ استرجاع من ملف JSON</button>
@@ -409,10 +453,17 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%)
 </div>
 
 <!-- شاشة القفل -->
+<div id="splash-screen" class="hidden" onclick="hideSplash()">
+  <div class="splash-inner">
+    <img id="splash-logo" class="splash-logo-anim" src="" alt="TRAKCHI.COM">
+    <p class="splash-slogan-anim">Clarity, Daily.</p>
+  </div>
+</div>
+
 <div id="lock-screen">
   <div class="lock-card">
     <img src="data:image/png;base64,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" alt="">
-    <h2 data-i18n="app_short_title">برنامج الفلاح لحساب المصروفات</h2>
+    <h2 data-i18n="app_short_title">الصرفيات اطرقجي</h2>
     <p class="hint" data-i18n="lock_hint">داود الاطرقجي للاستشارات الهندسية — أدخل رمز الدخول</p>
     <form id="lock-form" onsubmit="event.preventDefault(); tryUnlock(); return false;" autocomplete="off">
       <input type="tel" id="pin-input" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="8" placeholder="••••">
@@ -425,105 +476,105 @@ body.lang-en #side-drawer, body.lang-de #side-drawer{transform:translateX(-105%)
 <div id="print-report"></div>
 
 <footer>
-  <strong>©</strong> <span data-i18n="company_name">داود الاطرقجي للاستشارات الهندسية</span> — <span data-i18n="all_rights">جميع الحقوق محفوظة</span> | <span data-i18n="app_short_title">برنامج الفلاح لحساب المصروفات</span>
+  <strong>©</strong> <span data-i18n="company_name">داود الاطرقجي للاستشارات الهندسية</span> — <span data-i18n="all_rights">جميع الحقوق محفوظة</span> | <span data-i18n="app_short_title">الصرفيات اطرقجي</span>
 </footer>
 
 <script>
 /* =========================================================
-   برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية
+   الصرفيات اطرقجي — داود الاطرقجي للاستشارات الهندسية
    ========================================================= */
 
 /* ===================== الترجمة ===================== */
 const I18N = {
 ar: {
-  header_sub:"إدارة مصروفات الأعمال والخزينة", btn_print:"🖨️ طباعة", btn_restore:"↺ استرجاع", btn_save_close:"💾 حفظ وإغلاق", btn_lock:"🔒 قفل",
-  nav_dash:"لوحة النتيجة", nav_crops:"الأعمال", nav_cash:"الخزينة والتعزيز", nav_search:"البحث والتصفية", nav_settings:"الإعدادات",
+  header_sub:"إدارة الصرفيات والخزينة", btn_print:"🖨️ طباعة", btn_restore:"↺ استرجاع", btn_save_close:"💾 حفظ وإغلاق", btn_lock:"🔒 قفل",
+  nav_dash:"لوحة النتيجة", nav_crops:"الصرفيات", nav_cash:"الخزينة والتعزيز", nav_search:"البحث والتصفية", nav_settings:"الإعدادات", nav_help:"التعليمات", nav_privacy:"سياسة الخصوصية", nav_terms:"اتفاقية الاستخدام", legal_title:"القانونية", btn_back_to_help:"↩ رجوع للتعليمات",
   dash_title:"لوحة النتيجة الرئيسية", k_total:"إجمالي المصروفات الكلي", k_treasury:"نقد الخزينة", k_pocket:"النقد بالجيب", k_home:"المتوفر بالبيت",
-  dash_table_title:"مجموع الصرفيات لكل عمل", dash_chart_title:"الرسم البياني للمصروفات", by_crop:"حسب العمل", by_item:"حسب البند",
-  total_col:"المجموع", crop_col:"العمل", no_data:"لا توجد بيانات بعد",
-  crops_title:"إدارة الأعمال", btn_add_crop:"＋ عمل جديد", btn_delete_crop:"حذف عمل", btn_add_item:"＋ بند جديد", btn_delete_item:"حذف بند",
-  btn_add_expense:"＋ إضافة مصروف جديد", crops_empty:"لا توجد سجلات مصروفات لهذا العمل بعد.",
+  dash_table_title:"مجموع الصرفيات لكل بند", dash_chart_title:"الرسم البياني للمصروفات", by_crop:"حسب البند", by_item:"حسب الفقرة",
+  total_col:"المجموع", crop_col:"البند", no_data:"لا توجد بيانات بعد",
+  crops_title:"إدارة الصرفيات", btn_add_crop:"＋ بند جديد", btn_delete_crop:"حذف بند", btn_add_item:"＋ فقرة جديدة", btn_delete_item:"حذف فقرة",
+  btn_add_expense:"＋ إضافة مصروف جديد", crops_empty:"لا توجد سجلات مصروفات لهذا البند بعد.",
   th_date:"التأريخ", th_notes:"ملاحظات", th_action:"إجراء", th_delete:"حذف", th_movement_type:"نوع الحركة", th_amount:"المبلغ",
   cash_title:"تفاصيل التعزيز — حركة الخزينة والجيب", cash_treasury:"المتوفر بالخزينة", cash_home_edit:'تعديل رصيد "المتوفر بالبيت" مباشرة',
   value_ph:"القيمة", btn_update_balance:"تحديث الرصيد", cash_log:"سجل حركات النقد", btn_new_movement:"＋ حركة نقدية جديدة",
   cash_empty:"لا توجد حركات نقدية مسجلة بعد.",
-  search_title:"البحث والتصفية المتقدمة", s_text_label:"بحث نصي (بالملاحظات)", s_text_ph:"اكتب كلمة...", s_crop_label:"العمل",
-  s_item_label:"بند المصروف", s_all_items:"كل البنود", s_all_crops:"كل الأعمال", s_from:"من تاريخ", s_to:"إلى تاريخ",
+  search_title:"البحث والتصفية المتقدمة", s_text_label:"بحث نصي (بالملاحظات)", s_text_ph:"اكتب كلمة...", s_crop_label:"البند",
+  s_item_label:"الفقرة", s_all_items:"كل الفقرات", s_all_crops:"كل البنود", s_from:"من تاريخ", s_to:"إلى تاريخ",
   btn_reset_filters:"إعادة تعيين الفلاتر", results_label:"النتائج", total_label:"الإجمالي", no_results:"لا توجد نتائج مطابقة",
   settings_title:"الإعدادات", pin_change_title:"تغيير رمز الدخول السري (PIN)", pin_current:"الرمز الحالي", pin_new:"الرمز الجديد",
   pin_confirm:"تأكيد الرمز الجديد", btn_update_pin:"تحديث رمز الدخول", danger_zone:"منطقة الحذف", btn_reset_all:"حذف جميع البيانات (بدء من جديد)",
   menu_title:"القائمة", contact_us:"📧 اتصل بنا", export_csv:"📊 تصدير Excel / CSV", export_json_manual:"⬇️ تصدير نسخة JSON يدوياً",
   import_json_manual:"⬆️ استرجاع من ملف JSON",
-  new_expense_title:"تسجيل مصروف جديد", edit_expense_title:"تعديل سجل المصروف", crop_label:"العمل", date_label:"التأريخ",
+  new_expense_title:"تسجيل مصروف جديد", edit_expense_title:"تعديل سجل المصروف", crop_label:"البند", date_label:"التأريخ",
   notes_label:"ملاحظات", btn_delete:"حذف", btn_cancel:"إلغاء", btn_save_record:"حفظ السجل", btn_ok:"موافق",
   movement_type_label:"نوع الحركة", deposit_opt:"تعزيز رصيد (إضافة للخزينة)", withdraw_opt:"سحب نقدي (من الخزينة إلى الجيب)",
   amount_label:"المبلغ", cash_treasury_now:"المتوفر بالخزينة حالياً", btn_save_movement:"حفظ الحركة",
-  select_item_delete:"اختر البند لحذفه", backups_title:"استرجاع نسخة محفوظة", backups_hint:'آخر 10 نسخ حُفظت تلقائياً عند الضغط على "حفظ وإغلاق":',
+  select_item_delete:"اختر الفقرة لحذفها", backups_title:"استرجاع نسخة محفوظة", backups_hint:'آخر 10 نسخ حُفظت تلقائياً عند الضغط على "حفظ وإغلاق":',
   backups_empty:"لا توجد نسخ محفوظة تلقائياً بعد.", restore_from_file:"استرجاع من ملف بدلاً من ذلك", restore_btn:"استرجاع",
-  app_short_title:"برنامج الفلاح لحساب المصروفات", lock_hint:"داود الاطرقجي للاستشارات الهندسية — أدخل رمز الدخول",
-  app_title:"برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية", company_name:"داود الاطرقجي للاستشارات الهندسية",
+  app_short_title:"الصرفيات اطرقجي", lock_hint:"داود الاطرقجي للاستشارات الهندسية — أدخل رمز الدخول",
+  app_title:"الصرفيات اطرقجي — داود الاطرقجي للاستشارات الهندسية", company_name:"داود الاطرقجي للاستشارات الهندسية",
   btn_enter:"دخول", all_rights:"جميع الحقوق محفوظة",
-  new_item_prompt:"اسم البند الجديد", new_crop_prompt:"اسم العمل الجديد"
+  new_item_prompt:"اسم الفقرة الجديدة", new_crop_prompt:"اسم البند الجديد"
 },
 en: {
   header_sub:"Manage crop expenses and cash", btn_print:"🖨️ Print", btn_restore:"↺ Restore", btn_save_close:"💾 Save & Close", btn_lock:"🔒 Lock",
-  nav_dash:"Dashboard", nav_crops:"Jobs", nav_cash:"Cash & Treasury", nav_search:"Search & Filter", nav_settings:"Settings",
+  nav_dash:"Dashboard", nav_crops:"Expenses", nav_cash:"Cash & Treasury", nav_search:"Search & Filter", nav_settings:"Settings", nav_help:"Help", nav_privacy:"Privacy Policy", nav_terms:"Terms of Use", legal_title:"Legal", btn_back_to_help:"↩ Back to Help",
   dash_title:"Main Dashboard", k_total:"Total Expenses", k_treasury:"Treasury Cash", k_pocket:"Pocket Cash", k_home:"Cash at Home",
-  dash_table_title:"Total Expenses per Job", dash_chart_title:"Expense Charts", by_crop:"By Job", by_item:"By Item",
-  total_col:"Total", crop_col:"Job", no_data:"No data yet",
-  crops_title:"Manage Jobs", btn_add_crop:"＋ New Job", btn_delete_crop:"Delete Job", btn_add_item:"＋ New Item", btn_delete_item:"Delete Item",
-  btn_add_expense:"＋ Add New Expense", crops_empty:"No expense records for this job yet.",
+  dash_table_title:"Total Expenses per Category", dash_chart_title:"Expense Charts", by_crop:"By Category", by_item:"By Entry",
+  total_col:"Total", crop_col:"Category", no_data:"No data yet",
+  crops_title:"Manage Expenses", btn_add_crop:"＋ New Category", btn_delete_crop:"Delete Category", btn_add_item:"＋ New Entry", btn_delete_item:"Delete Entry",
+  btn_add_expense:"＋ Add New Expense", crops_empty:"No expense records for this category yet.",
   th_date:"Date", th_notes:"Notes", th_action:"Action", th_delete:"Delete", th_movement_type:"Type", th_amount:"Amount",
   cash_title:"Treasury Details — Cash Movement", cash_treasury:"Treasury Balance", cash_home_edit:'Edit "Cash at Home" balance directly',
   value_ph:"Value", btn_update_balance:"Update Balance", cash_log:"Cash Movements Log", btn_new_movement:"＋ New Movement",
   cash_empty:"No cash movements recorded yet.",
-  search_title:"Advanced Search & Filter", s_text_label:"Text Search (Notes)", s_text_ph:"Type a word...", s_crop_label:"Job",
-  s_item_label:"Item", s_all_items:"All Items", s_all_crops:"All Jobs", s_from:"From Date", s_to:"To Date",
+  search_title:"Advanced Search & Filter", s_text_label:"Text Search (Notes)", s_text_ph:"Type a word...", s_crop_label:"Category",
+  s_item_label:"Entry", s_all_items:"All Entries", s_all_crops:"All Categories", s_from:"From Date", s_to:"To Date",
   btn_reset_filters:"Reset Filters", results_label:"Results", total_label:"Total", no_results:"No matching results",
   settings_title:"Settings", pin_change_title:"Change PIN", pin_current:"Current PIN", pin_new:"New PIN",
   pin_confirm:"Confirm New PIN", btn_update_pin:"Update PIN", danger_zone:"Danger Zone", btn_reset_all:"Delete All Data (start fresh)",
   menu_title:"Menu", contact_us:"📧 Contact Us", export_csv:"📊 Export Excel / CSV", export_json_manual:"⬇️ Export JSON Backup",
   import_json_manual:"⬆️ Restore from JSON File",
-  new_expense_title:"New Expense Record", edit_expense_title:"Edit Expense Record", crop_label:"Job", date_label:"Date",
+  new_expense_title:"New Expense Record", edit_expense_title:"Edit Expense Record", crop_label:"Category", date_label:"Date",
   notes_label:"Notes", btn_delete:"Delete", btn_cancel:"Cancel", btn_save_record:"Save Record", btn_ok:"OK",
   movement_type_label:"Movement Type", deposit_opt:"Deposit (add to treasury)", withdraw_opt:"Withdraw (treasury → pocket)",
   amount_label:"Amount", cash_treasury_now:"Current Treasury Balance", btn_save_movement:"Save Movement",
-  select_item_delete:"Select item to delete", backups_title:"Restore a Saved Backup", backups_hint:'Last 10 auto-saved backups from "Save & Close":',
+  select_item_delete:"Select entry to delete", backups_title:"Restore a Saved Backup", backups_hint:'Last 10 auto-saved backups from "Save & Close":',
   backups_empty:"No auto-saved backups yet.", restore_from_file:"Restore from file instead", restore_btn:"Restore",
-  app_short_title:"Farmer's Expense App", lock_hint:"Dawood Atrakchi Engineering Consulting — Enter PIN",
-  app_title:"Farmer's Expense App — Dawood Atrakchi Engineering Consulting", company_name:"Dawood Atrakchi Engineering Consulting",
+  app_short_title:"Atrakchi Expenses", lock_hint:"Dawood Atrakchi Engineering Consulting — Enter PIN",
+  app_title:"Atrakchi Expenses — Dawood Atrakchi Engineering Consulting", company_name:"Dawood Atrakchi Engineering Consulting",
   btn_enter:"Enter", all_rights:"All Rights Reserved",
-  new_item_prompt:"New item name", new_crop_prompt:"New job name"
+  new_item_prompt:"New entry name", new_crop_prompt:"New category name"
 },
 de: {
   header_sub:"Verwaltung der Ernteausgaben und Kasse", btn_print:"🖨️ Drucken", btn_restore:"↺ Wiederherstellen", btn_save_close:"💾 Speichern & Schließen", btn_lock:"🔒 Sperren",
-  nav_dash:"Übersicht", nav_crops:"Arbeiten", nav_cash:"Kasse & Rücklage", nav_search:"Suche & Filter", nav_settings:"Einstellungen",
+  nav_dash:"Übersicht", nav_crops:"Ausgaben", nav_cash:"Kasse & Rücklage", nav_search:"Suche & Filter", nav_settings:"Einstellungen", nav_help:"Hilfe", nav_privacy:"Datenschutzerklärung", nav_terms:"Nutzungsbedingungen", legal_title:"Rechtliches", btn_back_to_help:"↩ Zurück zur Hilfe",
   dash_title:"Hauptübersicht", k_total:"Gesamtausgaben", k_treasury:"Kassenbestand", k_pocket:"Bargeld", k_home:"Zuhause verfügbar",
-  dash_table_title:"Ausgaben je Arbeit", dash_chart_title:"Ausgabendiagramme", by_crop:"Nach Arbeit", by_item:"Nach Posten",
-  total_col:"Summe", crop_col:"Arbeit", no_data:"Noch keine Daten",
-  crops_title:"Arbeiten verwalten", btn_add_crop:"＋ Neue Arbeit", btn_delete_crop:"Arbeit löschen", btn_add_item:"＋ Neuer Posten", btn_delete_item:"Posten löschen",
-  btn_add_expense:"＋ Neue Ausgabe hinzufügen", crops_empty:"Noch keine Ausgaben für diese Arbeit.",
+  dash_table_title:"Ausgaben je Kategorie", dash_chart_title:"Ausgabendiagramme", by_crop:"Nach Kategorie", by_item:"Nach Eintrag",
+  total_col:"Summe", crop_col:"Kategorie", no_data:"Noch keine Daten",
+  crops_title:"Ausgaben verwalten", btn_add_crop:"＋ Neue Kategorie", btn_delete_crop:"Kategorie löschen", btn_add_item:"＋ Neuer Eintrag", btn_delete_item:"Eintrag löschen",
+  btn_add_expense:"＋ Neue Ausgabe hinzufügen", crops_empty:"Noch keine Ausgaben für diese Kategorie.",
   th_date:"Datum", th_notes:"Notizen", th_action:"Aktion", th_delete:"Löschen", th_movement_type:"Art", th_amount:"Betrag",
   cash_title:"Kassendetails — Bargeldbewegung", cash_treasury:"Kassenbestand", cash_home_edit:'"Zuhause verfügbar" direkt bearbeiten',
   value_ph:"Wert", btn_update_balance:"Saldo aktualisieren", cash_log:"Bargeldbewegungen", btn_new_movement:"＋ Neue Bewegung",
   cash_empty:"Noch keine Bargeldbewegungen erfasst.",
-  search_title:"Erweiterte Suche & Filter", s_text_label:"Textsuche (Notizen)", s_text_ph:"Wort eingeben...", s_crop_label:"Arbeit",
-  s_item_label:"Posten", s_all_items:"Alle Posten", s_all_crops:"Alle Arbeiten", s_from:"Von Datum", s_to:"Bis Datum",
+  search_title:"Erweiterte Suche & Filter", s_text_label:"Textsuche (Notizen)", s_text_ph:"Wort eingeben...", s_crop_label:"Kategorie",
+  s_item_label:"Eintrag", s_all_items:"Alle Einträge", s_all_crops:"Alle Kategorien", s_from:"Von Datum", s_to:"Bis Datum",
   btn_reset_filters:"Filter zurücksetzen", results_label:"Ergebnisse", total_label:"Summe", no_results:"Keine passenden Ergebnisse",
   settings_title:"Einstellungen", pin_change_title:"PIN ändern", pin_current:"Aktuelle PIN", pin_new:"Neue PIN",
   pin_confirm:"Neue PIN bestätigen", btn_update_pin:"PIN aktualisieren", danger_zone:"Gefahrenzone", btn_reset_all:"Alle Daten löschen (neu beginnen)",
   menu_title:"Menü", contact_us:"📧 Kontakt", export_csv:"📊 Excel / CSV exportieren", export_json_manual:"⬇️ JSON-Backup exportieren",
   import_json_manual:"⬆️ Aus JSON-Datei wiederherstellen",
-  new_expense_title:"Neue Ausgabe erfassen", edit_expense_title:"Ausgabe bearbeiten", crop_label:"Arbeit", date_label:"Datum",
+  new_expense_title:"Neue Ausgabe erfassen", edit_expense_title:"Ausgabe bearbeiten", crop_label:"Kategorie", date_label:"Datum",
   notes_label:"Notizen", btn_delete:"Löschen", btn_cancel:"Abbrechen", btn_save_record:"Eintrag speichern", btn_ok:"OK",
   movement_type_label:"Art der Bewegung", deposit_opt:"Einzahlung (in Kasse)", withdraw_opt:"Abhebung (Kasse → Bargeld)",
   amount_label:"Betrag", cash_treasury_now:"Aktueller Kassenbestand", btn_save_movement:"Bewegung speichern",
-  select_item_delete:"Posten zum Löschen wählen", backups_title:"Gespeichertes Backup wiederherstellen", backups_hint:'Letzte 10 automatische Backups von "Speichern & Schließen":',
+  select_item_delete:"Eintrag zum Löschen wählen", backups_title:"Gespeichertes Backup wiederherstellen", backups_hint:'Letzte 10 automatische Backups von "Speichern & Schließen":',
   backups_empty:"Noch keine automatischen Backups.", restore_from_file:"Stattdessen aus Datei wiederherstellen", restore_btn:"Wiederherstellen",
-  app_short_title:"Bauern-Ausgaben-App", lock_hint:"Dawood Atrakchi Ingenieurberatung — PIN eingeben",
-  app_title:"Bauern-Ausgaben-App — Dawood Atrakchi Ingenieurberatung", company_name:"Dawood Atrakchi Ingenieurberatung",
+  app_short_title:"Atrakchi Ausgaben", lock_hint:"Dawood Atrakchi Ingenieurberatung — PIN eingeben",
+  app_title:"Atrakchi Ausgaben — Dawood Atrakchi Ingenieurberatung", company_name:"Dawood Atrakchi Ingenieurberatung",
   btn_enter:"Eintreten", all_rights:"Alle Rechte vorbehalten",
-  new_item_prompt:"Name des neuen Postens", new_crop_prompt:"Name der neuen Arbeit"
+  new_item_prompt:"Name des neuen Eintrags", new_crop_prompt:"Name der neuen Kategorie"
 }
 };
 let currentLang = 'ar';
@@ -585,10 +636,8 @@ let textInputCallback = null;
 
 function defaultDB(){
   return {
-    crops: ["seed_build", "seed_sanitary", "seed_eggplant"],
-    itemDefs: [
-      {id:'net', name:'شبكات الري'}, {id:'lab', name:'العمالة'}
-    ],
+    crops: [],
+    itemDefs: [],
     expenses: [],
     cash: { home: 0 },
     movements: [],
@@ -598,12 +647,7 @@ function defaultDB(){
 
 function normalizeDB(data){
   if (!data) return defaultDB();
-  if (!Array.isArray(data.itemDefs) || !data.itemDefs.length) {
-    data.itemDefs = [
-      {id:'irr', name:'السقي'}, {id:'fert', name:'الأسمدة'},
-      {id:'net', name:'شبكات الري'}, {id:'lab', name:'العمالة'}
-    ];
-  }
+  if (!Array.isArray(data.itemDefs)) data.itemDefs = [];
   if (!Array.isArray(data.crops)) data.crops = [];
   if (!Array.isArray(data.expenses)) data.expenses = [];
   if (!Array.isArray(data.movements)) data.movements = [];
@@ -762,6 +806,7 @@ function checkLockOnLoad(){
   const savedAt = Number(safeSessionGet(SESSION_KEY) || 0);
   if (savedAt && (Date.now() - savedAt) < SESSION_VALID_MS) {
     document.getElementById('lock-screen').classList.add('hidden');
+    showSplash();
   } else {
     document.getElementById('lock-screen').classList.remove('hidden');
     setTimeout(()=>document.getElementById('pin-input').focus(), 150);
@@ -769,6 +814,18 @@ function checkLockOnLoad(){
   if (__storageBlocked && __idbBlocked) {
     document.getElementById('lock-error').innerHTML = '⚠️ ' + (currentLang==='ar' ? 'متصفحك يمنع الحفظ الدائم هنا. استخدم "حفظ وإغلاق" دورياً لأخذ نسخة يدوية.' : 'This browser blocks permanent storage here. Use "Save & Close" regularly for manual backups.');
   }
+}
+function showSplash(){
+  const splash = document.getElementById('splash-screen');
+  const logo = document.querySelector('img.brandmark') || document.querySelector('#lock-screen img');
+  const dest = document.getElementById('splash-logo');
+  if (logo) dest.src = logo.src;
+  splash.classList.remove('hidden');
+  clearTimeout(window.__splashTimer);
+  window.__splashTimer = setTimeout(hideSplash, 2600);
+}
+function hideSplash(){
+  document.getElementById('splash-screen').classList.add('hidden');
 }
 function tryUnlock(){
   if (!db) { db = defaultDB(); }
@@ -779,6 +836,7 @@ function tryUnlock(){
     document.getElementById('lock-screen').classList.add('hidden');
     document.getElementById('lock-error').textContent = '';
     input.value = '';
+    showSplash();
   } else {
     document.getElementById('lock-error').textContent = currentLang==='ar' ? 'رمز الدخول غير صحيح، حاول مرة أخرى. (الافتراضي: 1234)' : (currentLang==='de' ? 'Falsche PIN. Versuchen Sie es erneut. (Standard: 1234)' : 'Incorrect PIN. Try again. (Default: 1234)');
     input.value = '';
@@ -831,11 +889,15 @@ function showTab(tabId){
   document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
   document.querySelectorAll('nav > button').forEach(b => b.classList.remove('active'));
   document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-  document.getElementById(`btn-${tabId}`).classList.add('active');
+  const navBtn = document.getElementById(`btn-${tabId}`);
+  if (navBtn) navBtn.classList.add('active');
   if (tabId === 'dash') renderDashboard();
   if (tabId === 'crops') renderCropsTable();
   if (tabId === 'cash') renderCashTab();
   if (tabId === 'search') runSearch();
+  if (tabId === 'help') renderHelpPage();
+  if (tabId === 'privacy') renderPrivacyPage();
+  if (tabId === 'terms') renderTermsPage();
 }
 
 function updateSelects(){
@@ -1005,7 +1067,7 @@ function deleteCrop(){
   const crop = document.getElementById('crop-select').value;
   if (!crop) return;
   const count = db.expenses.filter(e=>e.crop===crop).length;
-  const msg = currentLang==='ar' ? `هل أنت متأكد من حذف عمل "${cropLabel(crop)}"؟ سيتم حذف ${count} سجل مرتبط به.` : `Delete job "${cropLabel(crop)}"? This will remove ${count} related record(s).`;
+  const msg = currentLang==='ar' ? `هل أنت متأكد من حذف بند "${cropLabel(crop)}"؟ سيتم حذف ${count} سجل مرتبط به.` : `Delete job "${cropLabel(crop)}"? This will remove ${count} related record(s).`;
   if (confirm(msg)) {
     db.crops = db.crops.filter(c => c !== crop);
     db.expenses = db.expenses.filter(e => e.crop !== crop);
@@ -1028,7 +1090,6 @@ function deleteItemDef(){
 function confirmDeleteItemDef(){
   const id = document.getElementById('select-item-field').value;
   if (!id) return;
-  if (db.itemDefs.length <= 1) { alert(currentLang==='ar'?'يجب أن يبقى بند واحد على الأقل.':'At least one item must remain.'); return; }
   db.itemDefs = db.itemDefs.filter(it => it.id !== id);
   saveData();
   document.getElementById('select-item-modal').classList.add('hidden');
@@ -1271,6 +1332,153 @@ function exportCSV(){
   a.click();
   setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 400);
   closeDrawer();
+}
+/* ===================== صفحة التعليمات ===================== */
+function renderHelpPage(){
+  const HELP = {
+    ar: `
+      <h3>📱 فتح البرنامج</h3>
+      <p>عند فتح البرنامج، أدخل الرمز السري (الرمز الافتراضي هو 1234، وينصح بتغييره من صفحة "الإعدادات").</p>
+      <h3>🧾 تسجيل مصروف جديد</h3>
+      <p>من صفحة "الصرفيات"، اختر البند (أو أضف بنداً جديداً)، ثم أدخل مبلغ الفقرة/الفقرات المناسبة والتاريخ والملاحظات، واحفظ السجل.</p>
+      <h3>📋 إدارة البنود والفقرات</h3>
+      <p>من صفحة "الصرفيات"، يمكنك إضافة/حذف البنود (التصنيفات الرئيسية) والفقرات (التفاصيل الفرعية) حسب حاجتك. البرنامج يبدأ فارغاً، فأضف ما يناسب عملك.</p>
+      <h3>📊 لوحة النتيجة</h3>
+      <p>تعرض إجمالي المصروفات، ونقد الخزينة، والنقد بالجيب، مع جداول ورسوم بيانية تفصيلية حسب البند والفقرة.</p>
+      <h3>🔍 البحث والتصفية</h3>
+      <p>ابحث بالنص أو بالمبلغ، وصفِّ حسب البند/الفقرة أو فترة زمنية، ثم اطبع النتائج أو صدّرها.</p>
+      <h3>🏦 الخزينة والتعزيز</h3>
+      <p>سجّل حركات السحب والإيداع بين الخزينة والجيب لمتابعة السيولة النقدية.</p>
+      <h3>⚙️ الإعدادات</h3>
+      <p>غيّر الرمز السري، احذف كل البيانات للبدء من جديد، أو راجع سياسة الخصوصية واتفاقية الاستخدام.</p>
+      <h3>🖨️ الطباعة والتصدير والنسخ الاحتياطي</h3>
+      <p>من القائمة ☰ بالأعلى: اطبع تقريراً، صدّر نسخة Excel/CSV أو JSON، أو استرجع نسخة محفوظة سابقاً.</p>`,
+    en: `
+      <h3>📱 Opening the App</h3>
+      <p>Enter your PIN when opening the app (default is 1234 — please change it from Settings).</p>
+      <h3>🧾 Recording a New Expense</h3>
+      <p>On the "Expenses" page, pick a category (or add a new one), then enter the amount for the relevant entry/entries, the date, and notes, and save the record.</p>
+      <h3>📋 Managing Categories and Entries</h3>
+      <p>On the "Expenses" page you can add/delete categories and entry types to fit your needs. The app starts empty so you can build your own structure.</p>
+      <h3>📊 Dashboard</h3>
+      <p>Shows total expenses, treasury cash, and pocket cash, with detailed tables and charts by category and entry.</p>
+      <h3>🔍 Search & Filter</h3>
+      <p>Search by text or amount, filter by category/entry or date range, then print or export the results.</p>
+      <h3>🏦 Cash & Treasury</h3>
+      <p>Log deposits and withdrawals between treasury and pocket to track your cash flow.</p>
+      <h3>⚙️ Settings</h3>
+      <p>Change your PIN, delete all data to start fresh, or review the Privacy Policy and Terms of Use.</p>
+      <h3>🖨️ Printing, Export, and Backup</h3>
+      <p>From the ☰ menu at the top: print a report, export an Excel/CSV or JSON copy, or restore a previously saved backup.</p>`,
+    de: `
+      <h3>📱 App öffnen</h3>
+      <p>Geben Sie beim Öffnen Ihre PIN ein (Standard ist 1234 — bitte in den Einstellungen ändern).</p>
+      <h3>🧾 Neue Ausgabe erfassen</h3>
+      <p>Wählen Sie auf der Seite "Ausgaben" eine Kategorie (oder legen Sie eine neue an), geben Sie dann den Betrag für den passenden Eintrag/die Einträge, das Datum und Notizen ein und speichern Sie.</p>
+      <h3>📋 Kategorien und Einträge verwalten</h3>
+      <p>Auf der Seite "Ausgaben" können Sie Kategorien und Eintragstypen nach Bedarf hinzufügen/löschen. Die App startet leer, damit Sie Ihre eigene Struktur aufbauen.</p>
+      <h3>📊 Übersicht</h3>
+      <p>Zeigt Gesamtausgaben, Kassenbestand und Bargeld, mit detaillierten Tabellen und Diagrammen nach Kategorie und Eintrag.</p>
+      <h3>🔍 Suche & Filter</h3>
+      <p>Suchen Sie nach Text oder Betrag, filtern Sie nach Kategorie/Eintrag oder Zeitraum und drucken oder exportieren Sie die Ergebnisse.</p>
+      <h3>🏦 Kasse & Rücklage</h3>
+      <p>Erfassen Sie Ein- und Auszahlungen zwischen Kasse und Bargeld, um Ihren Cashflow zu verfolgen.</p>
+      <h3>⚙️ Einstellungen</h3>
+      <p>Ändern Sie Ihre PIN, löschen Sie alle Daten für einen Neustart, oder lesen Sie die Datenschutzerklärung und Nutzungsbedingungen.</p>
+      <h3>🖨️ Drucken, Export und Sicherung</h3>
+      <p>Über das ☰-Menü oben: einen Bericht drucken, eine Excel/CSV- oder JSON-Kopie exportieren, oder ein zuvor gespeichertes Backup wiederherstellen.</p>`
+  };
+  document.getElementById('help-content').innerHTML = HELP[currentLang] || HELP.ar;
+}
+/* ===================== سياسة الخصوصية ===================== */
+function renderPrivacyPage(){
+  const PRIV = {
+    ar: `
+      <p><em>آخر تحديث: ${new Date().toLocaleDateString('ar-EG')}</em></p>
+      <h3>🔒 أين تُحفظ بياناتك؟</h3>
+      <p>يحفظ هذا البرنامج جميع بياناتك — الصرفيات، البنود، الفقرات، الإعدادات — <strong>محلياً على جهازك فقط</strong> (داخل متصفحك)، ولا يُرسل أي منها إلى أي خادم أو طرف ثالث.</p>
+      <h3>🚫 لا تتبّع ولا إعلانات</h3>
+      <p>لا يحتوي البرنامج على أي أدوات تتبع أو تحليلات استخدام أو إعلانات، ولا يجمع أي معلومات عنك أو عن جهازك.</p>
+      <h3>🗑️ حذف بياناتك</h3>
+      <p>يمكنك حذف جميع بياناتك بالكامل في أي وقت من "الإعدادات ← منطقة الحذف"، أو بحذف/إعادة تثبيت البرنامج من جهازك.</p>
+      <h3>📧 التواصل</h3>
+      <p>لأي استفسار بخصوص الخصوصية، تواصل معنا عبر: atrakchi.com@gmail.com</p>`,
+    en: `
+      <p><em>Last updated: ${new Date().toLocaleDateString('en-US')}</em></p>
+      <h3>🔒 Where is your data stored?</h3>
+      <p>This app stores all your data — expenses, categories, entries, settings — <strong>locally on your device only</strong> (inside your browser). None of it is ever sent to any server or third party.</p>
+      <h3>🚫 No Tracking, No Ads</h3>
+      <p>This app contains no tracking tools, usage analytics, or advertising, and collects no information about you or your device.</p>
+      <h3>🗑️ Deleting Your Data</h3>
+      <p>You can permanently delete all your data at any time from "Settings → Danger Zone", or by deleting/reinstalling the app from your device.</p>
+      <h3>📧 Contact</h3>
+      <p>For any privacy questions, contact us at: atrakchi.com@gmail.com</p>`,
+    de: `
+      <p><em>Zuletzt aktualisiert: ${new Date().toLocaleDateString('de-DE')}</em></p>
+      <h3>🔒 Wo werden Ihre Daten gespeichert?</h3>
+      <p>Diese App speichert alle Ihre Daten — Ausgaben, Kategorien, Einträge, Einstellungen — <strong>ausschließlich lokal auf Ihrem Gerät</strong> (in Ihrem Browser). Nichts davon wird jemals an einen Server oder Dritte gesendet.</p>
+      <h3>🚫 Kein Tracking, keine Werbung</h3>
+      <p>Diese App enthält keine Tracking-Tools, keine Nutzungsanalyse und keine Werbung und sammelt keine Informationen über Sie oder Ihr Gerät.</p>
+      <h3>🗑️ Löschen Ihrer Daten</h3>
+      <p>Sie können jederzeit alle Ihre Daten dauerhaft löschen unter "Einstellungen → Löschbereich", oder durch Löschen/Neuinstallieren der App auf Ihrem Gerät.</p>
+      <h3>📧 Kontakt</h3>
+      <p>Bei Fragen zum Datenschutz kontaktieren Sie uns unter: atrakchi.com@gmail.com</p>`
+  };
+  document.getElementById('privacy-content').innerHTML = PRIV[currentLang] || PRIV.ar;
+}
+/* ===================== اتفاقية الاستخدام ===================== */
+function renderTermsPage(){
+  const TERMS = {
+    ar: `
+      <p><em>آخر تحديث: ${new Date().toLocaleDateString('ar-EG')}</em></p>
+      <h3>1. قبول الاتفاقية</h3>
+      <p>باستخدامك هذا البرنامج، فإنك توافق على هذه الشروط. إن لم توافق، يرجى عدم استخدام البرنامج.</p>
+      <h3>2. الترخيص</h3>
+      <p>يُمنح لك ترخيص شخصي غير قابل للتحويل لاستخدام البرنامج لأغراضك الشخصية أو التجارية.</p>
+      <h3>3. مسؤولية البيانات</h3>
+      <p>بياناتك محفوظة محلياً على جهازك فقط (راجع سياسة الخصوصية). أنت المسؤول الوحيد عن أخذ نسخ احتياطية من بياناتك؛ لا تتحمل الشركة المصنّعة أي مسؤولية عن فقدان البيانات بسبب حذف التطبيق، تعطّل الجهاز، أو مسح ذاكرة المتصفح.</p>
+      <h3>4. لا ضمانات</h3>
+      <p>يُقدَّم البرنامج "كما هو" دون أي ضمان صريح أو ضمني. لا نضمن خلوه من الأخطاء أو ملاءمته لغرض معين.</p>
+      <h3>5. حدود المسؤولية</h3>
+      <p>لا تتحمل الشركة المصنّعة أي مسؤولية عن أي أضرار مباشرة أو غير مباشرة ناتجة عن استخدام أو عدم القدرة على استخدام البرنامج.</p>
+      <h3>6. التعديلات</h3>
+      <p>يجوز تحديث هذه الاتفاقية من وقت لآخر؛ استمرارك باستخدام البرنامج بعد أي تحديث يعني موافقتك عليه.</p>
+      <h3>7. التواصل</h3>
+      <p>لأي استفسار: atrakchi.com@gmail.com</p>`,
+    en: `
+      <p><em>Last updated: ${new Date().toLocaleDateString('en-US')}</em></p>
+      <h3>1. Acceptance of Terms</h3>
+      <p>By using this app, you agree to these terms. If you do not agree, please do not use the app.</p>
+      <h3>2. License</h3>
+      <p>You are granted a personal, non-transferable license to use the app for your personal or business purposes.</p>
+      <h3>3. Data Responsibility</h3>
+      <p>Your data is stored locally on your device only (see the Privacy Policy). You are solely responsible for backing up your data; the developer bears no responsibility for data loss due to app deletion, device failure, or clearing browser storage.</p>
+      <h3>4. No Warranty</h3>
+      <p>The app is provided "as is" without any express or implied warranty. We do not guarantee it is free of errors or fit for a particular purpose.</p>
+      <h3>5. Limitation of Liability</h3>
+      <p>The developer is not liable for any direct or indirect damages arising from the use or inability to use the app.</p>
+      <h3>6. Changes</h3>
+      <p>These terms may be updated from time to time; continuing to use the app after an update means you accept it.</p>
+      <h3>7. Contact</h3>
+      <p>For any questions: atrakchi.com@gmail.com</p>`,
+    de: `
+      <p><em>Zuletzt aktualisiert: ${new Date().toLocaleDateString('de-DE')}</em></p>
+      <h3>1. Annahme der Bedingungen</h3>
+      <p>Durch die Nutzung dieser App stimmen Sie diesen Bedingungen zu. Wenn Sie nicht zustimmen, verwenden Sie die App bitte nicht.</p>
+      <h3>2. Lizenz</h3>
+      <p>Ihnen wird eine persönliche, nicht übertragbare Lizenz zur Nutzung der App für private oder geschäftliche Zwecke gewährt.</p>
+      <h3>3. Datenverantwortung</h3>
+      <p>Ihre Daten werden ausschließlich lokal auf Ihrem Gerät gespeichert (siehe Datenschutzerklärung). Sie sind allein für die Sicherung Ihrer Daten verantwortlich; der Entwickler übernimmt keine Verantwortung für Datenverlust durch App-Löschung, Gerätefehler oder das Löschen des Browserspeichers.</p>
+      <h3>4. Keine Gewährleistung</h3>
+      <p>Die App wird "wie besehen" ohne ausdrückliche oder stillschweigende Gewährleistung bereitgestellt. Wir garantieren nicht, dass sie fehlerfrei oder für einen bestimmten Zweck geeignet ist.</p>
+      <h3>5. Haftungsbeschränkung</h3>
+      <p>Der Entwickler haftet nicht für direkte oder indirekte Schäden, die aus der Nutzung oder Nichtnutzbarkeit der App entstehen.</p>
+      <h3>6. Änderungen</h3>
+      <p>Diese Bedingungen können von Zeit zu Zeit aktualisiert werden; die fortgesetzte Nutzung der App nach einer Aktualisierung bedeutet, dass Sie sie akzeptieren.</p>
+      <h3>7. Kontakt</h3>
+      <p>Bei Fragen: atrakchi.com@gmail.com</p>`
+  };
+  document.getElementById('terms-content').innerHTML = TERMS[currentLang] || TERMS.ar;
 }
 function resetAllData(){
   const c1 = currentLang==='ar' ? 'سيتم حذف جميع البيانات نهائياً. هل أنت متأكد؟' : 'All data will be permanently deleted. Are you sure?';

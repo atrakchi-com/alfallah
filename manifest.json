@@ -1,7 +1,7 @@
 {
-  "name": "Atrakchi",
-  "short_name": "Atrakchi",
-  "description": "برنامج الفلاح لحساب المصروفات — داود الاطرقجي للاستشارات الهندسية",
+  "name": "الصرفيات اطرقجي",
+  "short_name": "الصرفيات",
+  "description": "الصرفيات اطرقجي — داود الاطرقجي للاستشارات الهندسية",
   "start_url": "./alfallah.html",
   "scope": "./",
   "id": "./alfallah.html",
